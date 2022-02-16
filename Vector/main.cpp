@@ -1,8 +1,14 @@
-#include "vector.hpp"
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+// #include "vector.hpp"
 
-int main(void)
+using namespace std;
+int main()
 {
-    // ft::vector<>
+    std::allocator<char>  myAllocator;
 
+    std::vector<int> vec(myAllocator);
     return 0;
 }
