@@ -7,8 +7,5 @@
 using namespace std;
 int main()
 {
-    std::allocator<char>  myAllocator;
-
-    std::vector<int> vec(myAllocator);
     return 0;
 }
