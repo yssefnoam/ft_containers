@@ -27,10 +27,10 @@
 *.lib
 
 # Executables
-**.exe
-**.out*
-**.out.*
-**.app
+./**.exe
+./**.out*
+./**.out.*
+./**.app
 
 ################
 *.pdf
