@@ -17,26 +17,35 @@ namespace ft
 		typedef size_t size_type;
 
 	private:
-		pointer		_buffer;
-		size_type	_capacity;
-		size_type	_size;
+		allocator_type	_allocator;
+		pointer			_buffer;
+		size_type		_capacity;
+		size_type		_size;
 
 	public:
 		/* Member functions */
 
 		// constructor
-		explicit vector(const allocator_type &alloc = allocator_type()): _buffer(), _capacity(), _size()
+		explicit vector(const allocator_type &alloc = allocator_type()): _buffer(), _capacity(), _size(), _allocator(alloc) {}
+
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _capacity(n), _size(n)
 		{
+			this->_buffer = this->_allocator.allocate(_size);
+			for (size_type i = 0; i < this->_size; i++)
+				this->_allocator.construct(this->_buffer + i, val);
 		}
-		// explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
-		// {
-		// }
+
 		// template <class InputIterator>
 		// vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 		// vector(const vector &x);
 
 		// // destructor
-		// ~vector();
+		~vector()
+		{
+			for (size_type i = 0; i < this->_size; i++)
+				this->_allocator.destroy(this->_buffer + i);
+			this->_allocator.deallocate(this->_buffer, this->_size);
+		}
 
 		// // operator=
 		// vector &operator=(const vector &x);
@@ -62,19 +71,19 @@ namespace ft
 		// /* Capacity */
 
 		// // size
-		// size_type size() const;
+		size_type size() const { return this->_size; }
 
 		// // max_size
-		// size_type max_size() const;
+		size_type max_size() const {return this->_allocator.max_size();}
 
 		// // resize
 		// void resize(size_type n, value_type val = value_type());
 
 		// // capacity
-		// size_type capacity() const;
+		size_type capacity() const { return this->_capacity; }
 
 		// // empty
-		// bool empty() const;
+		bool empty() const { return this->_size ? true : false; }
 
 		// // reserve
 		// void reserve(size_type n);
