@@ -44,7 +44,7 @@ namespace ft
 		{
 			for (size_type i = 0; i < this->_size; i++)
 				this->_allocator.destroy(this->_buffer + i);
-			this->_allocator.deallocate(this->_buffer, this->_size);
+			this->_allocator.deallocate(this->_buffer, this->_capacity);
 		}
 
 		// // operator=
@@ -133,12 +133,16 @@ namespace ft
 		// void swap(vector &x);
 
 		// // clear
-		// void clear();
+		void clear()
+		{
+			for (size_type i=0; i < this->_size; i++)
+				this->_allocator.destroy(this->_buffer[i])
+		}
 
 		// /* Allocator */
 
-		// // get_allocator
-		// allocator_type get_allocator() const;
+		// get_allocator
+		allocator_type get_allocator() const { return this->_allocator; }
 
 		// /* Non-member function overloads */
 
