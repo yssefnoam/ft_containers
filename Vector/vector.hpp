@@ -4,6 +4,12 @@
 
 namespace ft
 {
+	template <typename T>
+	class iterator
+	{
+		public:
+	};
+
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
 	{
