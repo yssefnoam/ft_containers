@@ -4,10 +4,15 @@
 
 namespace ft
 {
-	template <typename T>
+	template <typename T, class Category = std::random_access_iterator_tag >
 	class iterator
 	{
 		public:
+			typedef T value_type;
+			typedef Distance difference_type;
+			typedef Pointer pointer;
+			typedef Reference reference;
+			typedef Category iterator_category;
 	};
 
 	template <typename T, typename Alloc = std::allocator<T> >
