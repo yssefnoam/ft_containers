@@ -1,19 +1,10 @@
-#ifndef _ft_vector_h
-#define _ft_vector_h
+#ifndef _FT_VECTOR_H
+#define _FT_VECTOR_H
 #include <memory>
 
 namespace ft
 {
-	template <typename T, class Category = std::random_access_iterator_tag >
-	class iterator
-	{
-		public:
-			typedef T value_type;
-			typedef Distance difference_type;
-			typedef Pointer pointer;
-			typedef Reference reference;
-			typedef Category iterator_category;
-	};
+	#include "iterator.hpp"
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector

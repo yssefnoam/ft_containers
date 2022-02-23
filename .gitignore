@@ -28,8 +28,8 @@
 
 # Executables
 ./**.exe
-./*/*.out
-./**.out.*
+./**.out
+**/*.dSYM
 ./**.app
 
 ################
