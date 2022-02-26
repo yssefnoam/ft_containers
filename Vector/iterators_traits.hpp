@@ -1,0 +1,4 @@
+#ifndef _ITERATOR_TRAITS_HPP_
+#define _ITERATOR_TRAITS_HPP_
+
+#endif
