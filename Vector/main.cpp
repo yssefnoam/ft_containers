@@ -1,36 +1,37 @@
 // C++ program to find the type of iterator
 #include <iostream>
 #include <vector>
+#include <list>
 
-using namespace std;
+
 template <class T>
 
 // function to return the iterator type
-string get_iterator_type(T it)
+std::string get_iterator_type(T it)
 {
 	// if the iterator category of (it) matches input
-	if (typeid(typename iterator_traits<T>::iterator_category)
-		== typeid(input_iterator_tag))
+	if (typeid(typename std::iterator_traits<T>::iterator_category)
+		== typeid(std::input_iterator_tag))
 		return "Input";
 
 	// if the iterator category of (it) matches output
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(output_iterator_tag))
+	else if (typeid(typename std::iterator_traits<T>::iterator_category)
+			== typeid(std::output_iterator_tag))
 		return "Output";
 
 	// if the iterator category of (it) matches forward
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(forward_iterator_tag))
+	else if (typeid(typename std::iterator_traits<T>::iterator_category)
+			== typeid(std::forward_iterator_tag))
 		return "Forward";
 
 	// if the iterator category of (it) matches bidirectional
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(bidirectional_iterator_tag))
+	else if (typeid(typename std::iterator_traits<T>::iterator_category)
+			== typeid(std::bidirectional_iterator_tag))
 		return "Bidirectional";
 
 	// if the iterator category of (it) matches random_access
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(random_access_iterator_tag))
+	else if (typeid(typename std::iterator_traits<T>::iterator_category)
+			== typeid(std::random_access_iterator_tag))
 		return "Random_Access";
 
 	// if the iterator category of (it)
@@ -41,12 +42,15 @@ string get_iterator_type(T it)
 // Driver code
 int main()
 {
-	vector<int> v;
+	// std::vector<int> v;
 
 	// iterator that will be checked
-	vector<int>::reverse_iterator it = v.rbegin();
+	// std::vector<int>::reverse_iterator it = v.rbegin();
+	int *it;
+	std::list<int> lst;
+	std::vector<int>::iterator it;
 
-	cout << get_iterator_type(it) << " Iterator\n";
+	std::cout << get_iterator_type(lst.begin()) << " Iterator\n";
 
 	return 0;
 }
