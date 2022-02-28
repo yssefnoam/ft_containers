@@ -1,4 +1,9 @@
-// iterator_traits example
-#include <iostream> // std::cout
-#include <iterator> // std::iterator_traits
-#include <typeinfo> // typeid
+#include <iostream>
+#include <iterator>
+#include <typeinfo>
+#include <vector>
+
+int main(void)
+{
+    std::vector<int>::iterator it;
+}
