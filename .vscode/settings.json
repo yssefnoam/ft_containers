@@ -16,6 +16,10 @@
         "string": "cpp",
         "unordered_map": "cpp",
         "typeinfo": "cpp",
+<<<<<<< HEAD
         "__config": "cpp"
+=======
+        "algorithm": "cpp"
+>>>>>>> efe0097de165514b160ae4a88bd4562ca2ddced2
     }
 }

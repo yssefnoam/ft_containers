@@ -1,5 +1,4 @@
-#ifndef _ITERATOR_HPP
-#define _ITERATOR_HPP
-
+#ifndef _ITERATOR_HPP_
+#define _ITERATOR_HPP_
 
 #endif
