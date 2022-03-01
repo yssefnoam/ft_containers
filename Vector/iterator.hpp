@@ -47,17 +47,14 @@ public:
     }
     bool operator==(const iterator& other)
     {
-        return (this->_base == other._base)? true : false;
+        return (this->_base == other._base);
     }
 
-    bool operator!=(const iterator& other)
-    {
-        return !operator==(other);
-    }
-    reference operator*()
-    {
-        return *(this->_base);
-    }
+    bool operator!=(const iterator& other) { return !operator==(other); }
+
+    reference operator*() { return *(this->_base); }
+
+    pointer operator->() { return operator*(); }
 };
 
 #endif
