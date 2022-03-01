@@ -138,7 +138,7 @@ namespace ft
 		void clear()
 		{
 			for (size_type i=0; i < this->_size; i++)
-				this->_allocator.destroy(this->_buffer[i])
+				this->_allocator.destroy(this->_buffer[i]);
 		}
 
 		// /* Allocator */

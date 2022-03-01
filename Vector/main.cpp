@@ -1,52 +1,25 @@
-// C++ program to find the type of iterator
 #include <iostream>
 #include <vector>
+#include "vector.hpp"
+#include <vector>
 
-using namespace std;
-template <class T>
-
-// function to return the iterator type
-string get_iterator_type(T it)
+int main(void)
 {
-	// if the iterator category of (it) matches input
-	if (typeid(typename iterator_traits<T>::iterator_category)
-		== typeid(input_iterator_tag))
-		return "Input";
 
-	// if the iterator category of (it) matches output
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(output_iterator_tag))
-		return "Output";
+	int a[5] = {1,2,3,4,5};
+	ft::iterator<int> it(a);
+	// std::vector<int> vec(a, a+5);
+	// std::vector<int>::iterator it = vec.begin();
+	// it++;
+	// std::cout << *it << std::endl;
+	// std::vector<int>::iterator it2(it);
+	// std::cout << *it2 << std::endl;
 
-	// if the iterator category of (it) matches forward
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(forward_iterator_tag))
-		return "Forward";
+	// --it;
+	// if (it == it2)
+	// 	std::cout << "equal" << std::endl;
+	
+	// std::cout << it.base() << std::endl;
+	// std::cout << it2.base() << std::endl;
 
-	// if the iterator category of (it) matches bidirectional
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(bidirectional_iterator_tag))
-		return "Bidirectional";
-
-	// if the iterator category of (it) matches random_access
-	else if (typeid(typename iterator_traits<T>::iterator_category)
-			== typeid(random_access_iterator_tag))
-		return "Random_Access";
-
-	// if the iterator category of (it)
-	// does not match any of the above
-	return "Missing";
-}
-
-// Driver code
-int main()
-{
-	vector<int> v;
-
-	// iterator that will be checked
-	vector<int>::reverse_iterator it = v.rbegin();
-
-	cout << get_iterator_type(it) << " Iterator\n";
-
-	return 0;
 }
