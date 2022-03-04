@@ -57,19 +57,14 @@ public:
         this->_base++;
         return tmp;
     }
-    bool operator==(const iterator &other)
-    {
-        return (this->_base == other._base);
-    }
+    bool operator==(const iterator &other) { return (this->_base == other._base); }
 
     bool operator!=(const iterator &other) { return !operator==(other); }
 
     reference operator*() { return *(this->_base); }
 
-    pointer operator->()
-    {
-        return operator*();
-    }
+    pointer operator->() { return operator*(); }
+
     iterator operator+(int &a) { return this->_base + a; }
 
     iterator operator-(int &a) { return iterator(this->_base - a); }
@@ -81,9 +76,14 @@ public:
     difference_type operator-(iterator &other) { this->_base -= other._base; }
 
     bool operator<(const iterator &other) { return this->_base < other._base; }
+
     bool operator>(const iterator &other) { return this->_base > other._base; }
+
     bool operator<=(const iterator &other) { return this->_base <= other._base; }
+
     bool operator>=(const iterator &other) { return this->_base >= other._base; }
+
+    reference operator[](int index) { return *(this->_base + index);}
 };
 
 template<class T>
