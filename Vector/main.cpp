@@ -2,25 +2,11 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
+#define STD  ft
 
 int main()
 {
-	// std::vector<int> v(3, 0);
-	std::vector<int> v2(4, 0);
-	// std::cout << &(*(v.begin())) << EL
-
-	// std::cout << v.size() << EL
-	// std::cout << v.capacity() << EL
-	// std::cout << "v " << &(*(v.begin())) << EL
-
-	// // v = std::vector<int>();
-	// // v.push_back(10);
-
-	// std::cout << v.size() << EL
-	// std::cout << v.capacity() << EL
-	// std::cout << "v " << &(*(v.begin())) << EL
-	// std::cout << std::distance(v.begin(), v.end()) << EL
-	std::vector<int>::iterator it = v2.begin();
-	std::cout << it.base() << EL
-	// std::cout << &(v2[0]) << EL
+	STD::vector<int> vec(10,10);
+	STD::vector<int>::const_iterator cit = vec.begin();
+	std::cout << *cit << EL
 }

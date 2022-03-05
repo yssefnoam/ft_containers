@@ -84,7 +84,8 @@ public:
     bool operator>=(const iterator &other) { return this->_base >= other._base; }
 
     reference operator[](int index) { return *(this->_base + index);}
-    pointer base(){return this->_base;}
+
+    pointer base() const {return this->_base;}
 };
 
 template<class T>
