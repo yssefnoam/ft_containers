@@ -73,7 +73,7 @@ public:
 
     void operator+=(int a) { this->_base += a;}
 
-    difference_type operator-(iterator &other) { this->_base -= other._base; }
+    difference_type operator-(iterator &other) { return this->_base - other._base; }
 
     bool operator<(const iterator &other) { return this->_base < other._base; }
 
@@ -84,6 +84,7 @@ public:
     bool operator>=(const iterator &other) { return this->_base >= other._base; }
 
     reference operator[](int index) { return *(this->_base + index);}
+    pointer base(){return this->_base;}
 };
 
 template<class T>
