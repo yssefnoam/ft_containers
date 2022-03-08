@@ -21,7 +21,7 @@ namespace ft
 		typedef myIter<pointer>								iterator;
 		typedef myIter<const_pointer>						const_iterator;
 		typedef myReverseIter<iterator>						reverse_iterator;
-		// typedef myReverseIter<iterator>								iterator;
+		typedef myReverseIter<const_iterator>				const_reverse_iterator;
 
 
 	private:
@@ -74,15 +74,15 @@ namespace ft
 
 		// // end
 		iterator end() { return iterator(_buffer + _size); }
-		// const_iterator end() const;
+		const_iterator end() const;
 
 		// // rbegin
-		reverse_iterator rbegin() {return reverse_iterator(end());}
-		// const_reverse_iterator rbegin() const;
+		reverse_iterator rbegin() {return reverse_iterator(--end());}
+		const_reverse_iterator rbegin() const {return reverse_iterator(--end());}
 
 		// // rend
-		// reverse_iterator rend();
-		// const_reverse_iterator rend() const;
+		reverse_iterator rend();
+		const_reverse_iterator rend() const;
 
 		// /* Capacity */
 
