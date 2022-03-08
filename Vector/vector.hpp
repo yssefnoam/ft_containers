@@ -5,6 +5,7 @@ namespace ft
 #include <memory>
 
 	#include "iterator.hpp"
+	#include "reverse_iterator.hpp"
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
@@ -19,6 +20,9 @@ namespace ft
 		typedef size_t										size_type;
 		typedef myIter<pointer>								iterator;
 		typedef myIter<const_pointer>						const_iterator;
+		typedef myReverseIter<iterator>						reverse_iterator;
+		// typedef myReverseIter<iterator>								iterator;
+
 
 	private:
 		allocator_type	_allocator;
@@ -73,7 +77,7 @@ namespace ft
 		// const_iterator end() const;
 
 		// // rbegin
-		// reverse_iterator rbegin();
+		reverse_iterator rbegin() {return reverse_iterator(end());}
 		// const_reverse_iterator rbegin() const;
 
 		// // rend

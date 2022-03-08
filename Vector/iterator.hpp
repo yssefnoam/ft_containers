@@ -17,13 +17,21 @@ private:
     pointer _base;
 
 public:
-    myIter(pointer base) : _base(base) {}
+    myIter(pointer base)
+    : _base(base)
+    {}
 
-    myIter() : _base() {}
+    myIter()
+    :
+    _base() {}
 
-    myIter(const myIter &copy) { _base = copy._base; }
+    template <class T>
+    myIter(const myIter<T> &copy)
+    : _base(copy.base())
+    {}
 
-    myIter &operator=(const myIter &copy) { _base = copy._base; }
+    template <class T>
+    myIter &operator=(const myIter<T> &copy) { _base = copy._base; std::cout <<"here" << std::endl;}
     // --it
     myIter operator--() { _base--; return *this; }
     // it--

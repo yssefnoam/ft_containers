@@ -2,15 +2,11 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-#define NS std
-
+#define NS ft
 int main()
 {
-	NS::vector<int> vec(10,10);
-	NS::vector<int>::iterator cit = vec.begin();
-	std::cout << *cit << EL
-	*cit = 2;
-	std::cout << *cit << EL
-	// cit[0] = 11;
-	std::cout << *cit << EL
+	NS::vector<int> vec(10);
+
+	NS::vector<int>::reverse_iterator it = vec.rbegin();
+	std::cout << *it << EL
 }
