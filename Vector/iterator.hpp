@@ -1,98 +1,70 @@
 #ifndef _ITERATOR_HPP_
 #define _ITERATOR_HPP_
 
-template <class T>
-class iterator
+#include "iterator_traits.hpp"
+
+template <class Iter>
+class myIter
 {
 public:
-    typedef T value_type;
-    typedef size_t difference_type;
-    typedef T *pointer;
-    typedef T &reference;
-    typedef std::random_access_iterator_tag iterator_category;
+    typedef typename ft::iterator_traits<Iter>::reference           reference;
+    typedef typename ft::iterator_traits<Iter>::pointer             pointer;
+    typedef typename ft::iterator_traits<Iter>::value_type          value_type;
+    typedef typename ft::iterator_traits<Iter>::difference_type     difference_type;
+    typedef typename ft::iterator_traits<Iter>::iterator_category   iterator_category;
 
 private:
     pointer _base;
 
 public:
-    // default
-    iterator(pointer base) : _base(base) {}
+    myIter(pointer base) : _base(base) {}
 
-    iterator() : _base() {}
+    myIter() : _base() {}
 
-    // copy
-    iterator(const iterator &copy)
-    {
-        this->_base = copy._base;
-    }
+    myIter(const myIter &copy) { _base = copy._base; }
 
-    // assign
-    iterator &operator=(const iterator &copy)
-    {
-        this->_base = copy._base;
-    }
+    myIter &operator=(const myIter &copy) { _base = copy._base; }
     // --it
-    iterator operator--()
-    {
-        this->_base--;
-        return *this;
-    }
+    myIter operator--() { _base--; return *this; }
     // it--
-    iterator operator--(int)
-    {
-        iterator tmp = *this;
-        this->_base--;
-        return tmp;
-    }
+    myIter operator--(int) { myIter _tmp = *this; _base--; return _tmp; }
     // ++it
-    iterator operator++()
-    {
-        this->_base++;
-        return *this;
-    }
+    myIter operator++() { _base++; return *this; }
     // it++
-    iterator operator++(int)
-    {
-        iterator tmp = *this;
-        this->_base++;
-        return tmp;
-    }
-    bool operator==(const iterator &other) { return (this->_base == other._base); }
+    myIter operator++(int) { myIter _tmp = *this; _base++; return _tmp; }
 
-    bool operator!=(const iterator &other) { return !operator==(other); }
+    bool operator==(const myIter &other) { return (_base == other._base); }
 
-    reference operator*() { return *(this->_base); }
+    bool operator!=(const myIter &other) { return !operator==(other); }
 
-    pointer operator->() { return operator*(); }
+    reference operator*() const  { return *_base; }
 
-    iterator operator+(int &a) { return this->_base + a; }
+    pointer operator->() { return _base; }
 
-    iterator operator-(int &a) { return iterator(this->_base - a); }
+    myIter operator+(int &a) { return _base + a; }
 
-    void operator-=(int a) { this->_base -= a; }
+    myIter operator-(int &a) { return myIter(_base - a); }
 
-    void operator+=(int a) { this->_base += a;}
+    void operator-=(int a) { _base -= a; }
 
-    difference_type operator-(iterator &other) { return this->_base - other._base; }
+    void operator+=(int a) { _base += a;}
 
-    bool operator<(const iterator &other) { return this->_base < other._base; }
+    difference_type operator-(myIter &other) { return _base - other._base; }
 
-    bool operator>(const iterator &other) { return this->_base > other._base; }
+    bool operator<(const myIter &other) { return _base < other._base; }
 
-    bool operator<=(const iterator &other) { return this->_base <= other._base; }
+    bool operator>(const myIter &other) { return _base > other._base; }
 
-    bool operator>=(const iterator &other) { return this->_base >= other._base; }
+    bool operator<=(const myIter &other) { return _base <= other._base; }
 
-    reference operator[](int index) { return *(this->_base + index);}
+    bool operator>=(const myIter &other) { return _base >= other._base; }
 
-    pointer base() const {return this->_base;}
+    reference operator[](int index) { return *(_base + index);}
+
+    pointer base() const {return _base;}
 };
 
 template<class T>
-iterator<T> operator+(int a,iterator<T> &it)
-{
-    iterator<T> tmp = it;
-    return tmp + a;
-}
+myIter<T> operator+(int a,myIter<T> &it) { myIter<T> _tmp = it; return _tmp + a; }
 
 #endif

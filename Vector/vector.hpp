@@ -1,9 +1,9 @@
+namespace ft
+{
 #ifndef _FT_VECTOR_H
 #define _FT_VECTOR_H
 #include <memory>
 
-namespace ft
-{
 	#include "iterator.hpp"
 
 	template <typename T, typename Alloc = std::allocator<T> >
@@ -17,8 +17,8 @@ namespace ft
 		typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer		const_pointer;
 		typedef size_t										size_type;
-		typedef iterator<const_pointer>						const_iterator;
-		typedef iterator<pointer>							iterator;
+		typedef myIter<pointer>								iterator;
+		typedef myIter<const_pointer>						const_iterator;
 
 	private:
 		allocator_type	_allocator;
@@ -30,13 +30,21 @@ namespace ft
 		/* Member functions */
 
 		// constructor
-		explicit vector(const allocator_type &alloc = allocator_type()): _buffer(), _capacity(), _size(), _allocator(alloc) {}
+		explicit vector(const allocator_type &alloc = allocator_type())
+		:_buffer()
+		, _capacity()
+		, _size()
+		, _allocator(alloc)
+		{}
 
-		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _capacity(n), _size(n)
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+		: _allocator(alloc)
+		, _capacity(n)
+		, _size(n)
 		{
-			this->_buffer = this->_allocator.allocate(_size);
-			for (size_type i = 0; i < this->_size; i++)
-				this->_allocator.construct(this->_buffer + i, val);
+			_buffer = _allocator.allocate(_size);
+			for (size_type i = 0; i < _size; i++)
+				_allocator.construct(_buffer + i, val);
 		}
 
 		// template <class InputIterator>
@@ -46,9 +54,9 @@ namespace ft
 		// // destructor
 		~vector()
 		{
-			for (size_type i = 0; i < this->_size; i++)
-				this->_allocator.destroy(this->_buffer + i);
-			this->_allocator.deallocate(this->_buffer, this->_capacity);
+			for (size_type i = 0; i < _size; i++)
+				_allocator.destroy(_buffer + i);
+			_allocator.deallocate(_buffer, _capacity);
 		}
 
 		// // operator=
@@ -57,11 +65,11 @@ namespace ft
 		// /* Iterators */
 
 		// // begin
-		iterator begin() { return iterator(this->_buffer); }
-		const_iterator begin() const { return const_iterator(this->_buffer); }
+		iterator begin() { return iterator(_buffer); }
+		const_iterator begin() const { return const_iterator(_buffer); }
 
 		// // end
-		iterator end() { return iterator(this->_buffer + this->_size); }
+		iterator end() { return iterator(_buffer + _size); }
 		// const_iterator end() const;
 
 		// // rbegin
@@ -75,19 +83,19 @@ namespace ft
 		// /* Capacity */
 
 		// // size
-		size_type size() const { return this->_size; }
+		size_type size() const { return _size; }
 
 		// // max_size
-		size_type max_size() const {return this->_allocator.max_size();}
+		size_type max_size() const {return _allocator.max_size();}
 
 		// // resize
 		// void resize(size_type n, value_type val = value_type());
 
 		// // capacity
-		size_type capacity() const { return this->_capacity; }
+		size_type capacity() const { return _capacity; }
 
 		// // empty
-		bool empty() const { return this->_size ? true : false; }
+		bool empty() const { return _size ? true : false; }
 
 		// // reserve
 		// void reserve(size_type n);
@@ -139,14 +147,14 @@ namespace ft
 		// // clear
 		void clear()
 		{
-			for (size_type i=0; i < this->_size; i++)
-				this->_allocator.destroy(this->_buffer[i]);
+			for (size_type i=0; i < _size; i++)
+				_allocator.destroy(_buffer[i]);
 		}
 
 		// /* Allocator */
 
 		// get_allocator
-		allocator_type get_allocator() const { return this->_allocator; }
+		allocator_type get_allocator() const { return _allocator; }
 
 		// /* Non-member function overloads */
 
@@ -169,6 +177,5 @@ namespace ft
 
 	
 	};
-}
-
 #endif
+}
