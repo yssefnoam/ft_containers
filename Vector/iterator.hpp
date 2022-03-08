@@ -31,7 +31,7 @@ public:
     {}
 
     template <class T>
-    myIter &operator=(const myIter<T> &copy) { _base = copy._base; std::cout <<"here" << std::endl;}
+    myIter &operator=(const myIter<T> &copy) { _base = copy.base(); return *this;}
     // --it
     myIter operator--() { _base--; return *this; }
     // it--
@@ -49,7 +49,7 @@ public:
 
     pointer operator->() { return _base; }
 
-    myIter operator+(int &a) { return _base + a; }
+    myIter operator+(int a) { return _base + a; }
 
     myIter operator-(int &a) { return myIter(_base - a); }
 

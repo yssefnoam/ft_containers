@@ -52,11 +52,11 @@ public:
 
     difference_type operator-(myReverseIter &other) { return _iter - other._base; }
 
-    bool operator<(const myReverseIter &other) { return _iter < other._base; }
+    bool operator<(const myReverseIter &other) { return !(_iter < other.base()); }
 
-    bool operator>(const myReverseIter &other) { return _iter > other._base; }
+    bool operator>(const myReverseIter &other) { return !(_iter > other.base()); }
 
-    bool operator<=(const myReverseIter &other) { return _iter <= other._base; }
+    bool operator<=(const myReverseIter &other) { return !(_iter <= other.base()); }
 
     bool operator>=(const myReverseIter &other) { return _iter >= other._base; }
 

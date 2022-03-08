@@ -74,15 +74,15 @@ namespace ft
 
 		// // end
 		iterator end() { return iterator(_buffer + _size); }
-		const_iterator end() const;
+		const_iterator end() const { return iterator(_buffer + _size); }
 
 		// // rbegin
 		reverse_iterator rbegin() {return reverse_iterator(--end());}
-		const_reverse_iterator rbegin() const {return reverse_iterator(--end());}
+		const_reverse_iterator rbegin() const {return const_reverse_iterator(--end());}
 
 		// // rend
-		reverse_iterator rend();
-		const_reverse_iterator rend() const;
+		reverse_iterator rend() {return reverse_iterator(--begin());}
+		const_reverse_iterator rend() const { return const_reverse_iterator(--begin()); }
 
 		// /* Capacity */
 
@@ -99,7 +99,7 @@ namespace ft
 		size_type capacity() const { return _capacity; }
 
 		// // empty
-		bool empty() const { return _size ? true : false; }
+		bool empty() const { return _size ? false : true; }
 
 		// // reserve
 		// void reserve(size_type n);
@@ -107,12 +107,18 @@ namespace ft
 		// /* Element access */
 
 		// // operator[]
-		// reference operator[](size_type n);
-		// const_reference operator[](size_type n) const;
+		reference operator[](size_type n){ return *(begin() + n); }
+		const_reference operator[](size_type n) const { return *(begin() + n); }
 
 		// // at
-		// reference at(size_type n);
-		// const_reference at(size_type n) const;
+		reference at(size_type n)
+		{
+			std::out_of_range ex();
+			if (n > _size)
+				throw ;
+			return *(begin() + n);
+		}
+		// const_reference at(size_type n) const {std::cout << n << std::endl; return _buffer;}
 
 		// // front
 		// reference front();
