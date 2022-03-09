@@ -53,18 +53,45 @@ namespace ft
 
 		// template <class InputIterator>
 		// vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
-		// vector(const vector &x);
 
-		// // destructor
+		vector(const vector &x)
+		: _allocator(x._allocator)
+		, _capacity(x.size())
+		, _size(x.size())
+		{
+			_buffer = _allocator.allocate(_size);
+			for (size_type i = 0; i < _size; i++)
+				_buffer[i] = x[i];
+		}
+
+
+		// operator=
+		vector &operator=(const vector &x)
+		{
+			for (size_type i = 0; i < _size; i++)
+				_allocator.destroy(_buffer + i);
+			if (x.size() <= _size)
+				_size = x.size();
+			else
+			{
+				_allocator.deallocate(_buffer, _capacity);
+				// _allocator = x.get_allocator();
+				_size = x.size();
+				_capacity = x.size();
+				_buffer = _allocator.allocate(_size);
+			}
+			for (size_type i = 0; i < _size; i++)
+				_buffer[i] = x[i];
+			return *this;
+		}
+
+		/* destructor*/
 		~vector()
 		{
 			for (size_type i = 0; i < _size; i++)
 				_allocator.destroy(_buffer + i);
 			_allocator.deallocate(_buffer, _capacity);
 		}
-
-		// // operator=
-		// vector &operator=(const vector &x);
 
 		// /* Iterators */
 
@@ -140,7 +167,7 @@ namespace ft
 		// void assign(size_type n, const value_type &val);
 
 		// // push_back
-		// void push_back(const value_type &val);
+		// void push_back(const value_type &val) {(void)val;}
 
 		// // pop_back
 		// void pop_back();
