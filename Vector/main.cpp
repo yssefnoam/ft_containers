@@ -5,14 +5,9 @@
 #define NS ft
 int main()
 {
-	NS::vector<int> vec(10,10);
+	NS::vector<int> vec(5,10);
 	std::cout << "vec " <<vec.size() << EL
 	std::cout << "vec " <<vec.capacity() << EL
-	NS::vector<int> v = vec;
-	std::cout << "v "<< v.size() << EL
-	std::cout << "v "<< v.capacity() << EL
-	vec = v;
-	std::cout << "vec " <<vec.size() << EL
-	std::cout << "vec " <<vec.capacity() << EL
+	std::cout << vec.at(0) << EL
 	
 }

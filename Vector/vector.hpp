@@ -55,7 +55,7 @@ namespace ft
 		// vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 
 		vector(const vector &x)
-		: _allocator(x._allocator)
+		: _allocator(x.get_allocator())
 		, _capacity(x.size())
 		, _size(x.size())
 		{
@@ -119,8 +119,9 @@ namespace ft
 		// // max_size
 		size_type max_size() const {return _allocator.max_size();}
 
-		// // resize
-		// void resize(size_type n, value_type val = value_type());
+		// resize
+		// void resize(size_type n, value_type val = value_type()) {
+		// }
 
 		// // capacity
 		size_type capacity() const { return _capacity; }
@@ -137,17 +138,17 @@ namespace ft
 		reference operator[](size_type n){ return *(begin() + n); }
 		const_reference operator[](size_type n) const { return *(begin() + n); }
 
-		// // at
+		// at
 		reference at(size_type n)
 		{
 			if (n > _size)
-				throw std::out_of_range("vector");
+				throw std::out_of_range("ft::vector");
 			return *(begin() + n);
 		}
 		const_reference at(size_type n) const
 		{
 			if (n > _size)
-				throw std::out_of_range("vector");
+				throw std::out_of_range("ft::vector");
 			return *(begin() + n);
 		}
 
@@ -157,7 +158,7 @@ namespace ft
 
 		// back
 		reference back() {return *(end()-1);}
-		const_reference back() const;
+		const_reference back() const { return *(end() - 1); }
 
 		// /* Modifiers */
 
