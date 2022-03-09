@@ -51,7 +51,7 @@ public:
 
     myIter operator+(int a) { return _base + a; }
 
-    myIter operator-(int &a) { return myIter(_base - a); }
+    myIter operator-(int a) { return myIter(_base - a); }
 
     void operator-=(int a) { _base -= a; }
 

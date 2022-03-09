@@ -35,10 +35,10 @@ namespace ft
 
 		// constructor
 		explicit vector(const allocator_type &alloc = allocator_type())
-		:_buffer()
+		: _allocator(alloc)
+		, _buffer()
 		, _capacity()
 		, _size()
-		, _allocator(alloc)
 		{}
 
 		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
@@ -113,20 +113,24 @@ namespace ft
 		// // at
 		reference at(size_type n)
 		{
-			std::out_of_range ex();
 			if (n > _size)
-				throw ;
+				throw std::out_of_range("vector");
 			return *(begin() + n);
 		}
-		// const_reference at(size_type n) const {std::cout << n << std::endl; return _buffer;}
+		const_reference at(size_type n) const
+		{
+			if (n > _size)
+				throw std::out_of_range("vector");
+			return *(begin() + n);
+		}
 
-		// // front
-		// reference front();
-		// const_reference front() const;
+		// front
+		reference front() { return *begin(); }
+		const_reference front() const { return *begin(); }
 
-		// // back
-		// reference back();
-		// const_reference back() const;
+		// back
+		reference back() {return *(end()-1);}
+		const_reference back() const;
 
 		// /* Modifiers */
 
