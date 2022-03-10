@@ -64,7 +64,6 @@ namespace ft
 				_buffer[i] = x[i];
 		}
 
-
 		// operator=
 		vector &operator=(const vector &x)
 		{
@@ -75,7 +74,6 @@ namespace ft
 			else
 			{
 				_allocator.deallocate(_buffer, _capacity);
-				// _allocator = x.get_allocator();
 				_size = x.size();
 				_capacity = x.size();
 				_buffer = _allocator.allocate(_size);
@@ -120,8 +118,7 @@ namespace ft
 		size_type max_size() const {return _allocator.max_size();}
 
 		// resize
-		// void resize(size_type n, value_type val = value_type()) {
-		// }
+		// void resize(size_type n, value_type val = value_type()) {}
 
 		// // capacity
 		size_type capacity() const { return _capacity; }
@@ -129,8 +126,21 @@ namespace ft
 		// // empty
 		bool empty() const { return _size ? false : true; }
 
-		// // reserve
-		// void reserve(size_type n);
+		// reserve
+		void reserve(size_type n)
+		{
+			if (n > _capacity)
+			{
+				pointer tmp = _allocator.allocate(n);;
+				for (size_type i = 0; i < _size; i++)
+					tmp[i] = _buffer[i];
+				for (size_type i = 0; i < _size; i++)
+					_allocator.destroy(_buffer + i);
+				_allocator.deallocate(_buffer, _capacity);
+				_capacity = n;
+				_buffer = tmp;
+			}
+		}
 
 		// /* Element access */
 
