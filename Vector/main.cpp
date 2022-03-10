@@ -5,19 +5,22 @@
 #define NS std
 int main()
 {
+	NS::vector<int>::iterator it;
 	NS::vector<int> vec(5,10);
-	std::cout << "vec " <<vec.size() << EL
-	std::cout << "vec " <<vec.capacity() << EL
-	std::cout << "-----------"<< EL
-	// vec.push_back(2);
 
-	vec.reserve(6);
-	std::cout << "-----------"<< EL
-	NS::vector<int>::iterator it = vec.begin();
-	for (; it < vec.end(); it++)
+	std::cout << "size: " << vec.size() << EL
+	std::cout << "capa: " << vec.capacity() << EL
+	for (it = vec.begin(); it < vec.end(); it++)
 		std::cout << *it  << EL
-	std::cout << "-----------"<< EL
-	std::cout << "vec " <<vec.size() << EL
-	std::cout << "vec " <<vec.capacity() << EL
+	
 
+	std::cout << "-----------" << EL
+	vec.clear();
+	vec.resize(12, 11);
+
+	std::cout << "size: " << vec.size() << EL
+	std::cout << "capa: " << vec.capacity() << EL
+
+	for (it = vec.begin(); it < vec.end(); it++)
+		std::cout << *it  << EL
 }

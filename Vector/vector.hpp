@@ -109,21 +109,34 @@ namespace ft
 		reverse_iterator rend() {return reverse_iterator(--begin());}
 		const_reverse_iterator rend() const { return const_reverse_iterator(--begin()); }
 
-		// /* Capacity */
+		/* Capacity */
 
-		// // size
+		// size
 		size_type size() const { return _size; }
 
-		// // max_size
+		// max_size
 		size_type max_size() const {return _allocator.max_size();}
 
 		// resize
-		// void resize(size_type n, value_type val = value_type()) {}
+		// void resize(size_type n, value_type val = value_type())
+		// {
+		// 	if (n > _capacity)
+		// 	{
+		// 		reserve(n);
+		// 		for(;_size < _capacity;_size++)
+		// 			_allocator.construct(_buffer + _size, val);
+		// 	}
+		// 	else
+		// 	{
+		// 		for(;_size > n;_size--)
+		// 			_allocator.destroy(_buffer + _size);
+		// 	}
+		// }
 
-		// // capacity
+		// capacity
 		size_type capacity() const { return _capacity; }
 
-		// // empty
+		// empty
 		bool empty() const { return _size ? false : true; }
 
 		// reserve
@@ -200,7 +213,8 @@ namespace ft
 		void clear()
 		{
 			for (size_type i=0; i < _size; i++)
-				_allocator.destroy(_buffer[i]);
+				_allocator.destroy(_buffer+i);
+			_size = 0;
 		}
 
 		// /* Allocator */
