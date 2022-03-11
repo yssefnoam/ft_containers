@@ -2,11 +2,11 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-#define NS std
+#define NS ft
 int main()
 {
 	NS::vector<int>::iterator it;
-	NS::vector<int> vec(5,10);
+	NS::vector<int> vec(5);
 
 	std::cout << "size: " << vec.size() << EL
 	std::cout << "capa: " << vec.capacity() << EL
@@ -16,7 +16,7 @@ int main()
 
 	std::cout << "-----------" << EL
 	vec.clear();
-	vec.resize(12, 11);
+	vec.resize(9, 11);
 
 	std::cout << "size: " << vec.size() << EL
 	std::cout << "capa: " << vec.capacity() << EL

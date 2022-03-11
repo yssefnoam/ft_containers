@@ -47,9 +47,9 @@ public:
 
     myReverseIter operator-(int &a) { return myReverseIter(_iter - a); }
 
-    void operator-=(int a) { _iter -= a; }
+    void operator-=(int a) { _iter += a; }
 
-    void operator+=(int a) { _iter += a; }
+    void operator+=(int a) { _iter -= a; }
 
     difference_type operator-(myReverseIter &other) { return _iter - other._base; }
 
