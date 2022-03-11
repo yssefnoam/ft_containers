@@ -93,19 +93,19 @@ namespace ft
 
 		// /* Iterators */
 
-		// // begin
+		// begin
 		iterator begin() { return iterator(_buffer); }
 		const_iterator begin() const { return const_iterator(_buffer); }
 
-		// // end
+		// end
 		iterator end() { return iterator(_buffer + _size); }
 		const_iterator end() const { return iterator(_buffer + _size); }
 
-		// // rbegin
+		// rbegin
 		reverse_iterator rbegin() {return reverse_iterator(--end());}
 		const_reverse_iterator rbegin() const {return const_reverse_iterator(--end());}
 
-		// // rend
+		// rend
 		reverse_iterator rend() {return reverse_iterator(--begin());}
 		const_reverse_iterator rend() const { return const_reverse_iterator(--begin()); }
 
@@ -118,16 +118,15 @@ namespace ft
 		size_type max_size() const {return _allocator.max_size();}
 
 		// resize
+		// TODO: fix this method not correct
 		void resize(size_type n, value_type val = value_type())
 		{
 			if (n > _capacity)
 			{
-				// std::cout << _capacity << std::endl;
 				if (n < _capacity * 2)
 					this->reserve(_capacity * 2);
 				else
 					_capacity = n;
-				// std::cout << _capacity << std::endl;
 				for (; _size < n; _size++)
 					_allocator.construct(_buffer + _size, val);
 			}
@@ -162,22 +161,22 @@ namespace ft
 			}
 		}
 
-		// /* Element access */
+		/* Element access */
 
-		// // operator[]
+		// operator[]
 		reference operator[](size_type n){ return *(begin() + n); }
 		const_reference operator[](size_type n) const { return *(begin() + n); }
 
 		// at
 		reference at(size_type n)
 		{
-			if (n > _size)
+			if (n >= _size)
 				throw std::out_of_range("ft::vector");
 			return *(begin() + n);
 		}
 		const_reference at(size_type n) const
 		{
-			if (n > _size)
+			if (n >= _size)
 				throw std::out_of_range("ft::vector");
 			return *(begin() + n);
 		}
@@ -198,14 +197,14 @@ namespace ft
 		// void assign(size_type n, const value_type &val);
 
 		// push_back
-		void push_back(const value_type &val) { resize(_size + 1, val); }
+		void push_back(const value_type &val)
+		{
+			resize(_size + 1, val);
+			_size++;
+		}
 
 		// // pop_back
-		void pop_back()
-		{
-			_allocator.destroy(_buffer + (_size - 1));
-			_size--;
-		}
+		void pop_back() { _allocator.destroy(_buffer + (--_size)); }
 
 		// // insert
 		// iterator insert(iterator position, const value_type &val);

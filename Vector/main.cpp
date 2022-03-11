@@ -2,17 +2,15 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-#define NS std
+#define NS ft
 
 int main()
 {
-  std::vector<int> vec;
-  vec.reserve(5);
+  NS::vector<int> vec;
+  vec.reserve(4);
   std::cout << vec.capacity() << EL
   std::cout << vec.size() << EL
-  vec.push_back(0);
-  vec.push_back(0);
-  vec.push_back(0);
+  vec.resize(4);
   std::cout << "-----" << EL
   std::cout << vec.capacity() << EL
   std::cout << vec.size() << EL
