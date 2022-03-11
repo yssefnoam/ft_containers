@@ -197,11 +197,15 @@ namespace ft
 		// void assign(InputIterator first, InputIterator last);
 		// void assign(size_type n, const value_type &val);
 
-		// // push_back
-		// void push_back(const value_type &val) {(void)val;}
+		// push_back
+		void push_back(const value_type &val) { resize(_size + 1, val); }
 
 		// // pop_back
-		// void pop_back();
+		void pop_back()
+		{
+			_allocator.destroy(_buffer + (_size - 1));
+			_size--;
+		}
 
 		// // insert
 		// iterator insert(iterator position, const value_type &val);
