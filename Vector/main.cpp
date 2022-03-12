@@ -2,7 +2,7 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-#define NS ft
+#define NS std
 
 int main()
 {
@@ -10,10 +10,15 @@ int main()
   vec.reserve(4);
   std::cout << vec.capacity() << EL
   std::cout << vec.size() << EL
-  vec.resize(4);
+  NS::vector<int>::iterator it;
+  for(it = vec.begin(); it < vec.end(); it++)
+    std::cout << *it << EL
+  vec.resize(3);
   std::cout << "-----" << EL
   std::cout << vec.capacity() << EL
   std::cout << vec.size() << EL
+  for(it = vec.begin(); it < vec.end(); it++)
+    std::cout << *it << EL
 
 
 }

@@ -203,7 +203,7 @@ namespace ft
 			_size++;
 		}
 
-		// // pop_back
+		// pop_back
 		void pop_back() { _allocator.destroy(_buffer + (--_size)); }
 
 		// // insert
