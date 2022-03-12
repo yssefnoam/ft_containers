@@ -118,7 +118,6 @@ namespace ft
 		size_type max_size() const {return _allocator.max_size();}
 
 		// resize
-		// TODO: fix this method not correct
 		void resize(size_type n, value_type val = value_type())
 		{
 			if (n > _capacity)
