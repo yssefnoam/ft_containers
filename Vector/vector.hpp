@@ -132,8 +132,13 @@ namespace ft
 			}
 			else
 			{
-				for(;_size > n;_size--)
-					_allocator.destroy(_buffer + _size);
+				if (n < _size)
+					for (; _size > n; _size--)
+						_allocator.destroy(_buffer + _size);
+				else
+					for (; _size < n; _size++)
+						_allocator.construct(_buffer + _size, val);
+
 			}
 		}
 
@@ -200,7 +205,7 @@ namespace ft
 		void push_back(const value_type &val)
 		{
 			resize(_size + 1, val);
-			_size++;
+			// _size++;
 		}
 
 		// pop_back
