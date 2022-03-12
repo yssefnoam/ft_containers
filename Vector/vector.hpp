@@ -124,7 +124,7 @@ namespace ft
 			if (n > _capacity)
 			{
 				if (n < _capacity * 2)
-					this->reserve(_capacity * 2);
+					reserve(_capacity * 2);
 				else
 					_capacity = n;
 				for (; _size < n; _size++)
@@ -159,9 +159,7 @@ namespace ft
 				for (size_type i = 0; i < _size; i++)
 					_allocator.destroy(_buffer + i);
 				_allocator.deallocate(_buffer, _capacity);
-				// std::cout << _capacity << std::endl;
 				_capacity = n;
-				// std::cout << _capacity << std::endl;
 				_buffer = tmp;
 			}
 		}
@@ -202,11 +200,7 @@ namespace ft
 		// void assign(size_type n, const value_type &val);
 
 		// push_back
-		void push_back(const value_type &val)
-		{
-			resize(_size + 1, val);
-			// _size++;
-		}
+		void push_back(const value_type &val) { resize(_size + 1, val); }
 
 		// pop_back
 		void pop_back() { _allocator.destroy(_buffer + (--_size)); }
