@@ -197,7 +197,15 @@ namespace ft
 		// // assign
 		// template <class InputIterator>
 		// void assign(InputIterator first, InputIterator last);
-		// void assign(size_type n, const value_type &val);
+		void assign(size_type n, const value_type &val)
+		{
+			while (_size)
+				pop_back();
+			if (n > _size)
+				reserve(n);
+			while (_size < n)
+				push_back(val);
+		}
 
 		// push_back
 		void push_back(const value_type &val) { resize(_size + 1, val); }
