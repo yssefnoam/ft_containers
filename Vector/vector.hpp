@@ -51,8 +51,15 @@ namespace ft
 				_allocator.construct(_buffer + i, val);
 		}
 
-		// template <class InputIterator>
-		// vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
+		template <class InputIterator>
+		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type())
+		{
+			if (typeid(InputIterator::iterator_category) == typeid(std::random_access_iterator_tag))
+				std::cout << "not now" << std::endl;
+			else
+			{
+			}
+		}
 
 		vector(const vector &x)
 		: _allocator(x.get_allocator())
@@ -206,7 +213,7 @@ namespace ft
 		// pop_back
 		void pop_back() { _allocator.destroy(_buffer + (--_size)); }
 
-		// // insert
+		// insert
 		// iterator insert(iterator position, const value_type &val);
 		// void insert(iterator position, size_type n, const value_type &val);
 		// template <class InputIterator>
