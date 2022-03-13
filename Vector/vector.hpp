@@ -166,7 +166,7 @@ namespace ft
 		/* Element access */
 
 		// operator[]
-		reference operator[](size_type n){ return *(begin() + n); }
+		reference operator[](size_type n) { return *(begin() + n); }
 		const_reference operator[](size_type n) const { return *(begin() + n); }
 
 		// at
@@ -198,8 +198,7 @@ namespace ft
 		// void assign(InputIterator first, InputIterator last);
 		void assign(size_type n, const value_type &val)
 		{
-			while (_size)
-				pop_back();
+			clear();
 			if (n > _size)
 				reserve(n);
 			while (_size < n)
@@ -226,12 +225,7 @@ namespace ft
 		// void swap(vector &x);
 
 		// // clear
-		void clear()
-		{
-			for (size_type i=0; i < _size; i++)
-				_allocator.destroy(_buffer+i);
-			_size = 0;
-		}
+		void clear() { while (_size) pop_back(); }
 
 		// /* Allocator */
 

@@ -6,7 +6,7 @@
 
 int main()
 {
-  NS::vector<int> v(5,5);
+  NS::vector<int> v(5);
   std::cout << "------------" << EL
   std::cout << v.capacity()<< EL
   std::cout << v.size() << EL
@@ -16,10 +16,11 @@ int main()
     std::cout << *it << EL
 
   std::cout << "------------" << EL
-  v.assign(0,100);
+  v.assign(10,100);
   std::cout << v.capacity()<< EL
   std::cout << v.size() << EL
   std::cout << "------------" << EL
+  v.clear();
   it = v.begin();
   for(; it < v.end(); it++)
     std::cout << *it << EL
