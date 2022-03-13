@@ -86,8 +86,7 @@ namespace ft
 		/* destructor*/
 		~vector()
 		{
-			for (size_type i = 0; i < _size; i++)
-				_allocator.destroy(_buffer + i);
+			clear();
 			_allocator.deallocate(_buffer, _capacity);
 		}
 
@@ -153,10 +152,9 @@ namespace ft
 					tmp[i] = _buffer[i];
 				for (size_type i = 0; i < _size; i++)
 					_allocator.destroy(_buffer + i);
-				// clear();
 				_allocator.deallocate(_buffer, _capacity);
-				_capacity = n;
-				_buffer = tmp;
+				_capacity	= n;
+				_buffer		= tmp;
 			}
 		}
 

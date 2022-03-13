@@ -2,10 +2,12 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-// #define NS  std
+// #define NS  ft
 
 int main()
 {
+  {
+
   NS::vector<int> v(5);
   std::cout << v.capacity()<< EL
   std::cout << v.size() << EL
@@ -38,4 +40,11 @@ int main()
   it = v.begin();
   for(; it < v.end(); it++)
     std::cout << *it << EL
+  NS::vector<int> v2;
+  v2 = v;
+  std::cout << v2.capacity()<< EL
+  std::cout << v2.size() << EL
+
+  
+  }
 }
