@@ -122,22 +122,18 @@ namespace ft
 		{
 			if (n > _capacity)
 			{
-				if (n < _capacity * 2)
-					reserve(_capacity * 2);
-				else
-					_capacity = n;
+				(n < _capacity * 2) ? reserve(_capacity * 2) : reserve(n);
 				for (; _size < n; _size++)
 					_allocator.construct(_buffer + _size, val);
 			}
 			else
 			{
 				if (n < _size)
-					for (; _size > n; _size--)
-						_allocator.destroy(_buffer + _size);
+					while (n < _size)
+						pop_back();
 				else
 					for (; _size < n; _size++)
 						_allocator.construct(_buffer + _size, val);
-
 			}
 		}
 
@@ -157,6 +153,7 @@ namespace ft
 					tmp[i] = _buffer[i];
 				for (size_type i = 0; i < _size; i++)
 					_allocator.destroy(_buffer + i);
+				// clear();
 				_allocator.deallocate(_buffer, _capacity);
 				_capacity = n;
 				_buffer = tmp;
