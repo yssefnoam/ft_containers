@@ -53,11 +53,16 @@ namespace ft
 
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type())
+		: _allocator(alloc)
+		, _capacity()
+		, _size()
 		{
-			if (typeid(InputIterator::iterator_category) == typeid(std::random_access_iterator_tag))
+			if (typeid(ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
 				std::cout << "not now" << std::endl;
 			else
 			{
+				for(; first != last; first++)
+					push_back(*first);
 			}
 		}
 

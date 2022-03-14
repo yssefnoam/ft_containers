@@ -2,16 +2,16 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-#define NS  ft
+// #define NS  ft
 
 int main()
 {
 
-// // std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
+// std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
 
-// // int a[5] = {1,2,3,4,5};
+int a[5] = {1,2,3,4,5};
 // std::vector<int> v( iterBegin, iterEnd );
-// // std::vector<int> v( a, a+3 );
+NS::vector<int> v( a, a+3 );
 // std::cout << "------------" << EL
 // std::cout << v.capacity() << std::endl;
 // std::cout << v.size()     << std::endl;
@@ -21,9 +21,10 @@ int main()
 // for(; it < v.end(); it++)
 //   std::cout << *it << EL
 
-  NS::vector<int> v(5);
-  // std::cout << v.capacity()<< EL
-  // std::cout << v.size() << EL
+  // NS::vector<int> v;
+  // std::cout << v.end() - v.begin() << EL
+  std::cout << v.capacity()<< EL
+  std::cout << v.size() << EL
   // std::cout << "------------" << EL
 
   // std::cout <<   v.begin() - v.end(); 
@@ -31,7 +32,7 @@ int main()
   // for(; it < v.end(); it++)
   //   std::cout << *it << EL
   // std::cout << "------------" << EL
-  // v.pop_back();
+  // v.push_back(10);
   // v.pop_back();
   // v.pop_back();
 

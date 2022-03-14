@@ -57,7 +57,7 @@ public:
 
     void operator+=(int a) { _base += a;}
 
-    difference_type operator-(myIter &other) { return _base - other._base; }
+    difference_type operator-(myIter other) { return _base - other._base; }
 
     bool operator<(const myIter &other) { return _base < other._base; }
 
@@ -73,6 +73,6 @@ public:
 };
 
 template<class T>
-myIter<T> operator+(int a,myIter<T> &it) { myIter<T> _tmp = it; return _tmp + a; }
+myIter<T> operator+(int a,myIter<T> it) { myIter<T> _tmp = it; return _tmp + a; }
 
 #endif
