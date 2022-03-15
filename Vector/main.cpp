@@ -10,23 +10,24 @@ int main()
 // std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
 
 // int a[5] = {1,2,3,4,5};
-ft::vector<int> v1(10, 10);
+NS::vector<int> v(10, 10);
 // ft::iterator_traits<std::vector<int>::iterator>::iterator_category ptr;
-ft::vector<int> v( v1.begin(), v1.end());
-std::enable_if<std::is_integral<int>::value, bool>
+// std::cout << std::boolalpha;
+// std::cout <<"char " << NS::is_integral<char>::value << std::endl;
+// ft::vector<int> v( v1.begin(), v1.end());
 // std::cout << "------------" << EL
-// std::cout << v.capacity() << std::endl;
-// std::cout << v.size()     << std::endl;
+std::cout << v.capacity() << std::endl;
+std::cout << v.size()     << std::endl;
 // std::cout << "------------" << EL
 
-// std::vector<int>::iterator it= v.begin();
-// for(; it < v.end(); it++)
-//   std::cout << *it << EL
+NS::vector<int>::iterator it = v.begin();
+for(; it < v.end(); it++)
+  std::cout << *it << EL
 
   // NS::vector<int> v;
   // std::cout << v.end() - v.begin() << EL
-  std::cout << v.capacity()<< EL
-  std::cout << v.size() << EL
+  // std::cout << v.capacity()<< EL
+  // std::cout << v.size() << EL
   // std::cout << "------------" << EL
 
   // std::cout <<   v.begin() - v.end(); 

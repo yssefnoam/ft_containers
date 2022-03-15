@@ -54,12 +54,15 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), ft::enable_if<ft::is_integral<InputIterator> >::type)
+		vector(InputIterator first, InputIterator last
+		, const allocator_type &alloc = allocator_type()
+		, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 		: _allocator(alloc)
 		, _capacity()
 		, _size()
 		{
-			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
+			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag)
+			||  typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::bidirectional_iterator_tag))
 			{
 				typename ft::iterator_traits<InputIterator>::difference_type size;
 				size = last - first;
