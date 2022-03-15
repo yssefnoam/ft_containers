@@ -2,6 +2,7 @@
 #define _IS_INTEGRAL_HPP_
 
 #include <cstddef>
+
 template <class T>
 struct is_integral
 {
@@ -99,4 +100,5 @@ struct is_integral<unsigned long long int>
     typedef unsigned long long int type;
     bool value_type = true;
 };
+
 #endif

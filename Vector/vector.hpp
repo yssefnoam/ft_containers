@@ -6,6 +6,8 @@ namespace ft
 
 	#include "iterator.hpp"
 	#include "reverse_iterator.hpp"
+	#include "enable_if.hpp"
+	#include "is_integral.hpp"
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
@@ -52,7 +54,7 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type())
+		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), ft::enable_if<ft::is_integral<InputIterator> >::type)
 		: _allocator(alloc)
 		, _capacity()
 		, _size()

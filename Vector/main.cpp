@@ -13,6 +13,7 @@ int main()
 ft::vector<int> v1(10, 10);
 // ft::iterator_traits<std::vector<int>::iterator>::iterator_category ptr;
 ft::vector<int> v( v1.begin(), v1.end());
+std::enable_if<std::is_integral<int>::value, bool>
 // std::cout << "------------" << EL
 // std::cout << v.capacity() << std::endl;
 // std::cout << v.size()     << std::endl;
