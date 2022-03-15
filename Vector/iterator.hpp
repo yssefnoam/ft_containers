@@ -22,8 +22,8 @@ public:
     {}
 
     myIter()
-    :
-    _base() {}
+    : _base()
+    {}
 
     template <class T>
     myIter(const myIter<T> &copy)

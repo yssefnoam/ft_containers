@@ -57,8 +57,14 @@ namespace ft
 		, _capacity()
 		, _size()
 		{
-			if (typeid(ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
-				std::cout << "not now" << std::endl;
+			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
+			{
+				typename ft::iterator_traits<InputIterator>::difference_type size;
+				size = last - first;
+				reserve(size);
+				for(; first != last; first++)
+					push_back(*first);
+			}
 			else
 			{
 				for(; first != last; first++)
