@@ -7,10 +7,10 @@
 int main()
 {
 
-// std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
+std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
 
 // int a[5] = {1,2,3,4,5};
-NS::vector<int> v(10, 10);
+NS::vector<int> v(iterBegin, iterEnd);
 // ft::iterator_traits<std::vector<int>::iterator>::iterator_category ptr;
 // std::cout << std::boolalpha;
 // std::cout <<"char " << NS::is_integral<char>::value << std::endl;

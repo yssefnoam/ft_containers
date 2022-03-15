@@ -61,8 +61,7 @@ namespace ft
 		, _capacity()
 		, _size()
 		{
-			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag)
-			||  typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::bidirectional_iterator_tag))
+			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
 			{
 				typename ft::iterator_traits<InputIterator>::difference_type size;
 				size = last - first;
@@ -211,9 +210,12 @@ namespace ft
 
 		// /* Modifiers */
 
-		// // assign
-		// template <class InputIterator>
-		// void assign(InputIterator first, InputIterator last);
+		// assign
+		template <class InputIterator>
+		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
+		{
+		}
+
 		void assign(size_type n, const value_type &val)
 		{
 			clear();
