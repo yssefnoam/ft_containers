@@ -2,26 +2,33 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-// #define NS  ft
+// #define NS  std
 
 int main()
 {
 
-std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
+// std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
 
-// int a[5] = {1,2,3,4,5};
-NS::vector<int> v(iterBegin, iterEnd);
+int a[5] = {1,2,3,4,5};
+// NS::vector<int> v(20,10);
 // ft::iterator_traits<std::vector<int>::iterator>::iterator_category ptr;
 // std::cout << std::boolalpha;
 // std::cout <<"char " << NS::is_integral<char>::value << std::endl;
-// ft::vector<int> v( v1.begin(), v1.end());
-// std::cout << "------------" << EL
-std::cout << v.capacity() << std::endl;
-std::cout << v.size()     << std::endl;
-// std::cout << "------------" << EL
+NS::vector<int> v1(10,1);
+NS::vector<int>::iterator it2 = v1.begin();
+for(; it2 < v1.end(); it2++)
+  std::cout << *it2 << EL
+std::cout << "------------" << EL
+std::cout << v1.capacity() << std::endl;
+std::cout << v1.size()     << std::endl;
+std::cout << "------------" << EL
+v1.assign(a,a+4);
+std::cout << v1.capacity() << std::endl;
+std::cout << v1.size()     << std::endl;
+std::cout << "------------" << EL
 
-NS::vector<int>::iterator it = v.begin();
-for(; it < v.end(); it++)
+NS::vector<int>::iterator it = v1.begin();
+for(; it < v1.end(); it++)
   std::cout << *it << EL
 
   // NS::vector<int> v;

@@ -63,17 +63,17 @@ namespace ft
 		{
 			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
 			{
-				typename ft::iterator_traits<InputIterator>::difference_type size;
-				size = last - first;
+				size_type size = 0;
+				InputIterator tmp = first;
+				for (; tmp != last; tmp++)
+					size++;
 				reserve(size);
 				for(; first != last; first++)
 					push_back(*first);
 			}
 			else
-			{
 				for(; first != last; first++)
 					push_back(*first);
-			}
 		}
 
 		vector(const vector &x)
@@ -214,6 +214,15 @@ namespace ft
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 		{
+			clear();
+			size_type n = 0;
+			InputIterator tmp = first;
+			for (; tmp != last; tmp++)
+				n++;
+			if (n > _size)
+				reserve(n);
+			while (first != last)
+				push_back(*first++);
 		}
 
 		void assign(size_type n, const value_type &val)
