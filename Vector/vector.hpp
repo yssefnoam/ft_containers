@@ -243,17 +243,46 @@ namespace ft
 		// insert
 		// iterator insert(iterator position, const value_type &val);
 		// void insert(iterator position, size_type n, const value_type &val);
+
 		// template <class InputIterator>
 		// void insert(iterator position, InputIterator first, InputIterator last);
 
-		// // erase
-		// iterator erase(iterator position);
-		// iterator erase(iterator first, iterator last);
+		// erase
+		iterator erase(iterator position)
+		{
+			iterator copy = position;
+			for (; position != end() - 1; position++)
+			{
+				_allocator.destroy(&(*position));
+				*position  = *(position + 1);
+			}
+			_size--;
+			return copy;
+		}
+		iterator erase(iterator first, iterator last)
+		{
+			iterator tmp = first;
+			size_type n = 0;
+			for (; tmp != last; tmp++)
+				n++;
+			tmp = first;
+			for (; tmp != last; tmp++)
+				_allocator.destroy(&(*tmp));
+			tmp = first;
+			for (; last != end(); last++)
+			{
+				*first = *last;
+				_allocator.destroy(&(*last));
+				first++;
+			}
+			_size -= n;
+			return tmp;
+		}
 
-		// // swap
+		// swap
 		// void swap(vector &x);
 
-		// // clear
+		// clear
 		void clear() { while (_size) pop_back(); }
 
 		// /* Allocator */
@@ -266,17 +295,23 @@ namespace ft
 		// relational operators
 		// template <class T, class Alloc>
 		// bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+
 		// template <class T, class Alloc>
 		// bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+
 		// template <class T, class Alloc>
 		// bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+
 		// template <class T, class Alloc>
 		// bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+
 		// template <class T, class Alloc>
 		// bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+
 		// template <class T, class Alloc>
 		// bool operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
-		// // swap
+
+		// swap
 		// template <class T, class Alloc>
 		// void swap(vector<T, Alloc> &x, vector<T, Alloc> &y);
 
