@@ -39,9 +39,9 @@ public:
 
     bool operator!=(const myReverseIter &other) { return !operator==(other); }
 
-    reference operator*() const  { return *(_iter.base()); }
+    reference operator*() const { return *(_iter.base() - 1); }
 
-    pointer operator->() { return _iter; }
+    pointer operator->() { return _iter - 1; }
 
     myReverseIter operator+(int &a) { return _iter + a; }
 

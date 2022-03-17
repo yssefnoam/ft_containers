@@ -2,26 +2,27 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-// #define NS  ft
+// #define NS  std
 
 int main()
 {
 
-// std::istream_iterator<int> iterBegin( std::cin ), iterEnd;
-
-// int a[5] = {1,2,3,4,5};
-NS::vector<int> v(20,10);
+int a[5] = {1,2,3};
+NS::vector<int> v(a,a+3);
 
 NS::vector<int>::iterator it;
 it = v.begin();
-for(; it < v.end(); it++)
+for(;it!= v.end();it++)
   std::cout << *it << EL
-
-v.erase(v.begin(), v.begin() + 5);
 std::cout << "------------" << EL
-
+std::cout << v.size()      << EL
+std::cout << v.capacity()  << EL
+std::cout << "------------" << EL
+v.insert(v.begin(), 0);
 it = v.begin();
-for(; it < v.end(); it++)
+for(;it!= v.end();it++)
   std::cout << *it << EL
-  
+std::cout << "------------" << EL
+std::cout << v.size()      << EL
+std::cout << v.capacity()  << EL
 }
