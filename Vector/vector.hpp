@@ -245,17 +245,18 @@ namespace ft
 		iterator insert(iterator position, const value_type &val)
 		{
 			resize(size() + 1);
-			iterator it = end() - 1;
-
-			for (; it != position + 1; it--)
+			int last = size();
+			int first = 0;
+			for (iterator it = begin(); it != position; it++)
+				std::cout << "hre" << std::endl;
+				first++;
+			for (; first != last; last--)
 			{
-				_allocator.destroy(&(*it));
-				*it = *(it - 1);
-				// std::cout << *it << std::endl;
+				_allocator.destroy(_buffer + last);
+				_buffer[last] = _buffer[last - 1];
 			}
-			// std::cout << "here" << std::endl;
-			_allocator.destroy(&(*position));
-			*position = val;
+			_allocator.destroy(_buffer + last);
+			_buffer[last] = val;
 			return position;
 		}
 		// void insert(iterator position, size_type n, const value_type &val);
