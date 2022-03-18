@@ -19,7 +19,7 @@ class iterator_traits<T *>
         typedef T                               value_type;
         typedef T&                              reference;
         typedef T*                              pointer;
-        typedef size_t                          difference_type;
+        typedef ptrdiff_t                       difference_type;
         typedef std::random_access_iterator_tag iterator_category;
 };
 
@@ -30,7 +30,7 @@ class iterator_traits<const T *>
         typedef const T                         value_type;
         typedef const T&                        reference;
         typedef const T*                        pointer;
-        typedef size_t                          difference_type;
+        typedef ptrdiff_t                       difference_type;
         typedef std::random_access_iterator_tag iterator_category;
 };
 

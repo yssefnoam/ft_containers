@@ -22,8 +22,8 @@ namespace ft
 		typedef size_t										size_type;
 		typedef myIter<pointer>								iterator;
 		typedef myIter<const_pointer>						const_iterator;
-		typedef myReverseIter<iterator>						reverse_iterator;
-		typedef myReverseIter<const_iterator>				const_reverse_iterator;
+		typedef reverse_iterator<const_iterator>			const_reverse_iterator;
+		typedef reverse_iterator<iterator>					reverse_iterator;
 
 
 	private:
@@ -68,7 +68,7 @@ namespace ft
 				InputIterator tmp = first;
 				for (; tmp != last; tmp++)
 					size++;
-				reserve(size);
+				_buffer = _allocator.allocate(size);
 				for(; first != last; first++)
 					push_back(*first);
 			}
@@ -244,20 +244,38 @@ namespace ft
 		// insert
 		iterator insert(iterator position, const value_type &val)
 		{
-			resize(size() + 1);
-			int last = size();
-			int first = 0;
-			for (iterator it = begin(); it != position; it++)
-				std::cout << "hre" << std::endl;
-				first++;
-			for (; first != last; last--)
+			if (size() + 1 <= capacity())
 			{
-				_allocator.destroy(_buffer + last);
-				_buffer[last] = _buffer[last - 1];
+				push_back(val);
+				iterator it = end() - 1;
+				for (; it != position; it--)
+				{
+					_allocator.destroy(&(*it));
+					*it = *(it - 1);
+				}
+				_allocator.destroy(&(*it));
+				*it = val;
+				return position;
 			}
-			_allocator.destroy(_buffer + last);
-			_buffer[last] = val;
-			return position;
+			else
+			{
+				int index = 0;
+				for (iterator it = begin(); it != position; it++)
+					index++;
+				push_back(val);
+				position = begin();
+				while(index--)
+					position++;
+				iterator it = end() - 1;
+				for (; it != position; it--)
+				{
+					_allocator.destroy(&(*it));
+					*it = *(it - 1);
+				}
+				_allocator.destroy(&(*it));
+				*it = val;
+				return position;
+			}
 		}
 		// void insert(iterator position, size_type n, const value_type &val);
 

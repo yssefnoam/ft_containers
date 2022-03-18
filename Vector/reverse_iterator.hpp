@@ -4,7 +4,7 @@
 #include "iterator_traits.hpp"
 
 template <class Iter>
-class myReverseIter
+class reverse_iterator
 {
 public:
     typedef typename ft::iterator_traits<Iter>::reference           reference;
@@ -18,48 +18,48 @@ private:
     Iter _iter;
 
 public:
-    myReverseIter(Iter base) : _iter(base) {}
+    reverse_iterator(Iter base) : _iter(base) {}
 
-    myReverseIter() : _iter() {}
+    reverse_iterator() : _iter() {}
 
     template<class T>
-    myReverseIter(const myReverseIter<T> &copy) { _iter = copy.base(); }
+    reverse_iterator(const reverse_iterator<T> &copy) { _iter = copy.base(); }
 
-    myReverseIter &operator=(const myReverseIter &copy) { _iter = copy.base(); }
+    reverse_iterator &operator=(const reverse_iterator &copy) { _iter = copy.base(); }
     // --it
-    myReverseIter operator--() { _iter++; return *this; }
+    reverse_iterator operator--() { _iter++; return *this; }
     // it--
-    myReverseIter operator--(int) { myReverseIter _tmp = *this; _iter++; return _tmp; }
+    reverse_iterator operator--(int) { reverse_iterator _tmp = *this; _iter++; return _tmp; }
     // ++it
-    myReverseIter operator++() { _iter--; return *this; }
+    reverse_iterator operator++() { _iter--; return *this; }
     // it++
-    myReverseIter operator++(int) { myReverseIter _tmp = *this; _iter--; return _tmp; }
+    reverse_iterator operator++(int) { reverse_iterator _tmp = *this; _iter--; return _tmp; }
 
-    bool operator==(const myReverseIter &other) { return (_iter == other._base); }
+    bool operator==(const reverse_iterator &other) { return (_iter == other._base); }
 
-    bool operator!=(const myReverseIter &other) { return !operator==(other); }
+    bool operator!=(const reverse_iterator &other) { return !operator==(other); }
 
     reference operator*() const { return *(_iter.base() - 1); }
 
     pointer operator->() { return _iter - 1; }
 
-    myReverseIter operator+(int &a) { return _iter + a; }
+    reverse_iterator operator+(int &a) { return _iter + a; }
 
-    myReverseIter operator-(int &a) { return myReverseIter(_iter - a); }
+    reverse_iterator operator-(int &a) { return reverse_iterator(_iter - a); }
 
     void operator-=(int a) { _iter += a; }
 
     void operator+=(int a) { _iter -= a; }
 
-    difference_type operator-(myReverseIter &other) { return _iter - other._base; }
+    difference_type operator-(reverse_iterator &other) { return _iter - other._base; }
 
-    bool operator<(const myReverseIter &other) { return !(_iter < other.base()); }
+    bool operator<(const reverse_iterator &other) { return !(_iter < other.base()); }
 
-    bool operator>(const myReverseIter &other) { return !(_iter > other.base()); }
+    bool operator>(const reverse_iterator &other) { return !(_iter > other.base()); }
 
-    bool operator<=(const myReverseIter &other) { return !(_iter <= other.base()); }
+    bool operator<=(const reverse_iterator &other) { return !(_iter <= other.base()); }
 
-    bool operator>=(const myReverseIter &other) { return _iter >= other._base; }
+    bool operator>=(const reverse_iterator &other) { return _iter >= other._base; }
 
     reference operator[](int index) { return *(_iter + index);}
 
@@ -67,6 +67,6 @@ public:
 };
 
 template<class T>
-myReverseIter<T> operator+(int a,myReverseIter<T> &it) { myReverseIter<T> _tmp = it; return _tmp + a; }
+reverse_iterator<T> operator+(int a,reverse_iterator<T> &it) { reverse_iterator<T> _tmp = it; return _tmp + a; }
 
 #endif
