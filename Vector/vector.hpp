@@ -245,18 +245,7 @@ namespace ft
 		iterator insert(iterator position, const value_type &val)
 		{
 			if (size() + 1 <= capacity())
-			{
 				push_back(val);
-				iterator it = end() - 1;
-				for (; it != position; it--)
-				{
-					_allocator.destroy(&(*it));
-					*it = *(it - 1);
-				}
-				_allocator.destroy(&(*it));
-				*it = val;
-				return position;
-			}
 			else
 			{
 				int index = 0;
@@ -266,18 +255,30 @@ namespace ft
 				position = begin();
 				while(index--)
 					position++;
-				iterator it = end() - 1;
-				for (; it != position; it--)
-				{
-					_allocator.destroy(&(*it));
-					*it = *(it - 1);
-				}
-				_allocator.destroy(&(*it));
-				*it = val;
-				return position;
 			}
+			iterator it = end() - 1;
+			for (; it != position; it--)
+			{
+				_allocator.destroy(&(*it));
+				*it = *(it - 1);
+			}
+			_allocator.destroy(&(*it));
+			*it = val;
+			return position;
 		}
-		// void insert(iterator position, size_type n, const value_type &val);
+		void insert(iterator position, size_type n, const value_type &val)
+		{
+			if (n > 0)
+				if (size() + n <= capacity())
+				{
+					while(n--)
+					{
+					}
+				}
+				else
+				{
+				}
+		}
 
 		// template <class InputIterator>
 		// void insert(iterator position, InputIterator first, InputIterator last);
