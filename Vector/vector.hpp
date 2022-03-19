@@ -271,13 +271,27 @@ namespace ft
 			if (n > 0)
 				if (size() + n <= capacity())
 				{
+					resize(size() + n);
 					while(n--)
 					{
+						iterator last = end() - 1;
+						iterator mid = end() - 1 - n;
+						for (; mid != position; mid--)
+						{
+							_allocator.destroy(&(*last));
+							*last = *mid;
+							last--;
+						}
+						for (; last != position; last--)
+						{
+							_allocator.destroy(&(*last));
+							*last = val;
+						}
 					}
 				}
-				else
-				{
-				}
+				// else
+				// {
+				// }
 		}
 
 		// template <class InputIterator>

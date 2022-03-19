@@ -8,6 +8,7 @@ int main()
 {
 
 NS::vector<int> v(4,4);
+v.reserve(8);
 
 NS::vector<int>::iterator it;
 it = v.begin();
@@ -17,7 +18,7 @@ std::cout << "-------------"  << std::endl;
 std::cout << v.size()      << std::endl;
 std::cout << v.capacity()  << std::endl;
 std::cout << "-------------"  << std::endl;
-v.insert(v.begin(), 0, 4);
+v.insert(v.begin(), 1, 1);
 it = v.begin();
 for (; it != v.end(); it++)
   std::cout << *it << std::endl;
