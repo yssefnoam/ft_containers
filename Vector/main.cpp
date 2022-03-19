@@ -2,7 +2,7 @@
 #include <vector>
 #include "vector.hpp"
 #define EL std::endl;
-#define NS  std
+// #define NS  std
 
 int main()
 {
