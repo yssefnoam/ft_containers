@@ -1,2 +1,2 @@
 # ft_containers
-reimplement the STL library of c++ 
+reimplement the Vector, Stack and Map of the STL library of c++ 
