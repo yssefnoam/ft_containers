@@ -73,6 +73,7 @@ namespace ft
 				for(; first != last; first++)
 					push_back(*first);
 			}
+			//  FIXME: when the this block of code execute the _allocator is empty the first time ; because fo that the program segf(resize)
 			else
 				for(; first != last; first++)
 					push_back(*first);
@@ -272,22 +273,7 @@ namespace ft
 			if (n > 0)
 			{
 				if (size() + n <= capacity())
-				{
 					resize(size() + n);
-					iterator last = end() - 1;
-					iterator mid = end() - 1 - n;
-					for (; mid != position - 1; mid--)
-					{
-						_allocator.destroy(&(*last));
-						*last = *mid;
-						last--;
-					}
-					for (; last != position-1; last--)
-					{
-						_allocator.destroy(&(*last));
-						*last = val;
-					}
-				}
 				else
 				{
 					int index = 0;
@@ -297,19 +283,19 @@ namespace ft
 					position = begin();
 					while (index--)
 						position++;
-					iterator last = end() - 1;
-					iterator mid = end() - 1 - n;
-					for (; mid != position - 1; mid--)
-					{
-						_allocator.destroy(&(*last));
-						*last = *mid;
-						last--;
-					}
-					for (; last != position-1; last--)
-					{
-						_allocator.destroy(&(*last));
-						*last = val;
-					}
+				}
+				iterator last = end() - 1;
+				iterator mid = end() - 1 - n;
+				for (; mid != position - 1; mid--)
+				{
+					_allocator.destroy(&(*last));
+					*last = *mid;
+					last--;
+				}
+				for (; last != position - 1; last--)
+				{
+					_allocator.destroy(&(*last));
+					*last = val;
 				}
 			}
 		}
