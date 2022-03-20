@@ -69,6 +69,7 @@ namespace ft
 				for (; tmp != last; tmp++)
 					size++;
 				_buffer = _allocator.allocate(size);
+				_capacity = size;
 				for(; first != last; first++)
 					push_back(*first);
 			}
@@ -269,29 +270,48 @@ namespace ft
 		void insert(iterator position, size_type n, const value_type &val)
 		{
 			if (n > 0)
+			{
 				if (size() + n <= capacity())
 				{
 					resize(size() + n);
-					while(n--)
+					iterator last = end() - 1;
+					iterator mid = end() - 1 - n;
+					for (; mid != position - 1; mid--)
 					{
-						iterator last = end() - 1;
-						iterator mid = end() - 1 - n;
-						for (; mid != position; mid--)
-						{
-							_allocator.destroy(&(*last));
-							*last = *mid;
-							last--;
-						}
-						for (; last != position; last--)
-						{
-							_allocator.destroy(&(*last));
-							*last = val;
-						}
+						_allocator.destroy(&(*last));
+						*last = *mid;
+						last--;
+					}
+					for (; last != position-1; last--)
+					{
+						_allocator.destroy(&(*last));
+						*last = val;
 					}
 				}
-				// else
-				// {
-				// }
+				else
+				{
+					int index = 0;
+					for (iterator it = begin(); it != position; it++)
+						index++;
+					resize(size() + n);
+					position = begin();
+					while (index--)
+						position++;
+					iterator last = end() - 1;
+					iterator mid = end() - 1 - n;
+					for (; mid != position - 1; mid--)
+					{
+						_allocator.destroy(&(*last));
+						*last = *mid;
+						last--;
+					}
+					for (; last != position-1; last--)
+					{
+						_allocator.destroy(&(*last));
+						*last = val;
+					}
+				}
+			}
 		}
 
 		// template <class InputIterator>
