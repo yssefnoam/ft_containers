@@ -5,7 +5,7 @@
 #else
   #define NS  std
 #endif
-  #define NS  std
+  // #define NS  std
 
 int main()
 {
@@ -16,9 +16,17 @@ int main()
 
   // std::istream_iterator<int> b(std::cin), last;
 
-  NS::vector<int> v(1,0);
-  NS::vector<int> v1(1,0);
-  if (v == v1)
-    std::cout << "work" << std::endl;
+  NS::vector<int> v(1,1);
+  NS::vector<int>::iterator it;
 
+  it = v.begin();
+  for(; it != v.end();it++)
+    std::cout << "v: " << *it << std::endl;
+  std::cout << "------" << std::endl;
+
+  NS::vector<int> v1(1,0);
+  NS::swap(v,v1);
+  it = v.begin();
+  for(; it != v.end();it++)
+    std::cout << "v: " << *it << std::endl;
 }
