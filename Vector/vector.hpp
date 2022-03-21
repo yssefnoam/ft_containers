@@ -58,6 +58,7 @@ namespace ft
 		, const allocator_type &alloc = allocator_type()
 		, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 		: _allocator(alloc)
+		, _buffer()
 		, _capacity()
 		, _size()
 		{
@@ -73,7 +74,6 @@ namespace ft
 				for(; first != last; first++)
 					push_back(*first);
 			}
-			//  FIXME: when the this block of code execute the _allocator is empty the first time ; because fo that the program segf(resize)
 			else
 				for(; first != last; first++)
 					push_back(*first);
@@ -300,8 +300,33 @@ namespace ft
 			}
 		}
 
-		// template <class InputIterator>
-		// void insert(iterator position, InputIterator first, InputIterator last);
+		template <class InputIterator>
+		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
+		{
+			bool doubleCap = true;
+			size_type index = 0;
+			for (iterator it = begin(); it != position; it++)
+				index++;
+
+			for (iterator it = first; it != last; it++)
+			{
+				if (size() == capacity())
+				{
+					if (doubleCap)
+					{
+						reserve(size() * 2);
+						doubleCap = false;
+					}
+					else
+						reserve(size() + 1);
+				}
+				position = begin();
+				for(size_type i = 0;i != index; i++)
+					position++;
+				insert(position, *it);
+				index++;
+			}
+		}
 
 		// erase
 		iterator erase(iterator position)
@@ -346,6 +371,7 @@ namespace ft
 		// get_allocator
 		allocator_type get_allocator() const { return _allocator; }
 
+	};
 		// /* Non-member function overloads */
 
 		// relational operators
@@ -372,6 +398,5 @@ namespace ft
 		// void swap(vector<T, Alloc> &x, vector<T, Alloc> &y);
 
 	
-	};
 #endif
 }
