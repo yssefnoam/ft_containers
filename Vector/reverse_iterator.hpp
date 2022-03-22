@@ -25,7 +25,7 @@ public:
     template<class T>
     reverse_iterator(const reverse_iterator<T> &copy) { _iter = copy.base(); }
 
-    reverse_iterator &operator=(const reverse_iterator &copy) { _iter = copy.base(); }
+    reverse_iterator &operator=(const reverse_iterator &copy) { _iter = copy.base(); return *this;}
     // --it
     reverse_iterator operator--() { _iter++; return *this; }
     // it--
@@ -35,33 +35,33 @@ public:
     // it++
     reverse_iterator operator++(int) { reverse_iterator _tmp = *this; _iter--; return _tmp; }
 
-    bool operator==(const reverse_iterator &other) { return (_iter == other._base); }
+    bool operator==(const reverse_iterator &other) { return (_iter == other.base()); }
 
     bool operator!=(const reverse_iterator &other) { return !operator==(other); }
 
     reference operator*() const { return *(_iter.base() - 1); }
 
-    pointer operator->() { return _iter - 1; }
+    pointer operator->() { return &(operator*()); }
 
-    reverse_iterator operator+(int &a) { return _iter + a; }
+    reverse_iterator operator+(int a) { return _iter - a; }
 
-    reverse_iterator operator-(int &a) { return reverse_iterator(_iter - a); }
+    reverse_iterator operator-(int a) { return _iter + a; }
 
     void operator-=(int a) { _iter += a; }
 
     void operator+=(int a) { _iter -= a; }
 
-    difference_type operator-(reverse_iterator &other) { return _iter - other._base; }
+    difference_type operator-(reverse_iterator &other) { return other.base() - _iter; }
 
     bool operator<(const reverse_iterator &other) { return !(_iter < other.base()); }
 
     bool operator>(const reverse_iterator &other) { return !(_iter > other.base()); }
 
-    bool operator<=(const reverse_iterator &other) { return !(_iter <= other.base()); }
+    bool operator<=(const reverse_iterator &other) { return other.base() <= _iter; }
 
-    bool operator>=(const reverse_iterator &other) { return _iter >= other._base; }
+    bool operator>=(const reverse_iterator &other) { return other.base() >= _iter; }
 
-    reference operator[](int index) { return *(_iter + index);}
+    reference operator[](int index) { return *(_iter + index - 1); }
 
     Iter base() const {return _iter;}
 };

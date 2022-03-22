@@ -94,19 +94,7 @@ namespace ft
 		// operator=
 		vector &operator=(const vector &x)
 		{
-			for (size_type i = 0; i < size(); i++)
-				_allocator.destroy(_buffer + i);
-			if (x.size() <= size())
-				_size = x.size();
-			else
-			{
-				_allocator.deallocate(_buffer, _capacity);
-				_size = x.size();
-				_capacity = x.size();
-				_buffer = _allocator.allocate(size());
-			}
-			for (size_type i = 0; i < size(); i++)
-				_buffer[i] = x[i];
+			assign(x.begin(),x.end());
 			return *this;
 		}
 
@@ -310,7 +298,7 @@ namespace ft
 			for (iterator it = begin(); it != position; it++)
 				index++;
 
-			for (iterator it = first; it != last; it++)
+			for (InputIterator it = first; it != last; it++)
 			{
 				if (size() == capacity())
 				{
@@ -322,9 +310,7 @@ namespace ft
 					else
 						reserve(size() + 1);
 				}
-				position = begin();
-				for(size_type i = 0;i != index; i++)
-					position++;
+				position = begin() + index;
 				insert(position, *it);
 				index++;
 			}
