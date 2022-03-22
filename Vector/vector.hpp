@@ -160,6 +160,8 @@ namespace ft
 		// reserve
 		void reserve(size_type n)
 		{
+			if (n > max_size())
+				throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 			if (n > _capacity)
 			{
 				pointer tmp = _allocator.allocate(n);;
@@ -396,7 +398,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return !(lhs < rhs);
+			return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
 		}
 
 		template <class T, class Alloc>

@@ -17,14 +17,19 @@ time_t get_time(void)
 }
 int main()
 {
-      {
-        /*------------------ std::vectors ---------------------*/
-        std::vector<std::string> v1(10, "string2");
-        std::vector<int> v2;
-        /*------------------ std::vectors ---------------------*/
-        ft::vector<std::string> ft_v1(10, "string2");
-        ft::vector<int> ft_v2;
-
-        EQUAL(v1.empty() == ft_v1.empty() && v2.empty() == ft_v2.empty());
-    }
+    std::vector<std::string> v1(10, "string2");          // fill constructor
+    std::vector<std::string> v2;                         // empty constructor
+    std::vector<std::string> v3(v1.begin(), v1.end());   // range constructor with normal iterators
+    std::vector<std::string> v4(v3);                     // copy constructor
+    std::vector<std::string> v5(v1.rbegin(), v1.rend()); // range constructor with reverse iterators
+    /*-----------------------------------------------------*/
+    /*------------------ ft::vectors ---------------------*/
+    ft::vector<std::string> ft_v1(10, "string2");
+    ft::vector<std::string> ft_v2;
+    ft::vector<std::string> ft_v3(ft_v1.begin(), ft_v1.end());
+    std::cout << "################################" << std::endl;
+    ft::vector<std::string> ft_v4(ft_v3);
+    ft::vector<std::string> ft_v5(ft_v1.rbegin(), ft_v1.rend());
+    /*----------------------------------------------------*/
+    EQUAL(v1.size() == ft_v1.size() && v2.size() == ft_v2.size() && v3.size() == ft_v3.size() && v4.size() == ft_v4.size() && v5.size() == ft_v5.size());
 }
