@@ -1,15 +1,15 @@
-namespace ft
-{
 #ifndef _FT_VECTOR_H
 #define _FT_VECTOR_H
-#include <memory>
+namespace ft
+{
 
-	#include "iterator.hpp"
-	#include "reverse_iterator.hpp"
-	#include "enable_if.hpp"
-	#include "is_integral.hpp"
-	#include "equal.hpp"
-	#include "lexicographical_compare.hpp"
+#include <memory>
+#include "iterator.hpp"
+#include "reverse_iterator.hpp"
+#include "enable_if.hpp"
+#include "is_integral.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
@@ -41,12 +41,13 @@ namespace ft
 		explicit vector(const allocator_type &alloc = allocator_type())
 		: _allocator(alloc)
 		, _buffer()
-		, _capacity()
-		, _size()
+		, _capacity(0)
+		, _size(0)
 		{}
 
 		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 		: _allocator(alloc)
+		, _buffer()
 		, _capacity(n)
 		, _size(n)
 		{
@@ -61,8 +62,8 @@ namespace ft
 		, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 		: _allocator(alloc)
 		, _buffer()
-		, _capacity()
-		, _size()
+		, _capacity(0)
+		, _size(0)
 		{
 			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag)
 			 || typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::bidirectional_iterator_tag))
@@ -83,6 +84,7 @@ namespace ft
 
 		vector(const vector &x)
 		: _allocator(x.get_allocator())
+		, _buffer()
 		, _capacity(x.size())
 		, _size(x.size())
 		{
@@ -414,5 +416,5 @@ namespace ft
 			x.swap(y);
 		}
 
-#endif
 }
+#endif

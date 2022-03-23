@@ -1,9 +1,6 @@
-DEBUG =  -fsanitize=address
+# DEBUG =  -fsanitize=address
 FLAG = --std=c++98 -Wall -Werror -Wextra
-all: 
-	@ echo "---------std--------" && c++ -D NS=std $(DEBUG) $(FLAG) main.cpp && ./a.out && rm -fr a.out a.out.*
-	@ echo "---------ft---------" && c++ -D NS=ft  $(DEBUG) $(FLAG) main.cpp && ./a.out && rm -fr a.out a.out.*
-std: 
-	@ echo "---------std--------" && c++ -D NS=std $(DEBUG) $(FLAG) main.cpp && ./a.out && rm -fr a.out a.out.*
-ft:
-	@ echo "---------ft---------" && c++ -D NS=ft  $(DEBUG) $(FLAG) main.cpp && ./a.out && rm -fr a.out a.out.*
+main1: 
+	@ echo "---------std--------" && c++  -D NS=std $(DEBUG) $(FLAG) main1.cpp && ./a.out && rm -fr a.out a.out.*
+main2: 
+	@ echo "---------std--------" && c++  -D NS=std $(DEBUG) $(FLAG) main2.cpp && ./a.out && rm -fr a.out a.out.*
