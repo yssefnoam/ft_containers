@@ -700,10 +700,10 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " rbegin and rend methods "
               << "] --------------------]\t\t\033[0m";
     {
-        /*------------------ std::vectors ---------------------*/
+        /*------------------ std::vectors --------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<std::string> const v2(10, "string2");
-        /*-----------------------------------------------------*/
+        /*----------------------------------------------------*/
         /*------------------ ft::vectors ---------------------*/
         ft::vector<std::string> ft_v1(10, "string2");
         ft::vector<std::string> const ft_v2(10, "string2");
@@ -740,6 +740,7 @@ void vector_tests(void)
         ft::vector<std::string> ft_v3(ft_v1.begin(), ft_v1.end());
         ft::vector<std::string> ft_v4(ft_v3);
         ft::vector<std::string> ft_v5(ft_v1.rbegin(), ft_v1.rend());
+        std::cout << "here" << std::endl;
         /*----------------------------------------------------*/
         EQUAL(v1.size() == ft_v1.size() && v2.size() == ft_v2.size() && v3.size() == ft_v3.size() && v4.size() == ft_v4.size() && v5.size() == ft_v5.size());
     }
@@ -934,6 +935,7 @@ void vector_tests(void)
         std::vector<std::string>::iterator valid_it, valid_eit;
         ft::vector<std::string>::iterator ft_valid_it, ft_valid_eit;
         // bool to check if the function throw or not
+        std::cout << "here" << std::endl;
         bool exec_throwed = false;
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
@@ -950,6 +952,7 @@ void vector_tests(void)
             (void)e;
             exec_throwed = true;
         }
+
         v1.reserve(100);
         ft_v1.reserve(100);
 
@@ -1244,6 +1247,7 @@ void vector_tests(void)
         std::vector<std::string> v;
         /*------------------ std::vectors ---------------------*/
         ft::vector<std::string> ft_v;
+        std::cout << "here" << std::endl;
         /*
          * Strings to store the results
          */
@@ -1612,6 +1616,7 @@ void vector_tests(void)
                 ft_str += ft_v[i];
             cond = ((str == ft_str) && (s == ft_s) && (c == ft_c));
         }
+        std::cout << "here" << std::endl;
         // insert at the end
         {
             std::vector<std::string> v;

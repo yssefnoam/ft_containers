@@ -17,19 +17,19 @@ time_t get_time(void)
 }
 int main()
 {
-    std::vector<std::string> v1(10, "string2");          // fill constructor
-    std::vector<std::string> v2;                         // empty constructor
-    std::vector<std::string> v3(v1.begin(), v1.end());   // range constructor with normal iterators
-    std::vector<std::string> v4(v3);                     // copy constructor
-    std::vector<std::string> v5(v1.rbegin(), v1.rend()); // range constructor with reverse iterators
-    /*-----------------------------------------------------*/
-    /*------------------ ft::vectors ---------------------*/
+    bool exec_throwed = false;
     ft::vector<std::string> ft_v1(10, "string2");
-    ft::vector<std::string> ft_v2;
-    ft::vector<std::string> ft_v3(ft_v1.begin(), ft_v1.end());
-    std::cout << "################################" << std::endl;
-    ft::vector<std::string> ft_v4(ft_v3);
-    ft::vector<std::string> ft_v5(ft_v1.rbegin(), ft_v1.rend());
-    /*----------------------------------------------------*/
-    EQUAL(v1.size() == ft_v1.size() && v2.size() == ft_v2.size() && v3.size() == ft_v3.size() && v4.size() == ft_v4.size() && v5.size() == ft_v5.size());
+    ft::vector<char> ft_v2;
+    try
+    {
+        ft_v1.reserve(ft_v1.max_size() + 1);
+        std::cout << "work1" << std::endl;
+    }
+    catch (std::length_error const &e)
+    {
+        (void)e;
+        exec_throwed = true;
+    }
+    if (exec_throwed)
+        std::cout << "work2" << std::endl;
 }
