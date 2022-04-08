@@ -1,15 +1,16 @@
 // make_pair example
 #include <utility>	// std::pair
 #include <iostream> // std::cout
-#include "pair.hpp"
+#include "node.hpp"
 #include "make_pair.hpp"
-#include "map.hpp"
+// #include "map.hpp"
+#include <map>
+#include <vector>
+
 
 int main()
 {
-	ft::Node<int, int> one(10,1);
-	ft::Node<int, int> two(10,1);
-    one.right = &two;
-	std::cout << one.right->one << std::endl;
-	return 0;
+    Node<pair<int, int> > *root=NULL;
+    root = new Node<pair<int, int> >(make_pair(10,10));
+    return 0;
 }

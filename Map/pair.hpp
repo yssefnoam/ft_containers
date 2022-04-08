@@ -1,5 +1,3 @@
-namespace ft
-{
 #ifndef _PAIR_HPP
 #define _PAIR_HPP
 
@@ -56,4 +54,3 @@ bool operator>=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
 { return !(lhs < rhs); }
 
 #endif
-};

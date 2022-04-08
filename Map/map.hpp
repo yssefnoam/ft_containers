@@ -4,102 +4,103 @@ namespace ft
 {
 #include <functional>
 #include "pair.hpp"
-    template <class Key, class Value>
-    struct Node
-    {
-        Key key;
-        Value value;
-        Node *left;
-        Node *right;
-
-        Node(Key key, Value value) : key(key), value(value), left(NULL), right(NULL) {}
-    };
+#include "node.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
-    class map
-    {
-        typedef Key key_type;
-        typedef T mapped_type;
-        typedef pair<const key_type, mapped_type> value_type;
-        typedef Compare key_compare;
-        typedef Alloc allocator_type;
-        typedef typename allocator_type::reference reference;
-        typedef typename allocator_type::const_reference const_reference;
-        typedef typename allocator_type::pointer pointer;
-        typedef typename allocator_type::const_pointer const_pointer;
-        // TODO:
-        // typedef	myiterator<node>						iterator;
-        // typedef	myiterator<const_node>					const_iterator;
-        // typedef	myRiterator<node>						reverse_iterator;
-        // typedef	myRiterator<const_node>					const_reverse_iterator;
-        typedef size_t size_type;
+	class map
+	{
+		typedef Key key_type;
+		typedef T mapped_type;
+		typedef pair<const key_type, mapped_type> value_type;
+		typedef Compare key_compare;
+		typedef Alloc allocator_type;
+		typedef typename allocator_type::reference reference;
+		typedef typename allocator_type::const_reference const_reference;
+		typedef typename allocator_type::pointer pointer;
+		typedef typename allocator_type::const_pointer const_pointer;
+		// TODO:
+		// typedef	myiterator<node>						iterator;
+		// typedef	myiterator<const_node>					const_iterator;
+		// typedef	myRiterator<node>						reverse_iterator;
+		// typedef	myRiterator<const_node>					const_reverse_iterator;
+		typedef size_t size_type;
 
-    private:
-    public:
-        explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+	private:
+		// Node<Key, T> *_root;
+		// size_type _size;
+		// key_compare _ft_compare;
+		// allocator_type _allocator;
 
-        template <class InputIterator>
-        map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+	public:
+		explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
+			// : _root(NULL)
+			// , _size()
+			// , _ft_compare(comp)
+			// , _allocator(alloc)
+		{}
 
-        map(const map &x);
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
 
-        ~map();
+		map(const map &x);
 
-        map &operator=(const map &x);
+		// ~map();
 
-        // iterator begin();
-        // const_iterator begin() const;
+		map &operator=(const map &x);
 
-        // iterator end();
-        // const_iterator end() const;
+		// iterator begin();
+		// const_iterator begin() const;
 
-        // reverse_iterator rbegin();
-        // const_reverse_iterator rbegin() const;
+		// iterator end();
+		// const_iterator end() const;
 
-        // reverse_iterator rend();
-        // const_reverse_iterator rend() const;
+		// reverse_iterator rbegin();
+		// const_reverse_iterator rbegin() const;
 
-        bool empty() const;
+		// reverse_iterator rend();
+		// const_reverse_iterator rend() const;
 
-        size_type size() const;
+		// bool empty() const { return !_size; }
 
-        size_type max_size() const;
+		// size_type size() const { return _size; }
 
-        mapped_type &operator[](const key_type &k);
+		// size_type max_size() const { return _allocator.max_size(); }
 
-        // pair<iterator, bool> insert(const value_type &val);
-        // iterator insert(iterator position, const value_type &val);
-        template <class InputIterator>
-        void insert(InputIterator first, InputIterator last);
+		mapped_type &operator[](const key_type &k);
 
-        // void erase(iterator position);
-        size_type erase(const key_type &k);
-        // void erase(iterator first, iterator last);
+		// pair<iterator, bool> insert(const value_type &val);
+		// iterator insert(iterator position, const value_type &val);
+		template <class InputIterator>
+		void insert(InputIterator first, InputIterator last);
 
-        void swap(map &x);
+		// void erase(iterator position);
+		size_type erase(const key_type &k);
+		// void erase(iterator first, iterator last);
 
-        void clear();
+		void swap(map &x);
 
-        key_compare key_comp() const;
+		void clear();
 
-        // value_compare value_comp() const;
+		key_compare key_comp() const;
 
-        // iterator find(const key_type &k);
-        // const_iterator find(const key_type &k) const;
+		// value_compare value_comp() const;
 
-        size_type count(const key_type &k) const;
+		// iterator find(const key_type &k);
+		// const_iterator find(const key_type &k) const;
 
-        // iterator lower_bound(const key_type &k);
-        // const_iterator lower_bound(const key_type &k) const;
+		size_type count(const key_type &k) const;
 
-        // iterator upper_bound(const key_type &k);
-        // const_iterator upper_bound(const key_type &k) const;
+		// iterator lower_bound(const key_type &k);
+		// const_iterator lower_bound(const key_type &k) const;
 
-        // pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
-        // pair<iterator, iterator> equal_range(const key_type &k);
+		// iterator upper_bound(const key_type &k);
+		// const_iterator upper_bound(const key_type &k) const;
 
-        allocator_type get_allocator() const;
-    };
+		// pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
+		// pair<iterator, iterator> equal_range(const key_type &k);
+
+		allocator_type get_allocator() const;
+	};
 
 };
 #endif
