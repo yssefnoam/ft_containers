@@ -10,8 +10,7 @@ struct Node
     Node *left;
     Node *right;
 
-    // TODO: fix constructor 
-    Node(Pair &cnt) : content(cnt), left(NULL), right(NULL) {}
+    Node(Pair cnt) : content(cnt), left(NULL), right(NULL) {}
 };
 
 #endif
