@@ -90,7 +90,8 @@ namespace ft
 		{
 			_buffer = _allocator.allocate(size());
 			for (size_type i = 0; i < size(); i++)
-				_buffer[i] = x[i];
+                _allocator.construct(&(_buffer[i]), x[i]);
+                // _buffer[i] = x[i];
 		}
 
 		// operator=
@@ -168,7 +169,8 @@ namespace ft
 			{
 				pointer tmp = _allocator.allocate(n);;
 				for (size_type i = 0; i < size(); i++)
-					tmp[i] = _buffer[i];
+                    // tmp[i] = _buffer[i];
+                    _allocator.construct(&(tmp[i]), _buffer[i]);
 				for (size_type i = 0; i < size(); i++)
 					_allocator.destroy(_buffer + i);
 				_allocator.deallocate(_buffer, _capacity);
@@ -257,10 +259,12 @@ namespace ft
 			{
 				_allocator.destroy(&(*it));
 				*it = *(it - 1);
-			}
+                _allocator.construct(&(*it), *(it - 1));
+            }
 			_allocator.destroy(&(*it));
-			*it = val;
-			return position;
+			// *it = val;
+            _allocator.construct(&(*it), val);
+            return position;
 		}
 		void insert(iterator position, size_type n, const value_type &val)
 		{
@@ -283,14 +287,16 @@ namespace ft
 				for (; mid != position - 1; mid--)
 				{
 					_allocator.destroy(&(*last));
-					*last = *mid;
+					// *last = *mid;
+                    _allocator.construct(&(*last), *mid);
 					last--;
 				}
 				for (; last != position - 1; last--)
 				{
 					_allocator.destroy(&(*last));
-					*last = val;
-				}
+					// *last = val;
+                    _allocator.construct(&(*last), val);
+                }
 			}
 		}
 
@@ -327,7 +333,8 @@ namespace ft
 			for (; position != end() - 1; position++)
 			{
 				_allocator.destroy(&(*position));
-				*position  = *(position + 1);
+				//*position  = *(position + 1);
+                _allocator.construct(&(*position), (*(position + 1)));
 			}
 			_size--;
 			return copy;
