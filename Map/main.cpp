@@ -33,10 +33,12 @@ int main()
         root->right->left = new Node<pair<std::string, int> >(make_pair("six", 6));
         root->right->right = new Node<pair<std::string, int> >(make_pair("seven", 7));
         printTree(root->left);
+        std::cout << "--------------" << std::endl;
         std::cout << root->content.first << std::endl;
+        std::cout << "--------------" << std::endl;
         printTree(root->right);
     }
-    system("leaks a.out");
+    // system("leaks a.out");
 
     return 0;
 }
