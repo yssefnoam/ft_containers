@@ -5,6 +5,7 @@ namespace ft
 #include <functional>
 #include "pair.hpp"
 #include "node.hpp"
+#include "avl.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
@@ -26,7 +27,8 @@ namespace ft
 		typedef size_t size_type;
 
 	private:
-		// Node<Key, T> *_root;
+		Tree<Key, T> *avl;
+
 		// size_type _size;
 		// key_compare _ft_compare;
 		// allocator_type _allocator;
