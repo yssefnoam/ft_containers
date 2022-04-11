@@ -19,26 +19,19 @@ private:
     typedef typename allocator_type::const_pointer const_pointer;
 
 private:
-    Node *_root;
+    Node<value_type> *_root;
 
 public:
     Tree() : _root(NULL) {}
     ~Tree() {}
 
-    addNode(pair &p)
-    {
-        newNode = new Node<pair<std::string, int> >(p);
-        if (_root == NULL)
-            root = newNode;
-        else
-        {
-            Node *tmp = root;
-            while(true)
-            {
-                if (tmp->content.first > )
-            }
-        }
-    }
+    Node<value_type> *newNode(value_type p) { return new Node<value_type>(p); }
+
+    bool empty() { return _root ? false : true; }
+
+    Node<value_type> *left(Node<value_type> *node) { return node->left; }
+
+    Node<value_type> *right(Node<value_type> *node) { return node->right; }
 };
 
 #endif
