@@ -24,6 +24,21 @@ private:
 public:
     Tree() : _root(NULL) {}
     ~Tree() {}
+
+    addNode(pair &p)
+    {
+        newNode = new Node<pair<std::string, int> >(p);
+        if (_root == NULL)
+            root = newNode;
+        else
+        {
+            Node *tmp = root;
+            while(true)
+            {
+                if (tmp->content.first > )
+            }
+        }
+    }
 };
 
 #endif
