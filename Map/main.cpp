@@ -2,10 +2,11 @@
 #include <utility>	// std::pair
 #include <iostream> // std::cout
 // #include "node.hpp"
-// #include "make_pair.hpp"
+#include "make_pair.hpp"
 // #include "map.hpp"
 #include <map>
 #include <vector>
+#include "avl.hpp"
 
 template<class Node>
 void printTree(Node *root)
@@ -38,9 +39,19 @@ int main()
     //     printTree(root->right);
     // }
     // system("leaks a.out");
-    std::map<int, int> map;
-    map[1] = 1;
-    std::pair<*int, bool> val;
-    val  = map.insert(std::make_pair(1,1));
+    // std::map<int, int> map;
+    // map[1] = 1;
+    // std::pair<*int, bool> val;
+    // val  = map.insert(std::make_pair(1,1));
+    Tree<int,int> tree;
+    Tree<int,int>::_Node *node = tree.newNode(new pair<const int,int>(10,1));
+    tree.insertNode(node);
+    node = tree.newNode(new pair<const int,int>(9,1));
+    tree.insertNode(node);
+    std::cout << "main "<< tree.size() << std::endl;
+    std::cout << "main "<< tree.search(10)->content->first << std::endl;
+    // TODO: segfault
+    std::cout << "main "<< tree.search(9)->content->first << std::endl;
+
     return 0;
 }
