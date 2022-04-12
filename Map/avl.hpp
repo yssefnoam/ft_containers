@@ -59,10 +59,10 @@ public:
         _Node *tmp = _root;
         while(tmp)
         {
-		std::cout << k << std::endl;
+            std::cout << "**" << std::endl;
             if (key(tmp) == k)
                 return tmp;
-            if (_ft_compare(k, key(tmp)))
+            if (!_ft_compare(key(tmp), k))
                 tmp = left(tmp);
             else
                 tmp = right(tmp);
@@ -70,29 +70,26 @@ public:
         return NULL;
     }
 
-	_Node* parent(_Node *node)
-	{
-		if (empty() || size() == 1)
-			return NULL;
+    _Node *parent(_Node *node)
+    {
+        if (empty() || size() == 1)
+            return NULL;
 
         _Node *tmp = _root;
-        while(right(tmp) != node && left(tmp) != node)
+        while (right(tmp) != node && left(tmp) != node)
         {
-            if (_ft_compare(key(node), key(tmp)))
+            if (!_ft_compare(key(tmp), key(node)))
                 tmp = left(tmp);
             else
                 tmp = right(tmp);
         }
         return tmp;
-
-	}
+    }
 
     bool	insertNode(_Node *node)
 	{
 		bool	rightOrLeft = false;
 
-		if(search(key(node)))
-			return false;
 		_size++;
 		if (empty())
 		{
@@ -103,18 +100,20 @@ public:
         _Node *tmpParent = NULL;
         while(tmpChild)
         {
-            if (_ft_compare(key(node), key(tmpChild)))
-			{
+            if (!_ft_compare(key(tmpChild), key(node)))
+            {
 				rightOrLeft = true;
 				tmpParent = tmpChild;
                 tmpChild = left(tmpChild);
 			}
-			else
+			else if(!_ft_compare(key(tmpChild), key(node)))
 			{
 				rightOrLeft = false;
 				tmpParent = tmpChild;
                 tmpChild = right(tmpChild);
 			}
+            else 
+                reutn ;
         }
 		rightOrLeft ? tmpParent->right = node : tmpParent->left = node;
 		return true;

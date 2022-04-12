@@ -7,15 +7,16 @@
 #include <map>
 #include <vector>
 #include "avl.hpp"
+#include <functional>
 
 template<class Node>
-void printTree(Node *root)
+void printTree(Node *root, std::string str)
 {
     if(root!=NULL)
     {
-        printTree(root->left);
-        printTree(root->right);
-        std::cout << root->content.first << std::endl;
+        printTree(root->left, "left");
+        printTree(root->right, "right");
+        std::cout << str << " "<<root->content->first << std::endl;
     }
 }
 
@@ -46,12 +47,22 @@ int main()
     Tree<int,int> tree;
     Tree<int,int>::_Node *node = tree.newNode(new pair<const int,int>(10,1));
     tree.insertNode(node);
-    node = tree.newNode(new pair<const int,int>(9,1));
+    node = tree.newNode(new pair<const int,int>(11,1));
     tree.insertNode(node);
-    std::cout << "main "<< tree.size() << std::endl;
-    std::cout << "main "<< tree.search(10)->content->first << std::endl;
-    // TODO: segfault
-    std::cout << "main "<< tree.search(9)->content->first << std::endl;
-
+    node = tree.newNode(new pair<const int,int>(12,1));
+    tree.insertNode(node);
+    // std::cout << "-----------" << std::endl;
+    printTree(tree.root(), "root");
+    // if(tree.root()->right)
+        // std::cout << "left" << std::endl;
+    // if (tree.search(11))
+        // std::cout << tree.search(11)->content->first << std::endl;
+    // // TODO: segfault
+    // std::cout << "--------------" << std::endl;
+    // node = tree.search(9);
+    // if (node)
+    //     std::cout << "true" << std::endl;
+    // else
+    //     std::cout << "false" << std::endl;
     return 0;
 }
