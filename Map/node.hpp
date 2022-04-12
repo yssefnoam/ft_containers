@@ -6,11 +6,11 @@
 template <class Pair>
 struct Node
 {
-    Pair content;
+    Pair *content;
     Node *left;
     Node *right;
 
-    Node(Pair cnt) : content(cnt), left(NULL), right(NULL) {}
+    Node(Pair *cnt) : content(cnt), left(NULL), right(NULL) {}
 };
 
 #endif

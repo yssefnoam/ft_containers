@@ -18,20 +18,22 @@ private:
     typedef typename allocator_type::pointer pointer;
     typedef typename allocator_type::const_pointer const_pointer;
 
+    typedef Node<value_type> _Node;
+
 private:
-    Node<value_type> *_root;
+    _Node *_root;
 
 public:
     Tree() : _root(NULL) {}
     ~Tree() {}
 
-    Node<value_type> *newNode(value_type p) { return new Node<value_type>(p); }
+    _Node *newNode(value_type *p) { return new _Node(p); }
 
     bool empty() { return _root ? false : true; }
 
-    Node<value_type> *left(Node<value_type> *node) { return node->left; }
+    _Node *left(_Node *node) { return node->left; }
 
-    Node<value_type> *right(Node<value_type> *node) { return node->right; }
+    _Node *right(_Node *node) { return node->right; }
 };
 
 #endif
