@@ -87,12 +87,25 @@ public:
     void rotateLeft(_Node *node)
     {
         _Node *node_parent = parent(node);
-        _Node *tmp = NULL;
-        if (parent)
+        _Node *child = NULL;
+        // normal Node
+        if (node_parent)
         {
-            if (left(node)->right)
+            if (right(node_parent) == node)
             {
-                tmp = left(node) > right;
+                (right(node_parent)) = right(node);
+                (right(node)) = NULL;
+                (left(right(node_parent))) = node;
+            }
+        }
+        // root Node
+        if (node_parent)
+        {
+            if (right(node_parent) == node)
+            {
+                (right(node_parent)) = right(node);
+                (right(node)) = NULL;
+                (left(right(node_parent))) = node;
             }
         }
     }
