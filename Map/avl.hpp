@@ -23,7 +23,7 @@ public:
 
 private:
     _Node *_root;
-	size_type _size;
+    size_type _size;
     key_compare _ft_compare;
 
 public:
@@ -39,27 +39,26 @@ public:
     _Node *right(_Node *node) { return node->right; }
 
     key_type &key(_Node *node) { return node->content->first; }
-    
+
+    size_type size() { return _size; }
+
+    _Node *root() { return _root; }
+
     size_type height(_Node *node)
     {
         if (!node)
-            return 1;
-        size_type right =  height(right(node));
-        size_type left =  height(left(node));
+            return 0;
+        size_type r = height(right(node));
+        size_type l = height(left(node));
 
-        return (right >= left ? right : left) + 1;
+        return (r >= l ? r : l) + 1;
     }
 
-	size_type size() { return _size; }
-
-	_Node *root() { return _root; }
-
-	_Node* search(key_type k)
+    _Node *search(key_type k)
     {
         _Node *tmp = _root;
-        while(tmp)
+        while (tmp)
         {
-            std::cout << "**" << std::endl;
             if (key(tmp) == k)
                 return tmp;
             if (!_ft_compare(key(tmp), k))
@@ -72,9 +71,8 @@ public:
 
     _Node *parent(_Node *node)
     {
-        if (empty() || size() == 1)
+        if (node == _root)
             return NULL;
-
         _Node *tmp = _root;
         while (right(tmp) != node && left(tmp) != node)
         {
@@ -86,38 +84,43 @@ public:
         return tmp;
     }
 
-    bool	insertNode(_Node *node)
-	{
-		bool	rightOrLeft = false;
-
-		_size++;
-		if (empty())
-		{
-			_root = node;
-			return true;
-		}
-        _Node *tmpChild = _root;
-        _Node *tmpParent = NULL;
-        while(tmpChild)
+    bool addNode(_Node *node)
+    {
+        _size++;
+        if (empty())
         {
-            if (!_ft_compare(key(tmpChild), key(node)))
-            {
-				rightOrLeft = true;
-				tmpParent = tmpChild;
-                tmpChild = left(tmpChild);
-			}
-			else if(!_ft_compare(key(tmpChild), key(node)))
-			{
-				rightOrLeft = false;
-				tmpParent = tmpChild;
-                tmpChild = right(tmpChild);
-			}
-            else 
-                reutn ;
+            _root = node;
+            return true;
         }
-		rightOrLeft ? tmpParent->right = node : tmpParent->left = node;
-		return true;
-	}
+        _Node *tmp = _root;
+        while (tmp)
+        {
+            if (_ft_compare(key(tmp), key(node)))
+            {
+                if (!right(tmp))
+                {
+                    tmp->right = node;
+                    return true;
+                }
+                tmp = right(tmp);
+            }
+            else if (!_ft_compare(key(tmp), key(node)))
+            {
+                if (!left(tmp))
+                {
+                    tmp->left = node;
+                    return true;
+                }
+                tmp = left(tmp);
+            }
+            else
+            {
+                _size--;
+                return false;
+            }
+        }
+        return true;
+    }
 };
 
 #endif
