@@ -84,6 +84,19 @@ public:
         return tmp;
     }
 
+    void rotateLeft(_Node *node)
+    {
+        _Node *node_parent = parent(node);
+        _Node *tmp = NULL;
+        if (parent)
+        {
+            if (left(node)->right)
+            {
+                tmp = left(node) > right;
+            }
+        }
+    }
+
     bool addNode(_Node *node)
     {
         _size++;

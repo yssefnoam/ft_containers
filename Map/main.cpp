@@ -25,13 +25,13 @@ int main()
     {
         Tree<int, int> tree;
         tree.addNode(tree.newNode(new pair<const int, int>(10, 1)));
-        tree.addNode(tree.newNode(new pair<const int, int>(11, 2)));
-        tree.addNode(tree.newNode(new pair<const int, int>(8, 4)));
-        tree.addNode(tree.newNode(new pair<const int, int>(7, 4)));
-        tree.addNode(tree.newNode(new pair<const int, int>(5, 4)));
-        tree.addNode(tree.newNode(new pair<const int, int>(6, 4)));
+        // tree.addNode(tree.newNode(new pair<const int, int>(11, 2)));
         tree.addNode(tree.newNode(new pair<const int, int>(9, 3)));
-        std::cout << tree.size() << std::endl;
+        tree.addNode(tree.newNode(new pair<const int, int>(8, 4)));
+        // tree.addNode(tree.newNode(new pair<const int, int>(7, 4)));
+        // tree.addNode(tree.newNode(new pair<const int, int>(5, 4)));
+        // tree.addNode(tree.newNode(new pair<const int, int>(6, 4)));
+        // std::cout << tree.size() << std::endl;
         std::cout << tree.height(tree.root()->left) << std::endl;
         std::cout << tree.height(tree.root()->right) << std::endl;
     }
