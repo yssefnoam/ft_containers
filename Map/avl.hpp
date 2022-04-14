@@ -84,34 +84,60 @@ public:
         return tmp;
     }
 
-    void rotateLeft(_Node *node)
-    {
-        _Node *node_parent = parent(node);
-        // normal Node
-        if (node_parent)
-        {
-            node_parent->right = right(node);
-            node->right = NULL;
-            node_parent->right->left = node;
-        }
-        // root Node
-        else
-        {
-            node->right->left = _root;
-            _root = node->right;
-            _root->left->right = NULL;
-        }
-    }
+    // void rotateLeft(_Node *node)
+    // {
+    //     // _Node *node_parent = parent(node);
+    //     // // normal Node
+    //     // if (node_parent)
+    //     // {
+
+    //     // }
+    //     // // root Node
+    //     // else
+    //     // {
+    //     //     node->right->left = _root;
+    //     //     _root = node->right;
+    //     //     _root->left->right = NULL;
+    //     // }
+    // }
+
 
     void rotateRight(_Node *node)
     {
-        _Node *node_parent = parent(node);
+        _Node *p = parent(node);
+        _Node **parent_var = NULL;
+        _Node *child = NULL;
+        _Node *child2 = NULL;
         // normal Node
         if (node_parent)
         {
-            node_parent->left = left(node);
-            node->left = NULL;
-            node_parent->left->right = node;
+            p->right == node ? parent_var = &(p->right) : parent_var = &(p->left);
+            //         ()
+            //       ()
+            //     ()
+
+            //       ()
+            //     ()
+            //       ()
+            if (height(right(node)) < height(left(node)))
+            {
+                child = left(node);
+
+                if (height(right(child)) > height(left(child)))
+                {
+                }
+            }
+            //     ()
+            //       ()
+            //         ()
+
+            //     ()
+            //       ()
+            //     ()
+            else
+            {
+
+            }
         }
         // root Node
         else

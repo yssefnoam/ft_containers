@@ -41,9 +41,11 @@ public:
     // it++
     myIter operator++(int) { myIter _tmp = *this; _base++; return _tmp; }
 
-    bool operator==(const myIter &other) { return (_base == other._base); }
+    template <class T>
+    bool operator==(const myIter<T> &other) { return (_base == other.base()); }
 
-    bool operator!=(const myIter &other) { return !operator==(other); }
+    template <class T>
+    bool operator!=(const myIter<T> &other) { return !operator==(other); }
 
     reference operator*() const  { return *_base; }
 
@@ -57,15 +59,20 @@ public:
 
     void operator+=(int a) { _base += a;}
 
-    difference_type operator-(myIter other) { return _base - other._base; }
+    template <class T>
+    difference_type operator-(myIter<T> other) { return _base - other.base(); }
 
-    bool operator<(const myIter &other) { return _base < other._base; }
+    template <class T>
+    bool operator<(const myIter<T> &other) { return _base < other._base; }
 
-    bool operator>(const myIter &other) { return _base > other._base; }
+    template <class T>
+    bool operator>(const myIter<T> &other) { return _base > other._base; }
 
-    bool operator<=(const myIter &other) { return _base <= other._base; }
+    template <class T>
+    bool operator<=(const myIter<T> &other) { return _base <= other._base; }
 
-    bool operator>=(const myIter &other) { return _base >= other._base; }
+    template <class T>
+    bool operator>=(const myIter<T> &other) { return _base >= other._base; }
 
     reference operator[](int index) { return *(_base + index);}
 
