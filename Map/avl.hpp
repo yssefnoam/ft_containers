@@ -87,26 +87,38 @@ public:
     void rotateLeft(_Node *node)
     {
         _Node *node_parent = parent(node);
-        _Node *child = NULL;
         // normal Node
         if (node_parent)
         {
-            if (right(node_parent) == node)
-            {
-                (right(node_parent)) = right(node);
-                (right(node)) = NULL;
-                (left(right(node_parent))) = node;
-            }
+            node_parent->right = right(node);
+            node->right = NULL;
+            node_parent->right->left = node;
         }
         // root Node
+        else
+        {
+            node->right->left = _root;
+            _root = node->right;
+            _root->left->right = NULL;
+        }
+    }
+
+    void rotateRight(_Node *node)
+    {
+        _Node *node_parent = parent(node);
+        // normal Node
         if (node_parent)
         {
-            if (right(node_parent) == node)
-            {
-                (right(node_parent)) = right(node);
-                (right(node)) = NULL;
-                (left(right(node_parent))) = node;
-            }
+            node_parent->left = left(node);
+            node->left = NULL;
+            node_parent->left->right = node;
+        }
+        // root Node
+        else
+        {
+            node->left->right = _root;
+            _root = node->left;
+            _root->right->left = NULL;
         }
     }
 
@@ -126,6 +138,7 @@ public:
                 if (!right(tmp))
                 {
                     tmp->right = node;
+                    // TODO: calculate height and retate if needed
                     return true;
                 }
                 tmp = right(tmp);
