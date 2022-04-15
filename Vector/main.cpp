@@ -44,10 +44,10 @@ int main()
     //      if (str == ft_str)
     //         std::cout<< "Wooorkssss" << std::endl;
     // }
-    ft::vector<int> vec;
-    ft::vector<int>::iterator it = vec.begin();
-    ft::vector<int>::const_iterator cit = vec.begin();
-    if (it == cit)
-        std::cout << "true" << std::endl;
+    ft::vector<int> v(4,4);
+
+    v.resize(50);
+    std::cout << v.capacity()<< std::endl;
+
 
 }
