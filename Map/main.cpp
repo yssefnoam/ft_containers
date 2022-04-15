@@ -25,15 +25,15 @@ int main()
 {
     {
         Tree<int, int> tree;
-        tree.addNode(tree.newNode(new pair<const int, int>(10, 1)));
-        tree.addNode(tree.newNode(new pair<const int, int>(8, 3)));
-        tree.addNode(tree.newNode(new pair<const int, int>(9, 3)));
-        tree.addNode(tree.newNode(new pair<const int, int>(12, 4)));
-        tree.addNode(tree.newNode(new pair<const int, int>(11, 3)));
+        tree.insert(new pair<const int, int>(15, 1));
+        tree.insert(new pair<const int, int>(11, 1));
+        tree.insert(new pair<const int, int>(10, 1));
+
         printTree(tree.root(), 0, "root");
-        tree.rotateRight((tree.root())->right);
         SEPARATE
+        tree.test();
         printTree(tree.root(), 0, "root");
+        SEPARATE
     }
     // system("leaks a.out");
     return 0;
