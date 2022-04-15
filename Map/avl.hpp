@@ -61,10 +61,10 @@ public:
         {
             if (key(tmp) == k)
                 return tmp;
-            if (!_ft_compare(key(tmp), k))
-                tmp = left(tmp);
-            else
+            if (_ft_compare(key(tmp), k))
                 tmp = right(tmp);
+            else
+                tmp = left(tmp);
         }
         return NULL;
     }
@@ -84,108 +84,103 @@ public:
         return tmp;
     }
 
-    // void rotateLeft(_Node *node)
-    // {
-    //     // _Node *node_parent = parent(node);
-    //     // // normal Node
-    //     // if (node_parent)
-    //     // {
-
-    //     // }
-    //     // // root Node
-    //     // else
-    //     // {
-    //     //     node->right->left = _root;
-    //     //     _root = node->right;
-    //     //     _root->left->right = NULL;
-    //     // }
-    // }
-
-
-    void rotateRight(_Node *node)
+    _Node *rightRotation(_Node *node)
     {
-        _Node *p = parent(node);
-        _Node **parent_var = NULL;
-        _Node *child = NULL;
-        _Node *child2 = NULL;
-        // normal Node
-        if (node_parent)
+        _Node *child = left(node);
+        node->left = NULL;
+        child->right = node;
+        return child;
+    }
+
+    _Node *leftRotation(_Node *node)
+    {
+        _Node *child = right(node);
+        node->right = NULL;
+        child->left = node;
+        return child;
+    }
+
+    void rotate(_Node *node)
+    {
+        int rhs = height(node->right);
+        int lhs = height(node->left);
+
+        if (rhs - lhs > 1) // left rotation
         {
-            p->right == node ? parent_var = &(p->right) : parent_var = &(p->left);
-            //         ()
-            //       ()
-            //     ()
-
-            //       ()
-            //     ()
-            //       ()
-            if (height(right(node)) < height(left(node)))
-            {
-                child = left(node);
-
-                if (height(right(child)) > height(left(child)))
-                {
-                }
-            }
-            //     ()
-            //       ()
-            //         ()
-
-            //     ()
-            //       ()
-            //     ()
-            else
-            {
-
-            }
         }
-        // root Node
-        else
+        else if (rhs - lhs < -1) // right rotation
         {
-            node->left->right = _root;
-            _root = node->left;
-            _root->right->left = NULL;
         }
     }
 
-    bool addNode(_Node *node)
+    _Node *insertNode(_Node *node, value_type *p)
     {
-        _size++;
-        if (empty())
-        {
-            _root = node;
-            return true;
-        }
-        _Node *tmp = _root;
-        while (tmp)
-        {
-            if (_ft_compare(key(tmp), key(node)))
-            {
-                if (!right(tmp))
-                {
-                    tmp->right = node;
-                    // TODO: calculate height and retate if needed
-                    return true;
-                }
-                tmp = right(tmp);
-            }
-            else if (!_ft_compare(key(tmp), key(node)))
-            {
-                if (!left(tmp))
-                {
-                    tmp->left = node;
-                    return true;
-                }
-                tmp = left(tmp);
-            }
-            else
-            {
-                _size--;
-                return false;
-            }
-        }
+        if (node == NULL)
+            return newNode(p);
+
+        if (_ft_compare(key(node), p->first))
+            node->right = insertNode(node->right, p);
+        else
+            node->left = insertNode(node->left, p);
+        
+        rotate(node);
+
+        return node;
+    }
+
+    bool insert(value_type *p)
+    {
+        if (!p)
+            return false;
+        if (search(p->first))
+            return false;
+        _root = insertNode(_root, p);
+        ++_size;
         return true;
     }
+    void test()
+    {
+        // _root = leftRotation(_root);
+        _root = rightRotation(_root);
+    }
+    // bool addNode(_Node *node)
+    // {
+    //     _size++;
+    //     if (empty())
+    //     {
+    //         _root = node;
+    //         return true;
+    //     }
+    //     _Node *tmp = _root;
+    //     while (tmp)
+    //     {
+    //         if (_ft_compare(key(tmp), key(node)))
+    //         {
+    //             if (!right(tmp))
+    //             {
+    //                 tmp->right = node;
+    //                 // TODO: calculate height and retate if needed
+    //                 return true;
+    //             }
+    //             tmp = right(tmp);
+    //         }
+    //         else if (!_ft_compare(key(tmp), key(node)))
+    //         {
+    //             if (!left(tmp))
+    //             {
+    //                 tmp->left = node;
+    //                 return true;
+    //             }
+    //             tmp = left(tmp);
+    //         }
+    //         else
+    //         {
+    //             _size--;
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 };
 
 #endif
