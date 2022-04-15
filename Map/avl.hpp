@@ -90,9 +90,12 @@ public:
         // normal Node
         if (node_parent)
         {
-            node_parent->right = right(node);
-            node->right = NULL;
-            node_parent->right->left = node;
+            if (right(node_parent) == node)
+            {
+                node_parent->right = right(node);
+                node->right = NULL;
+                node_parent->right->left = node;
+            }
         }
         // root Node
         else
