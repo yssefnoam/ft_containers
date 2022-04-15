@@ -4,3 +4,6 @@ main1:
 	@ echo "---------std--------" && c++  -D NS=std $(DEBUG) $(FLAG) main1.cpp && ./a.out && rm -fr a.out a.out.*
 main2: 
 	@ echo "---------std--------" && c++  -D NS=std $(DEBUG) $(FLAG) main2.cpp && ./a.out && rm -fr a.out a.out.*
+
+main: 
+	@ echo "---------std--------" && c++  -D NS=std $(DEBUG) $(FLAG) main.cpp && ./a.out && rm -fr a.out a.out.*

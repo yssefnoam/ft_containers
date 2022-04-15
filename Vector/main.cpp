@@ -17,32 +17,37 @@ time_t get_time(void)
 }
 int main()
 {
-       {        std::string str, ft_str;
-            std::vector<std::string> v(20, "string");
-            ft::vector<std::string> ft_v(20, "string");
+    //    {        std::string str, ft_str;
+    //         std::vector<std::string> v(20, "string");
+    //         ft::vector<std::string> ft_v(20, "string");
 
-        std::cout  << "size = " << v.size() << "\n";
-        std::cout  << "Address = " << &(*v.begin()) << "\n";
+    //     std::cout  << "size = " << v.size() << "\n";
+    //     std::cout  << "Address = " << &(*v.begin()) << "\n";
 
-        std::cout  << "ft size = " << ft_v.size() << "\n";
-        std::cout  << "ft Address = " << &(*ft_v.begin()) << "\n";
-            v.insert(v.begin() + 10, 100, "hello");
-            ft_v.insert(ft_v.begin() + 10, 100, "hello");
-        std::cout  << "size = " << v.size() << "\n";
-        std::cout  << "Address = " << &(*v.begin()) << "\n";
+    //     std::cout  << "ft size = " << ft_v.size() << "\n";
+    //     std::cout  << "ft Address = " << &(*ft_v.begin()) << "\n";
+    //         v.insert(v.begin() + 10, 100, "hello");
+    //         ft_v.insert(ft_v.begin() + 10, 100, "hello");
+    //     std::cout  << "size = " << v.size() << "\n";
+    //     std::cout  << "Address = " << &(*v.begin()) << "\n";
         
-        std::cout  << "ft size = " << ft_v.size() << "\n";
-        std::cout  << "ft Address = " << &(*ft_v.begin()) << "\n";
-        //  ft::vector <int>::iterator lkabi =  v.erase(v.begin() + 4, v.begin() + 10);
-        for (size_t i = 0; i < v.size(); ++i)
-                str += v[i];
-            for (size_t i = 0; i < ft_v.size(); ++i)
-                ft_str += ft_v[i];
+    //     std::cout  << "ft size = " << ft_v.size() << "\n";
+    //     std::cout  << "ft Address = " << &(*ft_v.begin()) << "\n";
+    //     //  ft::vector <int>::iterator lkabi =  v.erase(v.begin() + 4, v.begin() + 10);
+    //     for (size_t i = 0; i < v.size(); ++i)
+    //             str += v[i];
+    //         for (size_t i = 0; i < ft_v.size(); ++i)
+    //             ft_str += ft_v[i];
 
-         std::cout << str<<  std::endl << std::endl;
-         std::cout << ft_str<<  std::endl;
-         if (str == ft_str)
-            std::cout<< "Wooorkssss" << std::endl;
-    }
+    //      std::cout << str<<  std::endl << std::endl;
+    //      std::cout << ft_str<<  std::endl;
+    //      if (str == ft_str)
+    //         std::cout<< "Wooorkssss" << std::endl;
+    // }
+    ft::vector<int> vec;
+    ft::vector<int>::iterator it = vec.begin();
+    ft::vector<int>::const_iterator cit = vec.begin();
+    if (it == cit)
+        std::cout << "true" << std::endl;
 
 }
