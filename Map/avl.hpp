@@ -122,7 +122,7 @@ public:
     }
     
 
-    _Node* rotate(_Node *node)
+    _Node* balance(_Node *node)
     {
         int rh = height(node->right);
         int lh = height(node->left);
@@ -157,7 +157,7 @@ public:
             node->right = insert(node->right, p);
         else
             node->left = insert(node->left, p);
-        node = rotate(node);
+        node = balance(node);
         return node;
     }
 
@@ -211,48 +211,32 @@ public:
         else
             node->left = remove(node->left, k);
 
-        node = rotate(node);
+        node = balance(node);
         return node;
     }
 
-    void remove(key_type k)
+    bool remove(key_type &k)
     {
+        if (!search(k))
+            return false;
         _root = remove(_root, k);
+        --_size;
+        return true;
+    }
+
+    bool change(key_type k, mapped_type newValue)
+    {
+        _Node* node = search(k);
+        if (!node)
+            return false;
+        node->content->second = newValue;
+        return true;
     }
     void test()
     {
-        remove(7);
+        std::cout << std::boolalpha;
+        std::cout << change(5,10) << std::endl;
         int a = 0;
-        while(a<5)
-        {
-            printTree(_root, 0, a++);
-            std::cout << std::endl;
-        }
-
-        remove(0);
-        a = 0;
-        while(a<5)
-        {
-            printTree(_root, 0, a++);
-            std::cout << std::endl;
-        }
-        remove(2);
-        a = 0;
-        while(a<5)
-        {
-            printTree(_root, 0, a++);
-            std::cout << std::endl;
-        }
-
-        remove(3);
-        a = 0;
-        while(a<5)
-        {
-            printTree(_root, 0, a++);
-            std::cout << std::endl;
-        }
-        remove(4);
-        a = 0;
         while(a<5)
         {
             printTree(_root, 0, a++);

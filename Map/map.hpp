@@ -27,7 +27,7 @@ namespace ft
 		typedef size_t size_type;
 
 	private:
-		Tree<Key, T> *avl;
+		Tree<Key, T, key_compare, allocator_type> *avl;
 
 		// size_type _size;
 		// key_compare _ft_compare;

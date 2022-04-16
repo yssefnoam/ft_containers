@@ -3,7 +3,7 @@
 #include <iostream> // std::cout
 #include "node.hpp"
 #include "make_pair.hpp"
-// #include "map.hpp"
+#include "map.hpp"
 #include <map>
 #include <vector>
 #include "avl.hpp"
@@ -18,7 +18,8 @@ void printTree(Node *root, int level, int lvl)
     {
         printTree(root->left, level + 1, lvl);
         if (lvl == level)
-            std::cout << root->content->first << " " ;
+            std::cout << "(" << root->content->first << "," << root->content->second << ")"
+                      << " ";
         printTree(root->right, level + 1, lvl);
     }
 }
@@ -26,7 +27,7 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        Tree<int, int> tree;
+        ft::Tree<int, int> tree;
         tree.insert(new pair<const int, int>(5, 1));
         tree.insert(new pair<const int, int>(6, 1));
         tree.insert(new pair<const int, int>(3, 1));
