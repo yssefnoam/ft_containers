@@ -10,14 +10,16 @@
 #include <functional>
 #define SEPARATE std::cout << "-------------" << std::endl;
 
+
 template<class Node>
-void printTree(Node *root, int level, std::string str)
+void printTree(Node *root, int level, int lvl)
 {
     if(root!=NULL)
     {
-        printTree(root->left, level + 1, "left");
-        std::cout << "level = " << level << " " << root->content->first << "; " << str << std::endl;
-        printTree(root->right, level + 1, "right");
+        printTree(root->left, level + 1, -1);
+        if (lvl == level)
+            std::cout << root->content->first << " " ;
+        printTree(root->right, level + 1, -1);
     }
 }
 
@@ -25,15 +27,28 @@ int main()
 {
     {
         Tree<int, int> tree;
-        tree.insert(new pair<const int, int>(15, 1));
-        tree.insert(new pair<const int, int>(11, 1));
-        tree.insert(new pair<const int, int>(10, 1));
+        tree.insert(new pair<const int, int>(5, 1));
+        tree.insert(new pair<const int, int>(6, 1));
+        tree.insert(new pair<const int, int>(3, 1));
+        tree.insert(new pair<const int, int>(4, 1));
+        tree.insert(new pair<const int, int>(1, 1));
+        tree.insert(new pair<const int, int>(2, 1));
+        tree.insert(new pair<const int, int>(0, 1));
+        tree.insert(new pair<const int, int>(-1, 1));
+        tree.insert(new pair<const int, int>(-2, 1));
 
-        printTree(tree.root(), 0, "root");
-        SEPARATE
-        tree.test();
-        printTree(tree.root(), 0, "root");
-        SEPARATE
+        int a = 0;
+        while(a)
+        {
+            printTree(tree.root(), 0, a++);
+            std::cout << std::endl;
+
+
+        }
+        // SEPARATE
+        // tree.test();
+        // printTree(tree.root(), 0, "root");
+        // SEPARATE
     }
     // system("leaks a.out");
     return 0;

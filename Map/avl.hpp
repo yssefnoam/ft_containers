@@ -86,45 +86,78 @@ public:
 
     _Node *rightRotation(_Node *node)
     {
-        _Node *child = left(node);
-        node->left = NULL;
-        child->right = node;
-        return child;
+        _Node *newParent = left(node);
+        node->left = right(newParent);
+        newParent->right = node;
+        return newParent;
     }
 
     _Node *leftRotation(_Node *node)
     {
-        _Node *child = right(node);
-        node->right = NULL;
-        child->left = node;
-        return child;
+        _Node *newParent = right(node);
+        node->right = left(newParent);
+        newParent->left = node;
+        return newParent;
     }
-
-    void rotate(_Node *node)
+    _Node *rightRightCase(_Node *node)
     {
-        int rhs = height(node->right);
-        int lhs = height(node->left);
-
-        if (rhs - lhs > 1) // left rotation
-        {
-        }
-        else if (rhs - lhs < -1) // right rotation
-        {
-        }
+        return leftRotation(node);
     }
 
-    _Node *insertNode(_Node *node, value_type *p)
+    _Node *rightLeftCase(_Node *node)
+    {
+        node->right = rightRotation(node->right);
+        return rightRightCase(node);
+    }
+
+    _Node *leftLeftCase(_Node *node)
+    {
+        return rightRotation(node);
+    }
+
+    _Node *leftRightCase(_Node *node)
+    {
+        node->left = leftRotation(node->left);
+        return leftLeftCase(node);
+    }
+    
+
+    _Node* rotate(_Node *node)
+    {
+        int rh = height(node->right);
+        int lh = height(node->left);
+
+        if (rh - lh > 1) // left rotation
+        {
+            rh = height(node->right->right);
+            lh = height(node->right->left);
+            if (rh - lh >= 0)
+                return rightRightCase(node);
+            else
+                return rightLeftCase(node);
+        }
+        else if (rh - lh < -1) // right rotation
+        {
+            rh = height(node->left->right);
+            lh = height(node->left->left);
+            if (rh - lh <= 0)
+                return leftLeftCase(node);
+            else
+                return leftRightCase(node);
+        }
+        return node;
+    }
+
+    _Node *insert(_Node *node, value_type *p)
     {
         if (node == NULL)
             return newNode(p);
 
         if (_ft_compare(key(node), p->first))
-            node->right = insertNode(node->right, p);
+            node->right = insert(node->right, p);
         else
-            node->left = insertNode(node->left, p);
-        
-        rotate(node);
-
+            node->left = insert(node->left, p);
+        node = rotate(node);
         return node;
     }
 
@@ -134,53 +167,10 @@ public:
             return false;
         if (search(p->first))
             return false;
-        _root = insertNode(_root, p);
+        _root = insert(_root, p);
         ++_size;
         return true;
     }
-    void test()
-    {
-        // _root = leftRotation(_root);
-        _root = rightRotation(_root);
-    }
-    // bool addNode(_Node *node)
-    // {
-    //     _size++;
-    //     if (empty())
-    //     {
-    //         _root = node;
-    //         return true;
-    //     }
-    //     _Node *tmp = _root;
-    //     while (tmp)
-    //     {
-    //         if (_ft_compare(key(tmp), key(node)))
-    //         {
-    //             if (!right(tmp))
-    //             {
-    //                 tmp->right = node;
-    //                 // TODO: calculate height and retate if needed
-    //                 return true;
-    //             }
-    //             tmp = right(tmp);
-    //         }
-    //         else if (!_ft_compare(key(tmp), key(node)))
-    //         {
-    //             if (!left(tmp))
-    //             {
-    //                 tmp->left = node;
-    //                 return true;
-    //             }
-    //             tmp = left(tmp);
-    //         }
-    //         else
-    //         {
-    //             _size--;
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
 };
 
 #endif

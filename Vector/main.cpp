@@ -44,10 +44,5 @@ int main()
     //      if (str == ft_str)
     //         std::cout<< "Wooorkssss" << std::endl;
     // }
-    ft::vector<int> v(4,4);
-
-    v.resize(50);
-    std::cout << v.capacity()<< std::endl;
-
 
 }
