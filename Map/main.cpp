@@ -16,10 +16,10 @@ void printTree(Node *root, int level, int lvl)
 {
     if(root!=NULL)
     {
-        printTree(root->left, level + 1, -1);
+        printTree(root->left, level + 1, lvl);
         if (lvl == level)
             std::cout << root->content->first << " " ;
-        printTree(root->right, level + 1, -1);
+        printTree(root->right, level + 1, lvl);
     }
 }
 
@@ -36,15 +36,18 @@ int main()
         tree.insert(new pair<const int, int>(0, 1));
         tree.insert(new pair<const int, int>(-1, 1));
         tree.insert(new pair<const int, int>(-2, 1));
+        tree.insert(new pair<const int, int>(7, 1));
+        tree.insert(new pair<const int, int>(8, 1));
+
 
         int a = 0;
-        while(a)
+        while(a<5)
         {
             printTree(tree.root(), 0, a++);
             std::cout << std::endl;
-
-
         }
+        tree.test();
+        
         // SEPARATE
         // tree.test();
         // printTree(tree.root(), 0, "root");

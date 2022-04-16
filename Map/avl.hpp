@@ -171,6 +171,94 @@ public:
         ++_size;
         return true;
     }
+
+    _Node *smallestSuccessor(_Node *node)
+    {
+        if (!left(node))
+            return node;
+        return smallestSuccessor(node->left);
+    }
+
+    _Node *remove(_Node *node, key_type &k)
+    {
+        if (key(node) == k)
+        {
+            if (!right(node) && !left(node))
+            {
+                // node with 0 childrens
+                // delete node
+                return NULL;
+            }
+            else if (right(node) && left(node))
+            {
+                // node with 2 childrens
+                _Node *small = smallestSuccessor(right(node));
+                value_type *tmp = node->content;
+                node->content = small->content;
+                small->content = tmp;
+                node->right = remove(right(node), k);
+                return node;
+            }
+            else // node with 1 childrens
+            {
+                _Node *child = right(node) ? node->right : node->left;
+                // delete node
+                return child;
+            }
+        }
+        if (_ft_compare(key(node), k))
+            node->right = remove(node->right, k);
+        else
+            node->left = remove(node->left, k);
+
+        node = rotate(node);
+        return node;
+    }
+
+    void remove(key_type k)
+    {
+        _root = remove(_root, k);
+    }
+    void test()
+    {
+        remove(7);
+        int a = 0;
+        while(a<5)
+        {
+            printTree(_root, 0, a++);
+            std::cout << std::endl;
+        }
+
+        remove(0);
+        a = 0;
+        while(a<5)
+        {
+            printTree(_root, 0, a++);
+            std::cout << std::endl;
+        }
+        remove(2);
+        a = 0;
+        while(a<5)
+        {
+            printTree(_root, 0, a++);
+            std::cout << std::endl;
+        }
+
+        remove(3);
+        a = 0;
+        while(a<5)
+        {
+            printTree(_root, 0, a++);
+            std::cout << std::endl;
+        }
+        remove(4);
+        a = 0;
+        while(a<5)
+        {
+            printTree(_root, 0, a++);
+            std::cout << std::endl;
+        }
+    }
 };
 
 #endif
