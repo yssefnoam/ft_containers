@@ -27,32 +27,9 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        ft::Tree<int, int> tree;
-        tree.insert(new pair<const int, int>(5, 1));
-        tree.insert(new pair<const int, int>(6, 1));
-        tree.insert(new pair<const int, int>(3, 1));
-        tree.insert(new pair<const int, int>(4, 1));
-        tree.insert(new pair<const int, int>(1, 1));
-        tree.insert(new pair<const int, int>(2, 1));
-        tree.insert(new pair<const int, int>(0, 1));
-        tree.insert(new pair<const int, int>(-1, 1));
-        tree.insert(new pair<const int, int>(-2, 1));
-        tree.insert(new pair<const int, int>(7, 1));
-        tree.insert(new pair<const int, int>(8, 1));
-
-
-        int a = 0;
-        while(a<5)
-        {
-            printTree(tree.root(), 0, a++);
-            std::cout << std::endl;
-        }
-        tree.test();
-        
-        // SEPARATE
-        // tree.test();
-        // printTree(tree.root(), 0, "root");
-        // SEPARATE
+        std::map<int, std::string> m;
+        std::cout << std::boolalpha;
+        std::cout << m.empty() << std::endl;
     }
     // system("leaks a.out");
     return 0;

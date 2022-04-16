@@ -27,28 +27,25 @@ namespace ft
 		typedef size_t size_type;
 
 	private:
-		Tree<Key, T, key_compare, allocator_type> *avl;
+		Tree<Key, T, key_compare, allocator_type> avl;
 
-		// size_type _size;
-		// key_compare _ft_compare;
-		// allocator_type _allocator;
+		key_compare _ft_compare;
+		allocator_type _allocator;
 
 	public:
 		explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
-			// : _root(NULL)
-			// , _size()
-			// , _ft_compare(comp)
-			// , _allocator(alloc)
+		: _ft_compare(comp)
+		, _allocator(alloc)
 		{}
 
-		template <class InputIterator>
-		map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+		// template <class InputIterator>
+		// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
 
-		map(const map &x);
+		// map(const map &x);
 
 		// ~map();
 
-		map &operator=(const map &x);
+		// map &operator=(const map &x);
 
 		// iterator begin();
 		// const_iterator begin() const;
@@ -62,11 +59,11 @@ namespace ft
 		// reverse_iterator rend();
 		// const_reverse_iterator rend() const;
 
-		// bool empty() const { return !_size; }
+        bool empty() const { return avl.empty(); }
 
-		// size_type size() const { return _size; }
+        size_type size() const { return avl.size(); }
 
-		// size_type max_size() const { return _allocator.max_size(); }
+        // size_type max_size() const { return _allocator.max_size(); }
 
 		mapped_type &operator[](const key_type &k);
 

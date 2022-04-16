@@ -30,21 +30,21 @@ public:
     Tree() : _root(NULL), _size(0) {}
     ~Tree() {}
 
-    _Node *newNode(value_type *p) { return new _Node(p); }
+    _Node *newNode(value_type *p) const { return new _Node(p); }
 
-    bool empty() { return _root ? false : true; }
+    bool empty() const { return _root ? false : true; }
 
-    _Node *left(_Node *node) { return node->left; }
+    _Node *left(_Node *node) const { return node->left; }
 
-    _Node *right(_Node *node) { return node->right; }
+    _Node *right(_Node *node) const { return node->right; }
 
-    key_type &key(_Node *node) { return node->content->first; }
+    key_type &key(_Node *node) const { return node->content->first; }
 
-    size_type size() { return _size; }
+    size_type size() const { return _size; }
 
-    _Node *root() { return _root; }
+    _Node *root() const { return _root; }
 
-    size_type height(_Node *node)
+    size_type height(_Node *node) const
     {
         if (!node)
             return 0;
@@ -54,7 +54,7 @@ public:
         return (r >= l ? r : l) + 1;
     }
 
-    _Node *search(key_type k)
+    _Node *search(key_type k) const
     {
         _Node *tmp = _root;
         while (tmp)
@@ -69,7 +69,7 @@ public:
         return NULL;
     }
 
-    _Node *parent(_Node *node)
+    _Node *parent(_Node *node) const
     {
         if (node == _root)
             return NULL;
