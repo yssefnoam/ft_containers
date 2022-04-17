@@ -31,9 +31,22 @@ int main()
     // while(a != 3)
     //     std::cout << a << b << std::endl, a++, b++;
     {
-        std::map<int, std::string> m;
-        std::cout << m.max_size();
+        // ft::Tree<int, int> tree;
+        // tree.add(1,1);
+        // tree.add(2,1);
+        // tree.add(3,1);
+        // tree.add(1,1);
+        // // int a = 1;
+        // tree.remove(1);
+        // tree.change(2,2) = 2;
+        // std::cout << tree.size()<< std::endl;
+        // printTree(tree.root(),0,0);
+        // std::cout << std::endl;
+        // printTree(tree.root(),0,1);
+        // std::cout << std::endl;
+        int a = 1;
+        std::cout << a;
     }
-    // system("leaks a.out");
+    system("leaks a.out");
     return 0;
 }

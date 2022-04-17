@@ -43,11 +43,18 @@ public:
 
     allocator_type get_allocator() const { return _allocator; }
 
-    node_pointer newNode(pointer p) const
+    node_pointer newNode(pointer p) 
     {
         node_pointer node = _node_allocator.allocate(1);
         _node_allocator.construct(node, _Node(p));
         return node;
+    }
+
+    pointer newPair(key_type k, mapped_type m) 
+    {
+        pointer p = _allocator.allocate(1);
+        _allocator.construct(p, value_type(k, m));
+        return p;
     }
 
     bool empty() const { return _root ? false : true; }
@@ -56,7 +63,7 @@ public:
 
     node_pointer right(node_pointer node) const { return node->right; }
 
-    key_type &key(node_pointer node) const { return node->content->first; }
+    key_type key(node_pointer node) { return node->content->first; }
 
     size_type size() const { return _size; }
 
@@ -72,7 +79,7 @@ public:
         return (r >= l ? r : l) + 1;
     }
 
-    node_pointer search(key_type k) const
+    node_pointer search(key_type k)
     {
         node_pointer tmp = _root;
         while (tmp)
@@ -174,22 +181,45 @@ public:
         return node;
     }
 
-    bool insert(pointer p)
+    bool add(key_type first, mapped_type second)
     {
-        if (!p)
+        if (search(first))
             return false;
-        if (search(p->first))
-            return false;
+        pointer p = newPair(first, second);
         _root = insert(_root, p);
         ++_size;
         return true;
     }
+
+    // bool insert(pointer p)
+    // {
+    //     if (!p)
+    //         return false;
+    //     if (search(p->first))
+    //         return false;
+    //     _root = insert(_root, p);
+    //     ++_size;
+    //     return true;
+    // }
 
     node_pointer smallestSuccessor(node_pointer node)
     {
         if (!left(node))
             return node;
         return smallestSuccessor(node->left);
+    }
+
+    void destroyPair(pointer p)
+    {
+        _allocator.destroy(p);
+        _allocator.deallocate(p, 1);
+    }
+    void destroyNode(node_pointer node)
+    {
+        destroyPair(node->content);
+        node->content = NULL;
+        _node_allocator.destroy(node);
+        _node_allocator.deallocate(node, 1);
     }
 
     node_pointer remove(node_pointer node, key_type &k)
@@ -199,7 +229,7 @@ public:
             if (!right(node) && !left(node))
             {
                 // node with 0 childrens
-                // delete node
+                destroyNode(node);
                 return NULL;
             }
             else if (right(node) && left(node))
@@ -215,7 +245,7 @@ public:
             else // node with 1 childrens
             {
                 node_pointer child = right(node) ? node->right : node->left;
-                // delete node
+                destroyNode(node);
                 return child;
             }
         }
@@ -228,7 +258,7 @@ public:
         return node;
     }
 
-    bool remove(const key_type &k)
+    bool remove(key_type k)
     {
         if (!search(k))
             return false;
@@ -239,13 +269,13 @@ public:
 
     size_type max_size() const { return _node_allocator.max_size(); }
 
-    bool change(key_type k, mapped_type newValue)
+    mapped_type &change(key_type k, mapped_type m)
     {
         node_pointer node = search(k);
         if (!node)
-            return false;
-        node->content->second = newValue;
-        return true;
+            add(k, m);
+        node = search(k);
+        return node->content->second;
     }
     void test()
     {

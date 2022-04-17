@@ -33,9 +33,9 @@ namespace ft
 		allocator_type _allocator;
 
 	public:
+
 		explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
-		: _ft_compare(comp)
-		, _allocator(alloc)
+			: _ft_compare(comp), _allocator(alloc)
 		{}
 
 		// template <class InputIterator>
@@ -65,7 +65,7 @@ namespace ft
 
         size_type max_size() const { return avl.max_size(); }
 
-		mapped_type &operator[](const key_type &k);
+		mapped_type &operator[](const key_type &k) { return avl.change(k, mapped_type()); }
 
 		// pair<iterator, bool> insert(const value_type &val);
 		// iterator insert(iterator position, const value_type &val);
@@ -80,8 +80,20 @@ namespace ft
 
 		void clear();
 
-		key_compare key_comp() const;
+		key_compare key_comp() const { return _ft_compare; }
 
+		class value_compare
+		{
+		protected:
+			Compare comp;
+			value_compare(key_compare c) : comp(c) {}
+
+		public:
+			bool operator()(const value_type &x, const value_type &y) const
+			{
+				return comp(x.first, y.first);
+			}
+		};
 		// value_compare value_comp() const;
 
 		// iterator find(const key_type &k);
