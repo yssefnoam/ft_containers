@@ -8,43 +8,61 @@ template <class Key, class T, class Compare = std::less<Key>, class Alloc = std:
 struct Tree
 {
 public:
-    typedef const Key key_type;
+    // typedef const Key key_type;
+    typedef Key key_type;
     typedef T mapped_type;
     typedef pair<const key_type, mapped_type> value_type;
     typedef Compare key_compare;
     typedef Alloc allocator_type;
+
+    typedef Node<value_type> _Node;
+
     typedef typename allocator_type::reference reference;
     typedef typename allocator_type::const_reference const_reference;
     typedef typename allocator_type::pointer pointer;
     typedef typename allocator_type::const_pointer const_pointer;
+
+    typedef typename Alloc::template rebind<Node<value_type> >::other node_allocator;
+    typedef typename node_allocator::reference node_reference;
+    typedef typename node_allocator::const_reference node_const_reference;
+    typedef typename node_allocator::pointer node_pointer;
+    typedef typename node_allocator::const_pointer node_const_pointer;
+
     typedef size_t size_type;
 
-    typedef Node<value_type> _Node;
-
 private:
-    _Node *_root;
+    node_pointer _root;
     size_type _size;
     key_compare _ft_compare;
+    allocator_type _allocator;
+    node_allocator _node_allocator;
 
 public:
     Tree() : _root(NULL), _size(0) {}
     ~Tree() {}
 
-    _Node *newNode(value_type *p) const { return new _Node(p); }
+    allocator_type get_allocator() const { return _allocator; }
+
+    node_pointer newNode(pointer p) const
+    {
+        node_pointer node = _node_allocator.allocate(1);
+        _node_allocator.construct(node, _Node(p));
+        return node;
+    }
 
     bool empty() const { return _root ? false : true; }
 
-    _Node *left(_Node *node) const { return node->left; }
+    node_pointer left(node_pointer node) const { return node->left; }
 
-    _Node *right(_Node *node) const { return node->right; }
+    node_pointer right(node_pointer node) const { return node->right; }
 
-    key_type &key(_Node *node) const { return node->content->first; }
+    key_type &key(node_pointer node) const { return node->content->first; }
 
     size_type size() const { return _size; }
 
-    _Node *root() const { return _root; }
+    node_pointer root() const { return _root; }
 
-    size_type height(_Node *node) const
+    size_type height(node_pointer node) const
     {
         if (!node)
             return 0;
@@ -54,9 +72,9 @@ public:
         return (r >= l ? r : l) + 1;
     }
 
-    _Node *search(key_type k) const
+    node_pointer search(key_type k) const
     {
-        _Node *tmp = _root;
+        node_pointer tmp = _root;
         while (tmp)
         {
             if (key(tmp) == k)
@@ -69,11 +87,11 @@ public:
         return NULL;
     }
 
-    _Node *parent(_Node *node) const
+    node_pointer parent(node_pointer node) const
     {
         if (node == _root)
             return NULL;
-        _Node *tmp = _root;
+        node_pointer tmp = _root;
         while (right(tmp) != node && left(tmp) != node)
         {
             if (!_ft_compare(key(tmp), key(node)))
@@ -84,45 +102,40 @@ public:
         return tmp;
     }
 
-    _Node *rightRotation(_Node *node)
+    node_pointer rightRotation(node_pointer node)
     {
-        _Node *newParent = left(node);
+        node_pointer newParent = left(node);
         node->left = right(newParent);
         newParent->right = node;
         return newParent;
     }
 
-    _Node *leftRotation(_Node *node)
+    node_pointer leftRotation(node_pointer node)
     {
-        _Node *newParent = right(node);
+        node_pointer newParent = right(node);
         node->right = left(newParent);
         newParent->left = node;
         return newParent;
     }
-    _Node *rightRightCase(_Node *node)
-    {
-        return leftRotation(node);
-    }
+    node_pointer rightRightCase(node_pointer node)
+    { return leftRotation(node); }
 
-    _Node *rightLeftCase(_Node *node)
+    node_pointer rightLeftCase(node_pointer node)
     {
         node->right = rightRotation(node->right);
         return rightRightCase(node);
     }
 
-    _Node *leftLeftCase(_Node *node)
-    {
-        return rightRotation(node);
-    }
+    node_pointer leftLeftCase(node_pointer node)
+    { return rightRotation(node); }
 
-    _Node *leftRightCase(_Node *node)
+    node_pointer leftRightCase(node_pointer node)
     {
         node->left = leftRotation(node->left);
         return leftLeftCase(node);
     }
-    
 
-    _Node* balance(_Node *node)
+    node_pointer balance(node_pointer node)
     {
         int rh = height(node->right);
         int lh = height(node->left);
@@ -148,7 +161,7 @@ public:
         return node;
     }
 
-    _Node *insert(_Node *node, value_type *p)
+    node_pointer insert(node_pointer node, pointer p)
     {
         if (node == NULL)
             return newNode(p);
@@ -161,7 +174,7 @@ public:
         return node;
     }
 
-    bool insert(value_type *p)
+    bool insert(pointer p)
     {
         if (!p)
             return false;
@@ -172,14 +185,14 @@ public:
         return true;
     }
 
-    _Node *smallestSuccessor(_Node *node)
+    node_pointer smallestSuccessor(node_pointer node)
     {
         if (!left(node))
             return node;
         return smallestSuccessor(node->left);
     }
 
-    _Node *remove(_Node *node, key_type &k)
+    node_pointer remove(node_pointer node, key_type &k)
     {
         if (key(node) == k)
         {
@@ -192,8 +205,8 @@ public:
             else if (right(node) && left(node))
             {
                 // node with 2 childrens
-                _Node *small = smallestSuccessor(right(node));
-                value_type *tmp = node->content;
+                node_pointer small = smallestSuccessor(right(node));
+                pointer tmp = node->content;
                 node->content = small->content;
                 small->content = tmp;
                 node->right = remove(right(node), k);
@@ -201,7 +214,7 @@ public:
             }
             else // node with 1 childrens
             {
-                _Node *child = right(node) ? node->right : node->left;
+                node_pointer child = right(node) ? node->right : node->left;
                 // delete node
                 return child;
             }
@@ -215,7 +228,7 @@ public:
         return node;
     }
 
-    bool remove(key_type &k)
+    bool remove(const key_type &k)
     {
         if (!search(k))
             return false;
@@ -224,9 +237,11 @@ public:
         return true;
     }
 
+    size_type max_size() const { return _node_allocator.max_size(); }
+
     bool change(key_type k, mapped_type newValue)
     {
-        _Node* node = search(k);
+        node_pointer node = search(k);
         if (!node)
             return false;
         node->content->second = newValue;
@@ -235,9 +250,9 @@ public:
     void test()
     {
         std::cout << std::boolalpha;
-        std::cout << change(5,10) << std::endl;
+        std::cout << change(5, 10) << std::endl;
         int a = 0;
-        while(a<5)
+        while (a < 5)
         {
             printTree(_root, 0, a++);
             std::cout << std::endl;

@@ -63,7 +63,7 @@ namespace ft
 
         size_type size() const { return avl.size(); }
 
-        // size_type max_size() const { return _allocator.max_size(); }
+        size_type max_size() const { return avl.max_size(); }
 
 		mapped_type &operator[](const key_type &k);
 
@@ -87,9 +87,14 @@ namespace ft
 		// iterator find(const key_type &k);
 		// const_iterator find(const key_type &k) const;
 
-		size_type count(const key_type &k) const;
+        size_type count(const key_type &k) const
+        {
+            if (avl.search(k))
+                return 1;
+            return 0;
+        };
 
-		// iterator lower_bound(const key_type &k);
+        // iterator lower_bound(const key_type &k);
 		// const_iterator lower_bound(const key_type &k) const;
 
 		// iterator upper_bound(const key_type &k);
@@ -98,8 +103,8 @@ namespace ft
 		// pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
 		// pair<iterator, iterator> equal_range(const key_type &k);
 
-		allocator_type get_allocator() const;
-	};
+        allocator_type get_allocator() const { return avl.get_allocator(); }
+    };
 
 };
 #endif

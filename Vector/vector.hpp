@@ -284,13 +284,14 @@ namespace ft
 				}
 				iterator last = end() - 1;
 				iterator mid = end() - 1 - n;
-				for (; mid != position - 1; mid--)
+                for (; mid != position - 1; mid--)
 				{
 					_allocator.destroy(&(*last));
 					// *last = *mid;
                     _allocator.construct(&(*last), *mid);
 					last--;
 				}
+                std::cout << "her" << std::endl;
 				for (; last != position - 1; last--)
 				{
 					_allocator.destroy(&(*last));
