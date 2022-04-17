@@ -75,7 +75,6 @@ public:
             return 0;
         size_type r = height(right(node));
         size_type l = height(left(node));
-
         return (r >= l ? r : l) + 1;
     }
 
@@ -124,17 +123,16 @@ public:
         newParent->left = node;
         return newParent;
     }
-    node_pointer rightRightCase(node_pointer node)
-    { return leftRotation(node); }
+
+    node_pointer rightRightCase(node_pointer node) { return leftRotation(node); }
+
+    node_pointer leftLeftCase(node_pointer node) { return rightRotation(node); }
 
     node_pointer rightLeftCase(node_pointer node)
     {
         node->right = rightRotation(node->right);
         return rightRightCase(node);
     }
-
-    node_pointer leftLeftCase(node_pointer node)
-    { return rightRotation(node); }
 
     node_pointer leftRightCase(node_pointer node)
     {
@@ -191,29 +189,10 @@ public:
         return true;
     }
 
-    // bool insert(pointer p)
-    // {
-    //     if (!p)
-    //         return false;
-    //     if (search(p->first))
-    //         return false;
-    //     _root = insert(_root, p);
-    //     ++_size;
-    //     return true;
-    // }
+    node_pointer smallestSuccessor(node_pointer node) { return !left(node) ? node : smallestSuccessor(node->left); }
 
-    node_pointer smallestSuccessor(node_pointer node)
-    {
-        if (!left(node))
-            return node;
-        return smallestSuccessor(node->left);
-    }
+    void destroyPair(pointer p) { _allocator.destroy(p), _allocator.deallocate(p, 1); }
 
-    void destroyPair(pointer p)
-    {
-        _allocator.destroy(p);
-        _allocator.deallocate(p, 1);
-    }
     void destroyNode(node_pointer node)
     {
         destroyPair(node->content);
