@@ -243,6 +243,23 @@ public:
         return true;
     }
 
+    void clear(node_pointer node)
+    {
+        if (node)
+        {
+            clear(left(node));
+            clear(right(node));
+            destroyNode(node);
+        }
+    }
+
+    void clearTree()
+    {
+        clear(root());
+        _size = 0;
+        _root = NULL;
+    }
+
     size_type max_size() const { return _node_allocator.max_size(); }
 
     mapped_type &change(key_type k, mapped_type m)
@@ -252,18 +269,6 @@ public:
             add(k, m);
         node = search(k);
         return node->content->second;
-    }
-
-    void test()
-    {
-        std::cout << std::boolalpha;
-        std::cout << change(5, 10) << std::endl;
-        int a = 0;
-        while (a < 5)
-        {
-            printTree(_root, 0, a++);
-            std::cout << std::endl;
-        }
     }
 };
 

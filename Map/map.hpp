@@ -35,17 +35,23 @@ namespace ft
 	public:
 
 		explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
-			: _ft_compare(comp), _allocator(alloc)
+        : _ft_compare(comp)
+        , _allocator(alloc)
 		{}
 
 		// template <class InputIterator>
-		// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+		// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
+        // {
+        // }
 
-		// map(const map &x);
+        // map(const map &x);
 
-		// ~map();
+        ~map()
+        {
+            avl.clearTree();
+        }
 
-		// map &operator=(const map &x);
+        // map &operator=(const map &x);
 
 		// iterator begin();
 		// const_iterator begin() const;
