@@ -205,15 +205,13 @@ public:
     {
         if (key(node) == k)
         {
-            if (!right(node) && !left(node))
+            if (!right(node) && !left(node)) // node with 0 childrens
             {
-                // node with 0 childrens
                 destroyNode(node);
                 return NULL;
             }
-            else if (right(node) && left(node))
+            else if (right(node) && left(node)) // node with 2 childrens
             {
-                // node with 2 childrens
                 node_pointer small = smallestSuccessor(right(node));
                 pointer tmp = node->content;
                 node->content = small->content;
@@ -223,7 +221,7 @@ public:
             }
             else // node with 1 childrens
             {
-                node_pointer child = right(node) ? node->right : node->left;
+                node_pointer child = right(node) ? right(node) : left(node);
                 destroyNode(node);
                 return child;
             }
@@ -232,7 +230,6 @@ public:
             node->right = remove(node->right, k);
         else
             node->left = remove(node->left, k);
-
         node = balance(node);
         return node;
     }
@@ -256,6 +253,7 @@ public:
         node = search(k);
         return node->content->second;
     }
+
     void test()
     {
         std::cout << std::boolalpha;
