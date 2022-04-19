@@ -2,8 +2,9 @@
 #define _ITER_HPP_
 
 #include "iterator_traits.hpp"
+#include "avl.hpp"
 
-template <class Iter>
+template <class Key, class T>
 class myIter
 {
 public:
@@ -14,32 +15,22 @@ public:
     typedef typename ft::iterator_traits<Iter>::iterator_category iterator_category;
 
 private:
-    pointer _base;
-
-    node_pointer smallestSuccessor(pointer node) { return !left(node) ? node : smallestSuccessor(node->left); }
-
-    pointer forwordNode()
-    {
-    }
-
-    pointer backwordNode()
-    {
-    }
+    pointer &_avl;
+    ft::Tree<const Key, T> node_pointer = *_current;
 
 public:
-    myIter(pointer base)
-    : _base(base)
-    {
+    myIter(ft::Tree<const Key, T> &base) : _avl(base) {
+        _current = base.smallestNode(base.root());
     }
 
     myIter()
-    : _base()
+    : _avl()
     {
     }
 
     template <class T>
     myIter(const myIter<T> &copy)
-    : _base(copy.base())
+    : _avl(copy.avl())
     {
     }
 

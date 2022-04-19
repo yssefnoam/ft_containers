@@ -37,20 +37,28 @@ private:
     allocator_type _allocator;
     node_allocator _node_allocator;
 
+    friend class mapIter;
+
 public:
     Tree() : _root(NULL), _size(0) {}
     ~Tree() {}
 
+    value_type *content(node_pointer node) { return node->content; }
+
+    node_pointer beggestNode(node_pointer node) { return !right(node) ? node : beggestNode(node->right); }
+
+    node_pointer smallestNode(node_pointer node) { return !left(node) ? node : smallestNode(node->left); }
+
     allocator_type get_allocator() const { return _allocator; }
 
-    node_pointer newNode(pointer p) 
+    node_pointer newNode(pointer p)
     {
         node_pointer node = _node_allocator.allocate(1);
         _node_allocator.construct(node, _Node(p));
         return node;
     }
 
-    pointer newPair(key_type k, mapped_type m) 
+    pointer newPair(key_type k, mapped_type m)
     {
         pointer p = _allocator.allocate(1);
         _allocator.construct(p, value_type(k, m));
@@ -189,8 +197,6 @@ public:
         return true;
     }
 
-    node_pointer smallestSuccessor(node_pointer node) { return !left(node) ? node : smallestSuccessor(node->left); }
-
     void destroyPair(pointer p) { _allocator.destroy(p), _allocator.deallocate(p, 1); }
 
     void destroyNode(node_pointer node)
@@ -212,7 +218,7 @@ public:
             }
             else if (right(node) && left(node)) // node with 2 childrens
             {
-                node_pointer small = smallestSuccessor(right(node));
+                node_pointer small = smallestNode(right(node));
                 pointer tmp = node->content;
                 node->content = small->content;
                 small->content = tmp;
