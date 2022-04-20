@@ -28,8 +28,9 @@ int main()
 {
     {
         std::map<int, int> m;
-        m[0] = 9;
-        std::map<int, int>::iterator it = m.begin();
+        m[1] = 0;
+        std::map<int, int>::iterator it = m.end();
+        it++;
     }
     // system("leaks a.out");
     return 0;

@@ -4,48 +4,73 @@
 #include "../Vector/iterator_traits.hpp"
 #include "avl.hpp"
 
-template <class Iter>
+template <class Key, class Type>
 class myIter
 {
-public:
-    typedef typename ft::iterator_traits<Iter>::reference			reference;
-    typedef typename ft::iterator_traits<Iter>::pointer				pointer;
-    typedef typename ft::iterator_traits<Iter>::value_type			value_type;
-    typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
-    typedef std::bidirectional_iterator_tag							iterator_category;
+    typedef	Tree<Key, Type>								tree;	
+    typedef tree*													tree_pointer;	
+	typedef	typename tree::node_pointer										node_pointer;
 
-    typedef void*													node_pointer;
+public:
+    typedef typename tree::reference								reference;
+    typedef typename tree::pointer									pointer;
+    typedef typename tree::value_type								value_type;
+    typedef size_t											difference_type;
+    typedef std::bidirectional_iterator_tag							iterator_category;
 
 private:
 
     node_pointer    _current;
     node_pointer    _previous;
-
-public:
-    myIter(node_pointer c, node_pointer p)
-    : _current(c)
-    , _previous(p)
-    {}
-
-    myIter()
-    : _previous(NULL)
-    , _current(NULL)
-    {}
+	tree_pointer	_tree;
 
 	node_pointer current() {return _current;}
 	node_pointer previous() {return _previous;}
+	tree_pointer base() {return _tree;}
 
-    template <class T>
-    myIter(const myIter<T> &copy)
-    : _previous(copy.previous())
-    , _current(copy.current())
+    node_pointer next()
+    {
+        node_pointer right = _tree->right(_current);
+        node_pointer parent = _tree->parent(_current);
+        if (right)
+            return _tree->smallestNode(right);
+        else
+        {
+            while(1)
+            {
+                parent = _tree->parent(_current);
+                if (_tree->)
+            }
+        }
+    }
+
+public:
+    myIter(tree_pointer tree)
+    {
+		_tree = tree;
+		_current = _tree->smallestNode(_tree->root());
+		_previous = NULL;
+	}
+
+    myIter()
+    : _current(NULL)
+    , _previous(NULL)
+    , _tree(NULL)
     {}
 
-    template <class T>
-    myIter &operator=(const myIter<T> &copy)
+    template <class T1, class T2>
+    myIter(const myIter<T1,T2> &copy)
+    : _previous(copy.previous())
+    , _current(copy.current())
+    , _tree(copy.base())
+    {}
+
+    template <class T1, class T2>
+    myIter &operator=(const myIter<T1,T2> &copy)
 	{
 		_previous = copy.previous();
 		_current = copy.current();
+		_tree = copy.base();
 		return *this;
 	}
 
@@ -62,11 +87,12 @@ public:
     //     return _tmp;
     // }
 
-    // myIter operator++()
-    // {
-    //     _base++;
-    //     return *this;
-    // }
+    myIter operator++()
+    {
+        _previous = _current;
+        _current = next();
+        return *this;
+    }
 
     // myIter operator++(int)
     // {
@@ -75,15 +101,15 @@ public:
     //     return _tmp;
     // }
 
-    template <class T>
-    bool operator==(const myIter<T> &other) { return (_previous == other.previous() && _current == other.current()); }
+    template <class T1, class T2>
+    bool operator==(const myIter<T1,T2> &other) { return (_previous == other.previous() && _current == other.current()); }
 
-    template <class T>
-    bool operator!=(const myIter<T> &other) { return !operator==(other); }
+    template <class T1, class T2>
+    bool operator!=(const myIter<T1,T2> &other) { return !operator==(other); }
+
+    pointer operator->() { return _current->content; }
 
     reference operator*() const { return *(operator->()); }
-
-    pointer operator->() { return (*_current).content; }
 
 };
 

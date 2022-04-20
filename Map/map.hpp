@@ -11,7 +11,7 @@ namespace ft
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
 	{
-		typedef Key key_type;
+        typedef Key key_type;
 		typedef T mapped_type;
 		typedef pair<const key_type, mapped_type> value_type;
 		typedef Compare key_compare;
@@ -21,12 +21,13 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
 		// TODO:
-        typedef myIter<value_type> iterator;
         // typedef	myiterator<const_node>					const_iterator;
 		// typedef	myRiterator<node>						reverse_iterator;
 		// typedef	myRiterator<const_node>					const_reverse_iterator;
 		typedef size_t size_type;
         typedef Tree<Key, T, key_compare, allocator_type>   _Tree;
+    public:
+        typedef myIter<key_type, mapped_type> iterator;
 	private:
 		_Tree avl;
 
@@ -56,8 +57,7 @@ namespace ft
 
         iterator begin()
         {
-            iterator it(&avl);
-            return it;
+            return iterator(&avl);
         }
         // const_iterator begin() const;
 
