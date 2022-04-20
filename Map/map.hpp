@@ -6,6 +6,7 @@ namespace ft
 #include "pair.hpp"
 #include "node.hpp"
 #include "avl.hpp"
+#include "mapIterator.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
@@ -20,14 +21,14 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
 		// TODO:
-		// typedef	myiterator<node>						iterator;
-		// typedef	myiterator<const_node>					const_iterator;
+        typedef myIter<value_type> iterator;
+        // typedef	myiterator<const_node>					const_iterator;
 		// typedef	myRiterator<node>						reverse_iterator;
 		// typedef	myRiterator<const_node>					const_reverse_iterator;
 		typedef size_t size_type;
-
+        typedef Tree<Key, T, key_compare, allocator_type>   _Tree;
 	private:
-		Tree<Key, T, key_compare, allocator_type> avl;
+		_Tree avl;
 
 		key_compare _ft_compare;
 		allocator_type _allocator;
@@ -53,8 +54,12 @@ namespace ft
 
         // map &operator=(const map &x);
 
-		// iterator begin();
-		// const_iterator begin() const;
+        iterator begin()
+        {
+            iterator it(&avl);
+            return it;
+        }
+        // const_iterator begin() const;
 
 		// iterator end();
 		// const_iterator end() const;

@@ -8,27 +8,26 @@ template <class Key, class T, class Compare = std::less<Key>, class Alloc = std:
 struct Tree
 {
 public:
-    // typedef const Key key_type;
-    typedef Key key_type;
-    typedef T mapped_type;
-    typedef pair<const key_type, mapped_type> value_type;
-    typedef Compare key_compare;
-    typedef Alloc allocator_type;
+    typedef Key															key_type;
+    typedef T															mapped_type;
+    typedef pair<const key_type, mapped_type>							value_type;
+    typedef Compare														key_compare;
+    typedef Alloc														allocator_type;
 
-    typedef Node<value_type> _Node;
+    typedef Node<value_type>											_Node;
 
-    typedef typename allocator_type::reference reference;
-    typedef typename allocator_type::const_reference const_reference;
-    typedef typename allocator_type::pointer pointer;
-    typedef typename allocator_type::const_pointer const_pointer;
+    typedef typename allocator_type::reference							reference;
+    typedef typename allocator_type::const_reference					const_reference;
+    typedef typename allocator_type::pointer							pointer;
+    typedef typename allocator_type::const_pointer						const_pointer;
 
-    typedef typename Alloc::template rebind<Node<value_type> >::other node_allocator;
-    typedef typename node_allocator::reference node_reference;
-    typedef typename node_allocator::const_reference node_const_reference;
-    typedef typename node_allocator::pointer node_pointer;
-    typedef typename node_allocator::const_pointer node_const_pointer;
+    typedef typename Alloc::template rebind<Node<value_type> >::other	node_allocator;
+    typedef typename node_allocator::reference							node_reference;
+    typedef typename node_allocator::const_reference					node_const_reference;
+    typedef typename node_allocator::pointer							node_pointer;
+    typedef typename node_allocator::const_pointer						node_const_pointer;
 
-    typedef size_t size_type;
+    typedef size_t														size_type;
 
 private:
     node_pointer _root;
