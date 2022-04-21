@@ -100,7 +100,7 @@ public:
         return NULL;
     }
 
-    node_pointer parent(node_pointer node) const
+    node_pointer parent(node_pointer node) 
     {
         if (node == _root)
             return NULL;
