@@ -28,18 +28,48 @@ private:
 	node_pointer previous() {return _previous;}
 	tree_pointer base() {return _tree;}
 
-    node_pointer next()
+
+    void backward()
     {
-        node_pointer right = _tree->right(_current);
-        node_pointer parent = _tree->parent(_current);
-        if (right)
-            return _tree->smallestNode(right);
+        node_pointer left = _tree->left(_current);
+        node_pointer parent = NULL;
+        if (left)
+        {
+            _current = _tree->beggestNode(left);
+        }
         else
         {
             while(1)
             {
                 parent = _tree->parent(_current);
-                if (_tree->)
+                if (_tree->right(parent) == _current)
+                {
+                    _current = parent;
+                    break;
+                }
+                _current = parent;
+            }
+        }
+    }
+    void forward()
+    {
+        node_pointer right = _tree->right(_current);
+        node_pointer parent = NULL;
+        if (right)
+        {
+            _current = _tree->smallestNode(right);
+        }
+        else
+        {
+            while(1)
+            {
+                parent = _tree->parent(_current);
+                if (_tree->left(parent) == _current)
+                {
+                    _current = parent;
+                    break;
+                }
+                _current = parent;
             }
         }
     }
@@ -74,11 +104,12 @@ public:
 		return *this;
 	}
 
-	// myIter operator--()
-    // {
-    //     _base--;
-    //     return *this;
-    // }
+	myIter operator--()
+    {
+        _previous = _current;
+        backward();
+        return *this;
+    }
 
     // myIter operator--(int)
     // {
@@ -90,7 +121,7 @@ public:
     myIter operator++()
     {
         _previous = _current;
-        _current = next();
+        forward();
         return *this;
     }
 
