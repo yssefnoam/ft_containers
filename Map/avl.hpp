@@ -36,7 +36,7 @@ private:
     allocator_type _allocator;
     node_allocator _node_allocator;
 
-    friend class mapIter;
+    friend class myIter;
 
 public:
     Tree() : _root(NULL), _size(0) {}

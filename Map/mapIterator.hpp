@@ -4,17 +4,17 @@
 #include "../Vector/iterator_traits.hpp"
 #include "avl.hpp"
 
-template <class Iter>
+template <class Pair, class Key, class T>
 class myIter
 {
 public:
-    typedef typename ft::iterator_traits<Iter>::reference			reference;
-    typedef typename ft::iterator_traits<Iter>::pointer				pointer;
-    typedef typename ft::iterator_traits<Iter>::value_type			value_type;
-    typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
+    typedef typename Tree<Key, T>::reference						reference;
+    typedef typename Tree<Key, T>::pointer							pointer;
+    typedef typename Tree<Key, T>::value_type						value_type;
+    typedef size_t													difference_type;
     typedef std::bidirectional_iterator_tag							iterator_category;
 
-    typedef void*													node_pointer;
+    typedef Tree<Key, T>::node_pointer								node_pointer;
 
 private:
 
