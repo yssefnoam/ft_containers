@@ -36,6 +36,7 @@ private:
     allocator_type _allocator;
     node_allocator _node_allocator;
 
+    template<class T1, class T2>
     friend class myIter;
 
 public:

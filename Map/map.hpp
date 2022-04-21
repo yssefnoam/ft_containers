@@ -7,6 +7,7 @@ namespace ft
 #include "node.hpp"
 #include "avl.hpp"
 #include "mapIterator.hpp"
+#include "../Vector/reverse_iterator.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
@@ -20,14 +21,14 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		// TODO:
-        // typedef	myiterator<const_node>					const_iterator;
-		// typedef	myRiterator<node>						reverse_iterator;
-		// typedef	myRiterator<const_node>					const_reverse_iterator;
 		typedef size_t size_type;
         typedef Tree<Key, T, key_compare, allocator_type>   _Tree;
     public:
         typedef myIter<key_type, mapped_type> iterator;
+		// TODO:
+        // typedef	myiterator<const_node>					const_iterator;
+		typedef	ft::reverse_iterator<iterator>				reverse_iterator;
+		// typedef	myRiterator<const_node>					const_reverse_iterator;
 	private:
 		_Tree avl;
 
@@ -57,11 +58,11 @@ namespace ft
 
         iterator begin()
         {
-            return iterator(&avl);
+            return iterator(&avl, avl.smallestNode(avl.root()), NULL);
         }
         // const_iterator begin() const;
 
-		// iterator end();
+		iterator end() { return iterator(&avl, NULL, avl.beggestNode(avl.root())); }
 		// const_iterator end() const;
 
 		// reverse_iterator rbegin();

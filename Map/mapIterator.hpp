@@ -1,22 +1,21 @@
 #ifndef _ITER_HPP_
 #define _ITER_HPP_
 
-#include "../Vector/iterator_traits.hpp"
 #include "avl.hpp"
 
 template <class Key, class Type>
 class myIter
 {
-    typedef	Tree<Key, Type>								tree;	
-    typedef tree*													tree_pointer;	
-	typedef	typename tree::node_pointer										node_pointer;
+    typedef	Tree<Key, Type>					    tree;	
+    typedef tree*								tree_pointer;	
+	typedef	typename tree::node_pointer			node_pointer;
 
 public:
-    typedef typename tree::reference								reference;
-    typedef typename tree::pointer									pointer;
-    typedef typename tree::value_type								value_type;
-    typedef size_t											difference_type;
-    typedef std::bidirectional_iterator_tag							iterator_category;
+    typedef typename tree::reference			reference;
+    typedef typename tree::pointer				pointer;
+    typedef typename tree::value_type			value_type;
+    typedef size_t								difference_type;
+    typedef std::bidirectional_iterator_tag		iterator_category;
 
 private:
 
@@ -31,55 +30,66 @@ private:
 
     void backward()
     {
-        node_pointer left = _tree->left(_current);
-        node_pointer parent = NULL;
-        if (left)
+        if (!(!_current && _previous))
         {
-            _current = _tree->beggestNode(left);
-        }
-        else
-        {
-            while(1)
+            // std::cout << "here" << std::endl;
+            node_pointer left = _tree->left(_current);
+            node_pointer parent = NULL;
+            if (left)
             {
-                parent = _tree->parent(_current);
-                if (_tree->right(parent) == _current)
+                _current = _tree->beggestNode(left);
+            }
+            else
+            {
+                while (1)
                 {
+                    parent = _tree->parent(_current);
+                    if (_tree->right(parent) == _current)
+                    {
+                        _current = parent;
+                        break;
+                    }
                     _current = parent;
-                    break;
                 }
-                _current = parent;
             }
         }
+        else
+            _current = _tree->beggestNode(_tree->root());
     }
     void forward()
     {
-        node_pointer right = _tree->right(_current);
-        node_pointer parent = NULL;
-        if (right)
+        if (_tree->beggestNode(_tree->root()) != _current)
         {
-            _current = _tree->smallestNode(right);
-        }
-        else
-        {
-            while(1)
+            node_pointer right = _tree->right(_current);
+            node_pointer parent = NULL;
+            if (right)
             {
-                parent = _tree->parent(_current);
-                if (_tree->left(parent) == _current)
+                _current = _tree->smallestNode(right);
+            }
+            else
+            {
+                while (1)
                 {
+                    parent = _tree->parent(_current);
+                    if (_tree->left(parent) == _current)
+                    {
+                        _current = parent;
+                        break;
+                    }
                     _current = parent;
-                    break;
                 }
-                _current = parent;
             }
         }
+        else
+            _current = NULL;
     }
 
 public:
-    myIter(tree_pointer tree)
+    myIter(tree_pointer tree, node_pointer current, node_pointer previous)
     {
 		_tree = tree;
-		_current = _tree->smallestNode(_tree->root());
-		_previous = NULL;
+		_current = current;
+		_previous = previous;
 	}
 
     myIter()
@@ -106,31 +116,31 @@ public:
 
 	myIter operator--()
     {
-        _previous = _current;
+        // _previous = _current;
         backward();
         return *this;
     }
 
-    // myIter operator--(int)
-    // {
-    //     myIter _tmp = *this;
-    //     _base--;
-    //     return _tmp;
-    // }
+    myIter operator--(int)
+    {
+        myIter _tmp = *this;
+        operator--();
+        return _tmp;
+    }
 
     myIter operator++()
     {
-        _previous = _current;
+        // _previous = _current;
         forward();
         return *this;
     }
 
-    // myIter operator++(int)
-    // {
-    //     myIter _tmp = *this;
-    //     _base++;
-    //     return _tmp;
-    // }
+    myIter operator++(int)
+    {
+        myIter _tmp = *this;
+        operator++();
+        return _tmp;
+    }
 
     template <class T1, class T2>
     bool operator==(const myIter<T1,T2> &other) { return (_previous == other.previous() && _current == other.current()); }

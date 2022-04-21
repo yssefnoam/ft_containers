@@ -27,28 +27,28 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        ft::map<int, int> m;
+        std::map<int, int> m;
         m[1] = 0;
-        m[6] = 0;
-        m[7] = 0;
-        m[8] = 0;
-        m[9] = 0;
-        m[2] = 0;
-        m[3] = 0;
-        m[4] = 0;
+        m[-1] = 0;
         m[5] = 0;
-        ft::map<int, int>::iterator it = m.begin();
+        std::map<int, int>::iterator it = m.end();
+        --it;
+        std::cout << it->first << std::endl;
+        --it;
+        std::cout << it->first << std::endl;
+        --it;
+        std::cout << it->first << std::endl;
         ++it;
         std::cout << it->first << std::endl;
         ++it;
+        std::cout << it->first << std::endl;
         ++it;
-        --it;
-        std::cout << it->first << std::endl;
-        --it;
-        std::cout << it->first << std::endl;
-        --it;
-        std::cout << it->first << std::endl;
-        --it;
+        // std::cout << "size = "<<m.size() << std::endl;
+        // it++;
+        // m.erase(5);
+        // std::cout << "size = "<<m.size() << std::endl;
+        // it--;
+        // std::cout << it->first << std::endl;
     }
     // system("leaks a.out");
     return 0;
