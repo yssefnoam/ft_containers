@@ -38,6 +38,10 @@ private:
 
 public:
     Tree() : _root(NULL), _size(0) {}
+    Tree &operator=(Tree copy)
+    {
+        clearTree();
+    }
     ~Tree() {}
 
     value_type *content(node_pointer node) { return node->content; }

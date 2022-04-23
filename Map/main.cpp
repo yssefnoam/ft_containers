@@ -41,9 +41,9 @@ int main()
         m[5] = 2;
         m[-9] = 2;
         m[-2] = 2;
-        std::map<int, int>::const_iterator it = m.begin();
-        std::cout << it->first << std::endl;
-        std::cout << m.erase(1);
+        const std::map<int, int> m2 =m ;
+        std::map<int, int>::iterator it =m2.begin() ;
+        it++;
 
     }
     // system("leaks a.out");

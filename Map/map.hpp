@@ -47,14 +47,12 @@ namespace ft
         map(const map &x)
         {
             this->~map();
-            for (iterator it = x.begin(); it != x.end(); it++)
+            // const map<Key, T>
+            for ( const_iterator it = x.begin(); it != x.end(); it++)
                 operator[](it->first) = it->second;
         }
 
-        ~map()
-        {
-            avl.clearTree();
-        }
+        ~map() { clear(); }
 
         // map &operator=(const map &x);
 
@@ -89,9 +87,9 @@ namespace ft
 
 		void swap(map &x);
 
-		void clear();
+        void clear() { avl.clearTree(); }
 
-		key_compare key_comp() const { return _ft_compare; }
+        key_compare key_comp() const { return _ft_compare; }
 
 		class value_compare
 		{

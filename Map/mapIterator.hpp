@@ -2,12 +2,13 @@
 #define _ITER_HPP_
 
 #include "avl.hpp"
+#include "../Vector/iterator_traits.hpp"
 
 template <class Key, class Type>
 class myIter
 {
     typedef Tree<Key, Type> tree;
-    typedef tree *tree_pointer;
+    typedef typename iterator_traits<tree*>::pointer tree_pointer;
     typedef typename tree::node_pointer node_pointer;
     typedef typename tree::node_const_pointer node_const_pointer;
 
@@ -23,9 +24,9 @@ private:
     node_pointer _previous;
     tree_pointer _tree;
 
-    node_pointer current() { return _current; }
-    node_pointer previous() { return _previous; }
-    tree_pointer base() { return _tree; }
+    node_pointer current() const { return _current; }
+    node_pointer previous() const { return _previous; }
+    tree_pointer base() const { return _tree; }
 
     void backward()
     {
@@ -77,17 +78,16 @@ private:
     }
 
 public:
-    myIter(tree_pointer tree, bool small)
+    myIter(tree_pointer tree, bool s)
     {
         _tree = tree;
-        if (small)
+        if (s)
         {
             _current = _tree->smallestNode(_tree->root());
             _previous = NULL;
         }
         else
         {
-
             _previous = _tree->beggestNode(_tree->root());
             _current = NULL;
         }
@@ -96,16 +96,22 @@ public:
     template<class K, class P>
     myIter(K tree, P pre, P curr)
     {
-        _current = reinterpret_cast<Node<pair<const int, const int> > *>(curr);
-        _previous = reinterpret_cast<Node<pair<const int, const int> > *>(pre);
-        _tree = reinterpret_cast<Tree<int, const int> *>(tree);
+        _current = reinterpret_cast<Node<pair<Key, Type> > *>(curr);
+        _previous = reinterpret_cast<Node<pair<Key, Type> > *>(pre);
+        _tree = reinterpret_cast<Tree<Key, Type> *>(tree);
     }
 
     template<class K, class T>
-    operator myIter<K, T>()
+    operator myIter<K, const T>()
     {
         return myIter<K, T>(_tree, _previous, _current);
     }
+
+    // template<class K, class T>
+    // operator myIter< K, T>()
+    // {
+    //     return myIter< K, T>(_tree, _previous, _current);
+    // }
 
     myIter()
         : _current(NULL), _previous(NULL), _tree(NULL)
@@ -154,10 +160,10 @@ public:
     }
 
     template <class T1, class T2>
-    bool operator==(const myIter<T1, T2> &other) { return (_previous == other.previous() && _current == other.current()); }
+    bool operator==(const myIter<T1, T2> &other) const { return (_previous == other.previous() && _current == other.current()); }
 
     template <class T1, class T2>
-    bool operator!=(const myIter<T1, T2> &other) { return !operator==(other); }
+    bool operator!=(const myIter<T1, T2> &other) const { return !operator==(other); }
 
     pointer operator->() const { return _current->content; }
 
