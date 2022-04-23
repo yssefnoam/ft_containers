@@ -1,7 +1,6 @@
 #ifndef _ITER_HPP_
 #define _ITER_HPP_
 
-#include "../Vector/iterator_traits.hpp"
 #include "avl.hpp"
 
 template <class Key, class Type>
@@ -42,13 +41,16 @@ private:
         else
             while (1)
             {
-                parent = _tree->parent(_current);
-                if (_tree->right(parent) == _current)
+                while (1)
                 {
+                    parent = _tree->parent(_current);
+                    if (_tree->right(parent) == _current)
+                    {
+                        _current = parent;
+                        break;
+                    }
                     _current = parent;
-                    break;
                 }
-                _current = parent;
             }
     }
     void forward()
@@ -63,10 +65,14 @@ private:
                 parent = _tree->parent(_current);
                 if (!parent || _tree->left(parent) == _current)
                 {
+                    parent = _tree->parent(_current);
+                    if (_tree->left(parent) == _current)
+                    {
+                        _current = parent;
+                        break;
+                    }
                     _current = parent;
-                    break;
                 }
-                _current = parent;
             }
     }
 
@@ -121,7 +127,7 @@ public:
 
     myIter operator--()
     {
-        _previous = _current;
+        // _previous = _current;
         backward();
         return *this;
     }
@@ -135,7 +141,7 @@ public:
 
     myIter operator++()
     {
-        _previous = _current;
+        // _previous = _current;
         forward();
         return *this;
     }
