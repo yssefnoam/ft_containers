@@ -36,8 +36,6 @@ private:
     allocator_type _allocator;
     node_allocator _node_allocator;
 
-    friend class mapIter;
-
 public:
     Tree() : _root(NULL), _size(0) {}
     ~Tree() {}
@@ -276,5 +274,4 @@ public:
         return node->content->second;
     }
 };
-
 #endif

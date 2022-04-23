@@ -27,7 +27,8 @@ namespace ft
 		typedef size_t size_type;
         typedef Tree<Key, T, key_compare, allocator_type>   _Tree;
     public:
-        typedef myIter<key_type, mapped_type> iterator;
+        typedef myIter<key_type, T> iterator;
+        typedef myIter<key_type, const T> const_iterator;
 	private:
 		_Tree avl;
 
@@ -46,7 +47,12 @@ namespace ft
         // {
         // }
 
-        // map(const map &x);
+        map(const map &x)
+        {
+            this->~map();
+            for (iterator it = x.begin(); it != x.end(); it++)
+                operator[](it->first) = it->second;
+        }
 
         ~map()
         {
@@ -55,14 +61,11 @@ namespace ft
 
         // map &operator=(const map &x);
 
-        iterator begin()
-        {
-            return iterator(&avl);
-        }
-        // const_iterator begin() const;
+        iterator begin() { return iterator(&avl, true); }
+        const_iterator begin() const { return const_iterator(&avl, true); }
 
-		// iterator end();
-		// const_iterator end() const;
+        iterator end() { return iterator(&avl, false); }
+        const_iterator end() const { return const_iterator(&avl, false); }
 
 		// reverse_iterator rbegin();
 		// const_reverse_iterator rbegin() const;
@@ -83,9 +86,9 @@ namespace ft
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last);
 
-		// void erase(iterator position);
-		size_type erase(const key_type &k);
-		// void erase(iterator first, iterator last);
+        void erase(iterator position) { avl.remove(position->first); }
+        size_type erase(const key_type &k) {return avl.remove(k); }
+        void erase(iterator first, iterator last);
 
 		void swap(map &x);
 
