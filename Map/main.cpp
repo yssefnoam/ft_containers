@@ -6,7 +6,6 @@
 #include "map.hpp"
 #include <map>
 #include <vector>
-#include "avl.hpp"
 #include <functional>
 #define SEPARATE std::cout << "-------------" << std::endl;
 
@@ -27,23 +26,38 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        std::map<int, int> m;
+        ft::map<int, int> m;
         m[1] = 1;
         m[8] = 2;
         m[6] = 2;
         m[7] = 2;
         m[15] = 2;
         m[31] = 2;
-        m[12] = 2;
+        m[12] = 14;
         m[8] = 2;
         m[17] = 2;
         m[9] = 2;
         m[5] = 2;
         m[-9] = 2;
         m[-2] = 2;
-        const std::map<int, int> m2 =m ;
-        std::map<int, int>::iterator it =m2.begin() ;
-        it++;
+
+        // m.erase(1);
+        // m.erase(8);
+        // m.erase(6);
+        // m.erase(7);
+        // m.erase(15);
+        // m.erase(31);
+        // m.erase(12);
+        // m.erase(8);
+        // m.erase(17);
+        // m.erase(9);
+        // m.erase(5);
+        // m.erase(-9);
+        // m.erase(-2);
+
+        std::cout << m.size() <<std::endl;
+        m.clear();
+        std::cout << m.size() <<std::endl;
 
     }
     // system("leaks a.out");
