@@ -26,7 +26,7 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        ft::map<int, int> m;
+        std::map<int, int> m;
         m[1] = 1;
         m[6] = 2;
         m[7] = 2;
@@ -39,6 +39,7 @@ int main()
         m[5] = 2;
         m[-9] = 2;
         m[-2] = 2;
+        std::map<int,int>::iterator
 
         // m.erase(1);
         // m.erase(8);

@@ -9,8 +9,9 @@ struct Node
     Pair *content;
     Node *left;
     Node *right;
+    Node *parent;
 
-    Node(Pair *cnt) : content(cnt), left(NULL), right(NULL) {}
+    Node(Pair *cnt) : content(cnt), left(NULL), right(NULL), parent(NULL) {}
 };
 
 #endif
