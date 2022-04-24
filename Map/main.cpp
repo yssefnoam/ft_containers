@@ -28,7 +28,6 @@ int main()
     {
         ft::map<int, int> m;
         m[1] = 1;
-        m[8] = 2;
         m[6] = 2;
         m[7] = 2;
         m[15] = 2;
@@ -55,9 +54,10 @@ int main()
         // m.erase(-9);
         // m.erase(-2);
 
-        std::cout << m.size() <<std::endl;
-        m.clear();
-        std::cout << m.size() <<std::endl;
+        // std::cout << m.size() <<std::endl;
+        // m.clear();
+        // std::cout << m.size() <<std::endl;
+        m.test();
 
     }
     // system("leaks a.out");

@@ -42,7 +42,7 @@ namespace ft
         node_allocator	_node_allocator;
 
         value_type *_content(node_pointer node) { return node->content; }
-        node_pointer _beggestNode(node_pointer node) { return !_right(node) ? node : _beggestNode(node->right); }
+        node_pointer _biggestNode(node_pointer node) { return !_right(node) ? node : _biggestNode(node->right); }
         node_pointer _smallestNode(node_pointer node) { return !_left(node) ? node : _smallestNode(node->left); }
         allocator_type _get_allocator() const { return _allocator; }
         node_pointer _newNode(pointer p)
@@ -253,14 +253,16 @@ namespace ft
         : _ft_compare(comp), _allocator(alloc),_root_(NULL), _size_(0)
         {}
 
-        // template <class InputIterator>
-        // map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
-        // {
-        // }
+        template <class InputIterator>
+        map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
+        : _ft_compare(comp), _allocator(alloc), _root_(NULL), _size_(0)
+        {
+			for (; first != last; first++)
+				operator[](first->first) = first->second;
+        }
 
         // map(const map &x)
         // {
-        //     this->~map();
         //     // const map<Key, T>
         //     for (const_iterator it = x.begin(); it != x.end(); it++)
         //         operator[](it->first) = it->second;
@@ -268,7 +270,10 @@ namespace ft
 
         ~map() { clear(); }
 
-        // map &operator=(const map &x);
+        // map &operator=(const map &x)
+		// {
+        //     this->~map();
+		// }
 
         // iterator begin() { return iterator(&avl, true); }
         // const_iterator begin() const { return const_iterator(&avl, true); }
@@ -339,7 +344,36 @@ namespace ft
         // pair<iterator, iterator> equal_range(const key_type &k);
 
         allocator_type get_allocator() const { return _get_allocator(); }
-    };
+
+		template <class Node>
+		void printTree(Node *root, int level, int lvl)
+		{
+			if (root != NULL)
+			{
+				printTree(root->left, level + 1, lvl);
+				if (lvl == level)
+					std::cout << "([" << root->content->first << "]," << root->content->second << ")"
+							  << " ";
+				printTree(root->right, level + 1, lvl);
+			}
+		}
+		void test()
+		{
+			printTree(_root(),  0,0);
+			std::cout << "\n";
+			printTree(_root(),  0,1);
+			std::cout << "\n";
+			printTree(_root(),  0,2);
+			std::cout << "\n";
+			printTree(_root(),  0,3);
+			std::cout << "\n";
+			printTree(_root(),  0,4);
+			std::cout << "\n";
+			printTree(_root(),  0,5);
+			std::cout << "\n";
+			printTree(_root(),  0,6);
+		}
+	};
 
 };
 #endif
