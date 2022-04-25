@@ -7,7 +7,7 @@ namespace ft
 #include "pair.hpp"
 #include "node.hpp"
 // #include "avl.hpp"
-// #include "mapIterator.hpp"
+#include "mapIterator.hpp"
 #include "../Vector/reverse_iterator.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
@@ -25,6 +25,7 @@ namespace ft
         typedef typename allocator_type::const_pointer const_pointer;
         typedef size_t size_type;
         typedef Node<value_type> _Node;
+        typedef myIter<value_type, key_compare> iterator;
 
     private:
 
@@ -275,7 +276,10 @@ namespace ft
         //     this->~map();
 		// }
 
-        // iterator begin() { return iterator(&avl, true); }
+        iterator begin()
+        {
+            return iterator(&_root_, _smallestNode(_root_));
+        }
         // const_iterator begin() const { return const_iterator(&avl, true); }
 
         // iterator end() { return iterator(&avl, false); }
