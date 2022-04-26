@@ -8,7 +8,7 @@ namespace ft
 #include "node.hpp"
 // #include "avl.hpp"
 #include "mapIterator.hpp"
-#include "../Vector/reverse_iterator.hpp"
+#include "reverse_iterator.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
     class map
@@ -26,6 +26,9 @@ namespace ft
         typedef size_t size_type;
         typedef Node<value_type> _Node;
         typedef myIter<value_type, key_compare> iterator;
+        typedef myIter<const value_type, key_compare> const_iterator;
+        typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef typename ft::reverse_iterator<iterator> reverse_iterator;
 
     private:
 
@@ -43,9 +46,9 @@ namespace ft
         node_allocator	_node_allocator;
 
         value_type *_content(node_pointer node) { return node->content; }
-        node_pointer _biggestNode(node_pointer node) { return !_right(node) ? node : _biggestNode(node->right); }
-        node_pointer _smallestNode(node_pointer node) { return !_left(node) ? node : _smallestNode(node->left); }
-        allocator_type _get_allocator() const { return _allocator; }
+        node_pointer _biggestNode(node_pointer node) const { return !_right(node) ? node : _biggestNode(node->right); }
+        node_pointer _smallestNode(node_pointer node) const { return !_left(node) ? node : _smallestNode(node->left); }
+        allocator_type _get_allocator() const { return _node_allocator; }
         node_pointer _newNode(pointer p)
         {
             node_pointer node = _node_allocator.allocate(1);
@@ -262,12 +265,12 @@ namespace ft
 				operator[](first->first) = first->second;
         }
 
-        // map(const map &x)
-        // {
-        //     // const map<Key, T>
-        //     for (const_iterator it = x.begin(); it != x.end(); it++)
-        //         operator[](it->first) = it->second;
-        // }
+        map(const map &x)
+        {
+            // const map<Key, T>
+            for (const_iterator it = x.begin(); it != x.end(); it++)
+                operator[](it->first) = it->second;
+        }
 
         ~map() { clear(); }
 
@@ -278,18 +281,23 @@ namespace ft
 
         iterator begin()
         {
-            return iterator(&_root_, _smallestNode(_root_));
+            node_pointer curr = _smallestNode(_root_);
+            return iterator(&_root_, curr);
         }
-        // const_iterator begin() const { return const_iterator(&avl, true); }
+        const_iterator begin() const
+        {
+            node_pointer curr = _smallestNode(_root_);
+            return const_iterator(&_root_, curr);
+        }
 
-        // iterator end() { return iterator(&avl, false); }
-        // const_iterator end() const { return const_iterator(&avl, false); }
+        iterator end() { return iterator(&_root_, NULL); }
+        const_iterator end() const { return const_iterator(&_root_, NULL); }
 
-        // reverse_iterator rbegin();
-        // const_reverse_iterator rbegin() const;
+        reverse_iterator rbegin() { return reverse_iterator(end()); }
+        const_reverse_iterator rbegin() const { return reverse_iterator(end()); }
 
-        // reverse_iterator rend();
-        // const_reverse_iterator rend() const;
+        reverse_iterator rend() { return reverse_iterator(begin()); }
+        const_reverse_iterator rend() const { return reverse_iterator(begin()); }
 
         bool empty() const { return _empty(); }
 
@@ -302,7 +310,11 @@ namespace ft
         // pair<iterator, bool> insert(const value_type &val);
         // iterator insert(iterator position, const value_type &val);
         template <class InputIterator>
-        void insert(InputIterator first, InputIterator last);
+        void insert(InputIterator first, InputIterator last)
+        {
+            for (; first != last; first++)
+                operator[](first->first) = first->second;
+        }
 
         // void erase(iterator position) { avl.remove(position->first); }
         size_type erase(const key_type &k) { return _remove(k); }
@@ -328,8 +340,17 @@ namespace ft
         };
         // value_compare value_comp() const;
 
-        // iterator find(const key_type &k);
-        // const_iterator find(const key_type &k) const;
+        iterator find(const key_type &k)
+        {
+            node_pointer tmp = _search(k);
+            return tmp ? iterator(&_root_, tmp) : end();
+        }
+
+        const_iterator find(const key_type &k) const
+        {
+            node_pointer tmp = _search(k);
+            return tmp ? const_iterator(&_root_, tmp) : end();
+        }
 
         size_type count(const key_type &k) const
         {
@@ -338,11 +359,35 @@ namespace ft
             return 0;
         };
 
-        // iterator lower_bound(const key_type &k);
-        // const_iterator lower_bound(const key_type &k) const;
+        iterator lower_bound(const key_type &k)
+        {
+            node_pointer tmp = _search(k);
+            return tmp ? iterator(&_root_, tmp) : end();
+        }
+        const_iterator lower_bound(const key_type &k) const
+        {
+            node_pointer tmp = _search(k);
+            return tmp ? const_iterator(&_root_, tmp) : end();
+        }
 
-        // iterator upper_bound(const key_type &k);
-        // const_iterator upper_bound(const key_type &k) const;
+        iterator upper_bound(const key_type &k)
+        {
+            node_pointer tmp = _search(k);
+            if (!tmp)
+                return end();
+            iterator it_tmp = iterator(&_root_, tmp);
+            it_tmp++;
+            return it_tmp;
+        }
+        const_iterator upper_bound(const key_type &k) const
+        {
+            node_pointer tmp = _search(k);
+            if (!tmp)
+                return end();
+            const_iterator it_tmp = const_iterator(&_root_, tmp);
+            it_tmp++;
+            return it_tmp;
+        }
 
         // pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
         // pair<iterator, iterator> equal_range(const key_type &k);

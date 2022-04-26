@@ -16,7 +16,7 @@ public:
 
 private:
     typedef Node<value_type>* node_pointer;
-    typedef node_pointer* double_node_pointer;
+    typedef Node<value_type>** double_node_pointer;
     typedef Compare key_compare;
 
     node_pointer _current;
@@ -26,8 +26,8 @@ private:
 
     node_pointer _right(node_pointer node) const { return node->right; }
     node_pointer _left(node_pointer node) const { return node->left; }
-    node_pointer _biggestNode(node_pointer node) { return !_right(node) ? node : _biggestNode(node->right); }
-    node_pointer _smallestNode(node_pointer node) { return !_left(node) ? node : _smallestNode(node->left); }
+    node_pointer _biggestNode(node_pointer node) const { return !_right(node) ? node : _biggestNode(node->right); }
+    node_pointer _smallestNode(node_pointer node) const { return !_left(node) ? node : _smallestNode(node->left); }
     node_pointer _parent(node_pointer node)
     {
         if (node == _root)
@@ -60,16 +60,13 @@ private:
         else
             while (1)
             {
-                while (1)
+                parent = _parent(_current);
+                if (_right(parent) == _current)
                 {
-                    parent = _parent(_current);
-                    if (_right(parent) == _current)
-                    {
-                        _current = parent;
-                        break;
-                    }
                     _current = parent;
+                    break;
                 }
+                _current = parent;
             }
     }
     void forward()
@@ -81,23 +78,20 @@ private:
         else
             while (1)
             {
-        std::cout << "forward" << std::endl;
                 parent = _parent(_current);
                 if (!parent || _left(parent) == _current)
                 {
-                    parent = _parent(_current);
-                    if (_left(parent) == _current)
-                    {
-                        _current = parent;
-                        break;
-                    }
                     _current = parent;
+                    break;
                 }
+                _current = parent;
             }
     }
 
 public:
-    myIter(double_node_pointer rt, node_pointer  curr, const key_compare &comp = key_compare())
+
+    // template<class K, class P>
+    myIter(double_node_pointer rt, node_pointer curr, const key_compare &comp = key_compare())
     {
         _droot = rt;
         _current  = curr;
@@ -111,11 +105,21 @@ public:
     //     _tree = reinterpret_cast<Tree<Key, Type> *>(tree);
     // }
 
-    // template<class K, class T>
-    // operator myIter<K, const T>()
+    // template<class K, class P>
+    // operator myIter<K, P>()
     // {
-    //     return myIter<K, T>(_tree, _current);
+    //     Node<K> *tmp_curr = (Node<K> *)_current;
+    //     Node<K> **tmp_droot = (Node<K> **)_droot;
+    //     return myIter<K, P>(tmp_droot, tmp_curr);
     // }
+
+    template<class K, class P>
+    operator myIter<const K, P>()
+    {
+        Node<const K> *tmp_curr = (Node<const K> *)_current;
+        Node<const K> **tmp_droot = (Node<const K> **)_droot;
+        return myIter<const K, P>(tmp_droot, tmp_curr);
+    }
 
     // template<class K, class T>
     // operator myIter< K, T>()
@@ -166,7 +170,7 @@ public:
     }
 
     template <class T1, class T2>
-    bool operator==(const myIter<T1, T2> &o) const { return (_root == o.base() && _current == o.current()); }
+    bool operator==(const myIter<T1, T2> &o) const { return (_droot == o.base() && _current == o.current()); }
 
     template <class T1, class T2>
     bool operator!=(const myIter<T1, T2> &other) const { return !operator==(other); }

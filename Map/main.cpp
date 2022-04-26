@@ -1,5 +1,5 @@
 // make_pair example
-#include <utility>	// std::pair
+#include <utility>  // std::pair
 #include <iostream> // std::cout
 #include "node.hpp"
 #include "make_pair.hpp"
@@ -9,11 +9,10 @@
 #include <functional>
 #define SEPARATE std::cout << "-------------" << std::endl;
 
-
-template<class Node>
+template <class Node>
 void printTree(Node *root, int level, int lvl)
 {
-    if(root!=NULL)
+    if (root != NULL)
     {
         printTree(root->left, level + 1, lvl);
         if (lvl == level)
@@ -26,24 +25,23 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        ft::map<int,int> m;
-        m[3] = 1;
-        m[4] = 1;
-        m[0] = 1;
-        m[1] = 1;
-        m[5] = 1;
-        m[2] = 1;
-        m.test();
-        // ft::map<int, int>::iterator it = m.begin();
-        // std::cout << it->first << std::endl;
-        // it++;
-        // std::cout << it->first << std::endl;
-        // it++;
-        // std::cout << it->first << std::endl;
-        // it++;
-        // std::cout << it->first << std::endl;
+        std::map<char, int> mymap;
+        std::map<char, int>::iterator itlow, itup;
 
+        mymap['a'] = 20;
+        mymap['b'] = 40;
+        mymap['c'] = 60;
+        mymap['d'] = 80;
+        mymap['e'] = 100;
+
+        itlow = mymap.lower_bound('f'); // itlow points to b
+        itup = mymap.upper_bound('f');
+        if (itup != itlow)
+            std::cout << "here" << std::endl;
+        // std::cout << itup->first << std::endl;
+        // std::cout << itup->second << std::endl;
     }
+
     // system("leaks a.out");
     return 0;
 }
