@@ -291,11 +291,9 @@ namespace ft
         }
         const_iterator begin() const
         {
-            // const_node_pointer curr =(const_node_pointer) _smallestNode(_root_);
             if (_root())
                 return const_iterator((const_node_pointer)_smallestNode(_root_));
             return const_iterator((const_node_pointer)NULL);
-            // return it;
         }
 
         iterator end()
@@ -324,7 +322,10 @@ namespace ft
 
         mapped_type &operator[](const key_type &k) { return change(k, mapped_type()); }
 
-        // pair<iterator, bool> insert(const value_type &val);
+        pair<iterator, bool> insert(const value_type &val) // TODO:
+        {
+
+        }
         // iterator insert(iterator position, const value_type &val);
         template <class InputIterator>
         void insert(InputIterator first, InputIterator last)
