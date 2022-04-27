@@ -9,6 +9,8 @@ namespace ft
 // #include "avl.hpp"
 #include "mapIterator.hpp"
 #include "reverse_iterator.hpp"
+#include "../Vector/enable_if.hpp"
+#include "../Vector/is_integral.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
     class map
@@ -173,14 +175,16 @@ namespace ft
             node = _balance(node);
             return node;
         }
-        bool _add(key_type first, mapped_type second)
+        pair<iterator, bool> _add(key_type first, mapped_type second)
         {
-            if (_search(first))
-                return false;
+            node_pointer s = _search(first);
+            if (s)
+                return pair<iterator, bool>(s, false);
             pointer p = _newPair(first, second);
             _root_ = _insert(NULL, _root(), p);
             ++_size_;
-            return true;
+            s = _search(first);
+            return pair<iterator, bool>(s, true);
         }
         void _destroyPair(pointer p) { _allocator.destroy(p), _allocator.deallocate(p, 1); }
         void _destroyNode(node_pointer node)
@@ -270,7 +274,6 @@ namespace ft
 
         map(const map &x)
         {
-            // const map<Key, T>
             insert(x.begin(), x.end());
         }
 
@@ -324,11 +327,16 @@ namespace ft
 
         pair<iterator, bool> insert(const value_type &val) // TODO:
         {
-
+            return _add(val.first, val.second);
         }
-        // iterator insert(iterator position, const value_type &val);
+        iterator insert(iterator position, const value_type &val)
+        {
+            (void)position;
+            return insert(val).first;
+        }
         template <class InputIterator>
-        void insert(InputIterator first, InputIterator last)
+        void insert(InputIterator first, InputIterator last
+		, typename enable_if<!is_integral<InputIterator>::value, bool>::type = false)
         {
             for (; first != last; first++)
                 operator[](first->first) = first->second;

@@ -25,19 +25,19 @@ void printTree(Node *root, int level, int lvl)
 int main()
 {
     {
-        std::map<char, int> mymap;
+        ft::map<char, int> mymap;
+        mymap.insert(ft::pair<char, int>('a', 100));
+        mymap.insert(ft::pair<char, int>('z', 200));
+        ft::pair<ft::map<char, int>::iterator, bool> ret;
+        ret = mymap.insert(ft::pair<char, int>('a', 500));
 
-        mymap['x'] = 1001;
-        mymap['y'] = 2002;
-        mymap['z'] = 3003;
+        ft::map<char,int>::iterator it = mymap.begin();
+        // for(;it != mymap.end(); it++)
+            // std::cout << it->first << " " << it->second << std::endl;
+        if(mymap.insert(it, ft::pair<char, int>('a', 300)) == it) // max efficiency inserting
+            std::cout << it->first << " " << it->second << std::endl;
+        // mymap.insert(it, std::pair<char, int>('c', 400));  
 
-        std::cout << "mymap contains:\n";
-
-        std::map<char, int>::iterator it = mymap.end();
-        it--;
-
-        if (mymap.value_comp()(*mymap.begin(), *it))
-            std::cout << "true" << std::endl;
     }
 
     // system("leaks a.out");
