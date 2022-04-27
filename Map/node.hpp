@@ -11,7 +11,7 @@ struct Node
     Node *right;
     Node *parent;
 
-    Node(Pair *cnt) : content(cnt), left(NULL), right(NULL), parent(NULL) {}
+    Node(Pair *cnt, Node *parent) : content(cnt), left(NULL), right(NULL), parent(parent) {}
 };
 
 #endif

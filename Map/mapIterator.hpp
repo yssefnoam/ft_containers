@@ -3,7 +3,7 @@
 
 #include "../Vector/iterator_traits.hpp"
 
-template <class T, class Compare>
+template <class T>
 class myIter
 {
 
@@ -15,14 +15,12 @@ public:
     typedef std::bidirectional_iterator_tag iterator_category;
 
 private:
-    typedef Node<value_type>* node_pointer;
+    typedef Node<value_type> *node_pointer;
+    typedef Node<const value_type> *const_node_pointer;
     typedef Node<value_type>** double_node_pointer;
-    typedef Compare key_compare;
 
     node_pointer _current;
-    node_pointer _root;
-    double_node_pointer _droot;
-    key_compare _ft_compare;
+    node_pointer _previous;
 
     node_pointer _right(node_pointer node) const { return node->right; }
     node_pointer _left(node_pointer node) const { return node->left; }
@@ -30,27 +28,18 @@ private:
     node_pointer _smallestNode(node_pointer node) const { return !_left(node) ? node : _smallestNode(node->left); }
     node_pointer _parent(node_pointer node)
     {
-        if (node == _root)
+        if (!node)
             return NULL;
-        node_pointer tmp = _root;
-        while (_right(tmp) != node && _left(tmp) != node)
-        {
-            if (_ft_compare(tmp->content->first, node->content->first))
-                tmp = _right(tmp);
-            else
-                tmp = _left(tmp);
-        }
-        return tmp;
+        return node->parent;
     }
 
     node_pointer current() const { return _current; }
-    double_node_pointer base() const { return _droot; }
 
     void backward()
     {
         if (!_current)
         {
-            _current = _biggestNode(_root);
+            _current = _previous;
             return ;
         }
         node_pointer left = _left(_current);
@@ -71,6 +60,7 @@ private:
     }
     void forward()
     {
+        _previous = _current;
         node_pointer right = _right(_current);
         node_pointer parent = NULL;
         if (right)
@@ -90,60 +80,35 @@ private:
 
 public:
 
-    // template<class K, class P>
-    myIter(double_node_pointer rt, node_pointer curr, const key_compare &comp = key_compare())
+    myIter(node_pointer curr)
     {
-        _droot = rt;
         _current  = curr;
-        _ft_compare = comp;
     }
 
-    // template<class K, class P>
-    // myIter(K tree, P pre, P curr)
-    // {
-    //     _current = reinterpret_cast<Node<pair<Key, Type> > *>(curr);
-    //     _tree = reinterpret_cast<Tree<Key, Type> *>(tree);
-    // }
-
-    // template<class K, class P>
-    // operator myIter<K, P>()
-    // {
-    //     Node<K> *tmp_curr = (Node<K> *)_current;
-    //     Node<K> **tmp_droot = (Node<K> **)_droot;
-    //     return myIter<K, P>(tmp_droot, tmp_curr);
-    // }
-
-    template<class K, class P>
-    operator myIter<const K, P>()
+    template<class K>
+    operator myIter<const K>()
     {
-        Node<const K> *tmp_curr = (Node<const K> *)_current;
-        Node<const K> **tmp_droot = (Node<const K> **)_droot;
-        return myIter<const K, P>(tmp_droot, tmp_curr);
+        const_node_pointer tmp_curr = (const_node_pointer)_current;
+        return myIter<const K>(tmp_curr);
     }
-
-    // template<class K, class T>
-    // operator myIter< K, T>()
-    // {
-    // }
 
     myIter() {}
 
-    template <class T1, class T2>
-    myIter(myIter<T1, T2> &copy)
-        : _current(copy.current()), _droot(copy.base())
+    template <class T1>
+    myIter(myIter<T1> &copy)
+        : _current(copy.current())
     {}
 
-    template <class T1, class T2>
-    myIter &operator=(myIter<T1, T2> &copy)
+    template <class T1>
+    myIter &operator=(myIter<T1> &copy)
     {
         _current = copy.current();
-        _droot = copy.base();
+        // _droot = copy.base();
         return *this;
     }
 
     myIter operator--()
     {
-        _root = *_droot;
         backward();
         return *this;
     }
@@ -157,7 +122,6 @@ public:
 
     myIter operator++()
     {
-        _root = *_droot;
         forward();
         return *this;
     }
@@ -169,11 +133,12 @@ public:
         return _tmp;
     }
 
-    template <class T1, class T2>
-    bool operator==(const myIter<T1, T2> &o) const { return (_droot == o.base() && _current == o.current()); }
+    // bool operator==(const myIter<T1> o) { return (_droot == o._droot && _current == o._current); }
+    template <class T1>
+    bool operator==(const myIter<T1> o) { return (_current == o._current); }
 
-    template <class T1, class T2>
-    bool operator!=(const myIter<T1, T2> &other) const { return !operator==(other); }
+    template <class T1>
+    bool operator!=(const myIter<T1> o) { return !operator==(o); }
 
     pointer operator->() const { return _current->content; }
 

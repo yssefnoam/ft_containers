@@ -26,20 +26,18 @@ int main()
 {
     {
         std::map<char, int> mymap;
-        std::map<char, int>::iterator itlow, itup;
 
-        mymap['a'] = 20;
-        mymap['b'] = 40;
-        mymap['c'] = 60;
-        mymap['d'] = 80;
-        mymap['e'] = 100;
+        mymap['x'] = 1001;
+        mymap['y'] = 2002;
+        mymap['z'] = 3003;
 
-        itlow = mymap.lower_bound('f'); // itlow points to b
-        itup = mymap.upper_bound('f');
-        if (itup != itlow)
-            std::cout << "here" << std::endl;
-        // std::cout << itup->first << std::endl;
-        // std::cout << itup->second << std::endl;
+        std::cout << "mymap contains:\n";
+
+        std::map<char, int>::iterator it = mymap.end();
+        it--;
+
+        if (mymap.value_comp()(*mymap.begin(), *it))
+            std::cout << "true" << std::endl;
     }
 
     // system("leaks a.out");
