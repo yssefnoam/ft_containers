@@ -5,26 +5,6 @@ namespace ft
 
     #include "../Vector/vector.hpp"
 
-    // template <class T, class Container> class stack;
-
-    // template <class _T, class _Container>
-    // bool operator==(const stack<_T, _Container> &lhs, const stack<_T, _Container> &rhs);
-
-    // template <class _T, class _Container>
-    // bool operator<(const stack<_T, _Container> &lhs, const stack<_T, _Container> &rhs);
-
-    // template <class _T, class _Container>
-    // bool operator!=(const stack<_T, _Container> &lhs, const stack<_T, _Container> &rhs);
-
-    // template <class _T, class _Container>
-    // bool operator<=(const stack<_T, _Container> &lhs, const stack<_T, _Container> &rhs);
-
-    // template <class _T, class _Container>
-    // bool operator>=(const stack<_T, _Container> &lhs, const stack<_T, _Container> &rhs);
-
-    // template <class _T, class _Container>
-    // bool operator>(const stack<_T, _Container> &lhs, const stack<_T, _Container> &rhs);
-
     template <class T, class Container = ft::vector<T> >
     class stack
 	{
@@ -37,7 +17,6 @@ namespace ft
         container_type c;
 
     public:
-        // constructor
         explicit stack(const container_type &ctnr = container_type()) : c(ctnr) {}
 
         bool empty() const {return c.empty();}

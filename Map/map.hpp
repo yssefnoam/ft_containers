@@ -5,15 +5,16 @@
 #include <functional>
 #include "pair.hpp"
 #include "make_pair.hpp"
-namespace ft
-{
-#include "node.hpp"
-#include "mapIterator.hpp"
+#include "../Stack/stack.hpp"
 #include "../Vector/reverse_iterator.hpp"
 #include "../Vector/enable_if.hpp"
 #include "../Vector/is_integral.hpp"
 #include "../Vector/equal.hpp"
 #include "../Vector/lexicographical_compare.hpp"
+namespace ft
+{
+#include "node.hpp"
+#include "mapIterator.hpp"
 
     template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
     class map
@@ -34,8 +35,8 @@ namespace ft
         typedef mapIter<value_type> iterator;
         typedef mapIter<const value_type> const_iterator;
 
-        typedef reverse_iterator<const_iterator> const_reverse_iterator;
-        typedef reverse_iterator<iterator> reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef ft::reverse_iterator<iterator> reverse_iterator;
 
     private:
         typedef typename Alloc::template rebind<Node<value_type> >::other node_allocator;
@@ -206,7 +207,7 @@ namespace ft
             _node_allocator.destroy(node);
             _node_allocator.deallocate(node, 1);
         }
-        node_pointer _remove(node_pointer parent, node_pointer node, key_type &k)
+        node_pointer _remove(node_pointer node, key_type &k)
         {
             if (_key(node) == k)
             {
@@ -221,25 +222,21 @@ namespace ft
                     pointer content = node->content;
                     node->content = small->content;
                     small->content = content;
-                    node->right = _remove(node, _right(node), k);
+                    node->right = _remove(_right(node), k);
                     return node;
                 }
                 else // node with 1 childrens
                 {
                     node_pointer child = _right(node) ? _right(node) : _left(node);
-                    // child->parent = parent;
-                    if (parent == node->parent)
-                        child->parent = node->parent;
-                    else
-                        child->parent = node->parent;
+                    child->parent = node->parent;
                     _destroyNode(node);
                     return child;
                 }
             }
             if (_ft_compare(_key(node), k))
-                node->right = _remove(node, node->right, k);
+                node->right = _remove(node->right, k);
             else
-                node->left = _remove(node, node->left, k);
+                node->left = _remove(node->left, k);
             node = _balance(node);
             return node;
         }
@@ -247,7 +244,7 @@ namespace ft
         {
             if (!_search(k))
                 return false;
-            _root_ = _remove(NULL, _root(), k);
+            _root_ = _remove(_root(), k);
             --_size_;
             return true;
         }
@@ -256,9 +253,7 @@ namespace ft
             if (node)
             {
                 _clear(_left(node));
-                node->left = NULL;
                 _clear(_right(node));
-                node->right = NULL;
                 _destroyNode(node);
             }
         }
@@ -363,20 +358,22 @@ namespace ft
                 operator[](first->first) = first->second;
         }
 
-        void erase(iterator position, typename enable_if<!is_integral<iterator>::value, bool>::type = false)
-        { remove(position->first); }
+        void erase(iterator position, typename enable_if<!is_integral<iterator>::value, bool>::type = false) { remove(position->first); }
 
-        size_type erase(const key_type &k)
-        {
-            return remove(k);
-        }
+        size_type erase(const key_type &k) { return remove(k); }
+
         void erase(iterator first, iterator last)
         {
-            while (first != last)
+            stack<key_type> s;
+            while(first != last)
             {
-                iterator tmp = first;
+                s.push(first->first);
                 ++first;
-                remove(tmp->first);
+            }
+            while (s.empty())
+            {
+                remove(s.top());
+                s.pop();
             }
         }
 
@@ -494,7 +491,7 @@ void swap(ft::map<Key, T, Compare, Alloc> &x, ft::map<Key, T, Compare, Alloc> &y
 template <class Key, class T, class Compare, class Alloc>
 bool operator==(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 {
-    return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template <class Key, class T, class Compare, class Alloc>
@@ -506,7 +503,7 @@ bool operator!=(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T
 template <class Key, class T, class Compare, class Alloc>
 bool operator<(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 {
-    return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template <class Key, class T, class Compare, class Alloc>
@@ -518,7 +515,7 @@ bool operator<=(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T
 template <class Key, class T, class Compare, class Alloc>
 bool operator>(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 {
-    return ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end());
+    return lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end());
 }
 
 template <class Key, class T, class Compare, class Alloc>
