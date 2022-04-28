@@ -1,19 +1,19 @@
 #ifndef _reverse_reverse_iterator_HPP_
 #define _reverse_reverse_iterator_HPP_
 
-#include "iterator_traits.hpp"
 
 namespace ft
 {
+#include "iterator_traits.hpp"
     template <class Iter>
     class reverse_iterator
     {
     public:
-        typedef typename iterator_traits<Iter>::reference reference;
-        typedef typename iterator_traits<Iter>::pointer pointer;
-        typedef typename iterator_traits<Iter>::value_type value_type;
-        typedef typename iterator_traits<Iter>::difference_type difference_type;
-        typedef typename iterator_traits<Iter>::iterator_category iterator_category;
+        typedef typename ft::iterator_traits<Iter>::reference reference;
+        typedef typename ft::iterator_traits<Iter>::pointer pointer;
+        typedef typename ft::iterator_traits<Iter>::value_type value_type;
+        typedef typename ft::iterator_traits<Iter>::difference_type difference_type;
+        typedef typename ft::iterator_traits<Iter>::iterator_category iterator_category;
         typedef Iter iterator_type;
 
     private:
@@ -63,7 +63,12 @@ namespace ft
 
         bool operator!=(const reverse_iterator &other) { return !operator==(other); }
 
-        reference operator*() const { return *(_iter.base() - 1); }
+        reference operator*() const
+        {
+            Iter tmp = _iter;
+            --tmp;
+            return *(tmp);
+        }
 
         pointer operator->() { return &(operator*()); }
 

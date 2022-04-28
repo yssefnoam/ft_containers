@@ -2,16 +2,17 @@
 #define _ITERATOR_HPP_
 
 #include "iterator_traits.hpp"
+namespace ft{
 
 template <class Iter>
 class myIter
 {
 public:
-    typedef typename ft::iterator_traits<Iter>::reference           reference;
-    typedef typename ft::iterator_traits<Iter>::pointer             pointer;
-    typedef typename ft::iterator_traits<Iter>::value_type          value_type;
-    typedef typename ft::iterator_traits<Iter>::difference_type     difference_type;
-    typedef typename ft::iterator_traits<Iter>::iterator_category   iterator_category;
+    typedef typename iterator_traits<Iter>::reference           reference;
+    typedef typename iterator_traits<Iter>::pointer             pointer;
+    typedef typename iterator_traits<Iter>::value_type          value_type;
+    typedef typename iterator_traits<Iter>::difference_type     difference_type;
+    typedef typename iterator_traits<Iter>::iterator_category   iterator_category;
 
 private:
     pointer _base;
@@ -81,5 +82,6 @@ public:
 
 template<class T>
 myIter<T> operator+(int a,myIter<T> it) { myIter<T> _tmp = it; return _tmp + a; }
+};
 
 #endif

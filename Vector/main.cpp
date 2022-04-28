@@ -17,11 +17,11 @@ time_t get_time(void)
 }
 int main()
 {
-            ft::vector<std::string> ft_v;
+            // ft::vector<std::string> ft_v;
 
-            ft_v.insert(ft_v.begin() + 1, 3, "str");
-            for (size_t i = 0; i!= ft_v.size(); i++)
-                std::cout << ft_v[i] << std::endl;
+            // ft_v.insert(ft_v.begin() + 1, 3, "str");
+            // for (size_t i = 0; i!= ft_v.size(); i++)
+            //     std::cout << ft_v[i] << std::endl;
 
     //     std::cout  << "size = " << v.size() << "\n";
     //     std::cout  << "Address = " << &(*v.begin()) << "\n";

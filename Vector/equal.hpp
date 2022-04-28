@@ -1,6 +1,8 @@
 #ifndef _EQUAL_HPP
 #define _EQUAL_HPP
 
+namespace ft{
+
 template <class InputIterator1, class InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
@@ -26,5 +28,6 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, B
     }
     return true;
 }
+};
 
 #endif

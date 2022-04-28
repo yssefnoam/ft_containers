@@ -4,7 +4,7 @@
 #include "../Vector/iterator_traits.hpp"
 
 template <class T>
-class myIter
+class mapIter
 {
 
 public:
@@ -33,7 +33,6 @@ private:
         return node->parent;
     }
 
-    node_pointer current() const { return _current; }
 
     void backward()
     {
@@ -79,70 +78,74 @@ private:
     }
 
 public:
+    node_pointer current() const { return _current; }
 
-    myIter(node_pointer curr)
+    mapIter(node_pointer curr)
     {
         _current  = curr;
     }
 
     template<class K>
-    operator myIter<const K>()
+    operator mapIter<const K>()
     {
         const_node_pointer tmp_curr = (const_node_pointer)_current;
-        return myIter<const K>(tmp_curr);
+        return mapIter<const K>(tmp_curr);
     }
 
-    myIter() {}
+    mapIter() {}
 
     template <class T1>
-    myIter(myIter<T1> &copy)
-        : _current(copy.current())
+    mapIter(const mapIter<T1> &copy)
+        : _current((Node<value_type> *)copy.current())
     {}
 
     template <class T1>
-    myIter &operator=(myIter<T1> &copy)
+    mapIter &operator=(mapIter<T1> &copy)
     {
-        _current = copy.current();
-        // _droot = copy.base();
+        _current = (Node<value_type> *)copy.current();
         return *this;
     }
 
-    myIter operator--()
+    mapIter operator--()
     {
         backward();
         return *this;
     }
 
-    myIter operator--(int)
+    mapIter operator--(int)
     {
-        myIter _tmp = *this;
+        mapIter _tmp = *this;
         operator--();
         return _tmp;
     }
 
-    myIter operator++()
+    mapIter operator++()
     {
         forward();
         return *this;
     }
 
-    myIter operator++(int)
+    mapIter operator++(int)
     {
-        myIter _tmp = *this;
+        mapIter _tmp = *this;
         operator++();
         return _tmp;
     }
 
-    // bool operator==(const myIter<T1> o) { return (_droot == o._droot && _current == o._current); }
-    template <class T1>
-    bool operator==(const myIter<T1> o) { return (_current == o._current); }
-
-    template <class T1>
-    bool operator!=(const myIter<T1> o) { return !operator==(o); }
-
     pointer operator->() const { return _current->content; }
 
     reference operator*() const { return *(operator->()); }
+    // template <class T1, class T2>
+    bool operator==(const mapIter lhs)
+    {
+        return _current == lhs._current;
+    }
+
+    // template <class T1>
+    bool operator!=(const mapIter lhs)
+    {
+        return _current != lhs._current;
+    }
 };
 
 #endif
