@@ -1,15 +1,15 @@
 #ifndef _FT_VECTOR_H
 #define _FT_VECTOR_H
-namespace ft
-{
 
-#include <memory>
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
+#include <memory>
+namespace ft
+{
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
@@ -59,7 +59,7 @@ namespace ft
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last
 		, const allocator_type &alloc = allocator_type()
-		, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
+		, typename enable_if<!is_integral<InputIterator>::value, bool>::type = false)
 		: _allocator(alloc)
 		, _buffer()
 		, _capacity(0)
@@ -211,7 +211,7 @@ namespace ft
 
 		// assign
 		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
+		void assign(InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value, bool>::type = false)
 		{
 			clear();
 			size_type n = 0;
@@ -291,7 +291,6 @@ namespace ft
                     _allocator.construct(&(*last), *mid);
 					last--;
 				}
-                std::cout << "her" << std::endl;
 				for (; last != position - 1; last--)
 				{
 					_allocator.destroy(&(*last));
@@ -302,7 +301,7 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
+		void insert(iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value, bool>::type = false)
 		{
 			bool doubleCap = true;
 			size_type index = 0;
@@ -384,7 +383,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+			return lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin());
 		}
 
 		template <class T, class Alloc>
@@ -396,7 +395,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 
 		template <class T, class Alloc>
@@ -408,7 +407,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+			return (lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
 		}
 
 		template <class T, class Alloc>
