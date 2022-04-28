@@ -944,23 +944,34 @@ void	map_tests()
 
     {
         timeval start, end;
+        int max =3000000;
 
         std::cout << "((((((((((std map time))))))" << std::endl;
+
 		std::map<int,int> second;
-        gettimeofday(&start, NULL);
-        for (int i = 0; i != 1000;i++)
+        for (int i = 0; i != max;i++)
             second.insert(std::make_pair(i, i));
-        gettimeofday(&end, NULL);
+        gettimeofday(&start, NULL);
+        std::cout << "std " << second.size() << std::endl;
         second.erase(second.begin(), second.end());
+        std::cout << "std " << second.size() << std::endl;
+
+        gettimeofday(&end, NULL);
         print_time(start, end);
 
         std::cout << "((((((((((ft map time)))))))" << std::endl;
+
 		ft::map<int,int> first;
-        gettimeofday(&start, NULL);
-        for (int i = 0; i != 1000;i++)
+        for (int i = 0; i != max;i++)
             first.insert(ft::make_pair(i, i));
+        gettimeofday(&start, NULL);
+        for (ft::map<int,int>::iterator it = first.begin(); it != first.end();it++)
+            std::cout << it->first << it->second << std::endl;
+        // std::cout << "ft " << first.size() << std::endl;
+        // first.erase(first.begin(), first.end());
+        // std::cout << "ft " << first.size() << std::endl;
+
         gettimeofday(&end, NULL);
-        first.erase(first.begin(), first.end());
         print_time(start, end);
 
     }
@@ -968,6 +979,7 @@ void	map_tests()
 
 int main()
 {
+
 	timeval start, end;
 	
 	gettimeofday(&start, NULL);
