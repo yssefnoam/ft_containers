@@ -84,7 +84,7 @@ namespace ft
                 return 0;
             size_type r = _height(_right(node));
             size_type l = _height(_left(node));
-            return (r >= l ? r : l) + 1;
+            return std::max(r, l) + 1;
         }
         node_pointer _search(key_type k) const
         {
@@ -171,18 +171,6 @@ namespace ft
             }
             return node;
         }
-        // node_pointer _insert(node_pointer parent, node_pointer node, pointer p)
-        // {
-        //     if (node == NULL)
-        //         return _newNode(p, parent);
-        //     if (_ft_cmp(_key(node), p->first))
-        //         node->right = _insert(node, node->right, p);
-        //     else
-        //         node->left = _insert(node, node->left, p);
-        //     node = _balance(node);
-        //     return node;
-        // }
-
         pair<iterator, bool> _insert(pointer p)
         {
             if (!_root())
@@ -193,7 +181,6 @@ namespace ft
                 return pair<iterator, bool>(iterator(_root()), true);
             }
             node_pointer tmp = _root();
-            bool child;
             while (1)
             {
                 if (_key(tmp) == p->first)
@@ -202,7 +189,7 @@ namespace ft
                 {
                     if (!tmp->right)
                     {
-                        child = true;
+                        tmp->right = _newNode(p, tmp);
                         break;
                     }
                     tmp = tmp->right;
@@ -211,18 +198,13 @@ namespace ft
                 {
                     if (!tmp->left)
                     {
-                        child = false;
+                        tmp->left = _newNode(p, tmp);
                         break;
                     }
                     tmp = tmp->left;
                 }
             }
-            tmp = _newNode(p, tmp);
-            node_pointer balance_me = tmp->parent;
-            if (child)
-                balance_me->right = tmp;
-            else
-                balance_me->left = tmp;
+            node_pointer balance_me = tmp;
             while (balance_me)
             {
                 if (balance_me != _root())
