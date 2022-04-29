@@ -943,38 +943,35 @@ void	map_tests()
 	}
 
     {
-        timeval start, end;
-        int max =3000000;
+		int max = 30000;
+		{
+			timeval start, end;
+			std::cout << "((((((((((std map time))))))" << std::endl;
+			gettimeofday(&start, NULL);
+			std::map<int, int> second;
+			for (int i = 0; i != max; i++)
+				second.insert(std::make_pair(i, i));
+			// for (std::map<int, int>::iterator it = second.begin(); it != second.end(); it++)
+			// 	std::cout << it->first << " " << it->second << std::endl;
+			gettimeofday(&end, NULL);
+			second.erase(second.begin(), second.end());
+			print_time(start, end);
+		}
 
-        std::cout << "((((((((((std map time))))))" << std::endl;
-
-		std::map<int,int> second;
-        for (int i = 0; i != max;i++)
-            second.insert(std::make_pair(i, i));
-        gettimeofday(&start, NULL);
-        std::cout << "std " << second.size() << std::endl;
-        second.erase(second.begin(), second.end());
-        std::cout << "std " << second.size() << std::endl;
-
-        gettimeofday(&end, NULL);
-        print_time(start, end);
-
-        std::cout << "((((((((((ft map time)))))))" << std::endl;
-
-		ft::map<int,int> first;
-        for (int i = 0; i != max;i++)
-            first.insert(ft::make_pair(i, i));
-        gettimeofday(&start, NULL);
-        for (ft::map<int,int>::iterator it = first.begin(); it != first.end();it++)
-            std::cout << it->first << it->second << std::endl;
-        // std::cout << "ft " << first.size() << std::endl;
-        // first.erase(first.begin(), first.end());
-        // std::cout << "ft " << first.size() << std::endl;
-
-        gettimeofday(&end, NULL);
-        print_time(start, end);
-
-    }
+		{
+			timeval start, end;
+			std::cout << "((((((((((ft map time)))))))" << std::endl;
+			gettimeofday(&start, NULL);
+			ft::map<int, int> first;
+			for (int i = 0; i != max; i++)
+				first.insert(ft::make_pair(i, i));
+			// for (ft::map<int, int>::iterator it = first.begin(); it != first.end(); it++)
+			// 	std::cout << it->first << " " << it->second << std::endl;
+			gettimeofday(&end, NULL);
+			first.erase(first.begin(), first.end());
+			print_time(start, end);
+		}
+	}
 }
 
 int main()

@@ -187,39 +187,52 @@ namespace ft
         {
             if (!_root())
             {
-                std::cout << "inserting..." << std::endl;
+                // std::cout << "1inserting..." << std::endl;
                 _root_ = _newNode(p, NULL);
                 ++_size_;
                 return pair<iterator, bool>(iterator(_root()), true);
             }
             node_pointer tmp = _root();
-            while(1)
+            bool child;
+            while (1)
             {
                 if (_key(tmp) == p->first)
                     return pair<iterator, bool>(iterator(tmp), false);
                 else if (_ft_cmp(_key(tmp), p->first))
                 {
-                    tmp = tmp->right;
-                    if (!tmp)
+                    if (!tmp->right)
+                    {
+                        child = true;
                         break;
+                    }
+                    tmp = tmp->right;
                 }
                 else
                 {
-                    tmp = tmp->left;
-                    if (!tmp)
+                    if (!tmp->left)
+                    {
+                        child = false;
                         break;
+                    }
+                    tmp = tmp->left;
                 }
             }
             tmp = _newNode(p, tmp);
             node_pointer balance_me = tmp->parent;
-            while(balance_me)
+            if (child)
+                balance_me->right = tmp;
+            else
+                balance_me->left = tmp;
+            while (balance_me)
             {
                 if (balance_me != _root())
                 {
-                    // std::cout 
-                    node_pointer rt = _right(_parent(balance_me)) == balance_me ? _right(_parent(balance_me)) : _left(_parent(balance_me));
-                    rt = _balance(balance_me);
-                    balance_me = balance_me->parent;
+                    node_pointer parent_balance_me = _parent(balance_me);
+                    if (_right(parent_balance_me) == balance_me)
+                        parent_balance_me->right = _balance(balance_me);
+                    else
+                        parent_balance_me->left = _balance(balance_me);
+                    balance_me = parent_balance_me;
                 }
                 else
                 {
@@ -227,22 +240,19 @@ namespace ft
                     break;
                 }
             }
-            std::cout << "inserting..." << std::endl;
             ++_size_;
             return pair<iterator, bool>(iterator(tmp), true);
-            // return node;
         }
         pair<iterator, bool> _add(key_type first, mapped_type second)
         {
             // node_pointer s = _search(first);
-            // if (s)
-                // return pair<iterator, bool>(iterator(s), false);
+            // return pair<iterator, bool>(iterator(s), false);
             pointer p = _newPair(first, second);
-            return _insert(p);
-            // _insert(NULL, _root(), p);
-            // ++_size_;
-            // s = _search(first);
-            // return pair<iterator, bool>(iterator(s), true);
+            pair<iterator, bool> ret = _insert(p);
+            if (!ret.second)
+                _destroyPair(p);
+
+            return ret;
         }
         void _destroyPair(pointer p)
         {
@@ -252,7 +262,7 @@ namespace ft
         void _destroyNode(node_pointer node)
         {
             if (!node)
-                return ;
+                return;
             _destroyPair(node->content);
             _node_allocator.destroy(node);
             _node_allocator.deallocate(node, 1);
@@ -314,14 +324,6 @@ namespace ft
             _root_ = NULL;
         }
         size_type _max_size() const { return _node_allocator.max_size(); }
-        mapped_type &_change(key_type k, mapped_type m)
-        {
-            node_pointer node = _search(k);
-            if (!node)
-                _add(k, m);
-            node = _search(k);
-            return node->content->second;
-        }
 
     public:
         explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type())
@@ -378,9 +380,10 @@ namespace ft
         }
         const_iterator end() const { return const_iterator(NULL); }
 
-        reverse_iterator rbegin() {
+        reverse_iterator rbegin()
+        {
             return reverse_iterator(end());
-            }
+        }
         const_reverse_iterator rbegin() const { return reverse_iterator(end()); }
 
         reverse_iterator rend() { return reverse_iterator(begin()); }
@@ -392,7 +395,10 @@ namespace ft
 
         size_type max_size() const { return _max_size(); }
 
-        mapped_type &operator[](const key_type &k) { return _change(k, mapped_type()); }
+        mapped_type &operator[](const key_type &k)
+        {
+            return _add(k, mapped_type()).first->second;
+        }
 
         pair<iterator, bool> insert(const value_type &val)
         {
@@ -408,8 +414,7 @@ namespace ft
         void insert(InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value, bool>::type = false)
         {
             for (; first != last; first++)
-                insert(ft::make_pair(first->first, first->second));
-                // operator[](first->first) = first->second;
+                insert(make_pair(first->first, first->second));
         }
 
         void erase(iterator position, typename enable_if<!is_integral<iterator>::value, bool>::type = false) { remove(position->first); }
@@ -419,9 +424,9 @@ namespace ft
         void erase(iterator first, iterator last)
         {
             stack<key_type> s;
-            while(first != last)
+            while (first != last)
             {
-                std::cout << "size "<< s.size() << std::endl;
+                // std::cout << "size " << s.size() << std::endl;
                 s.push(first->first);
                 first++;
             }
@@ -445,6 +450,7 @@ namespace ft
         class value_compare
         {
             friend class map;
+
         protected:
             Compare comp;
             value_compare(key_compare c) : comp(c) {}
@@ -529,10 +535,14 @@ namespace ft
         }
 
         pair<const_iterator, const_iterator> equal_range(const key_type &k) const
-        { return pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k)); }
+        {
+            return pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
+        }
 
         pair<iterator, iterator> equal_range(const key_type &k)
-        { return pair<iterator, iterator>(lower_bound(k), upper_bound(k)); }
+        {
+            return pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+        }
 
         allocator_type get_allocator() const { return _get_allocator(); }
     };
@@ -546,7 +556,7 @@ void swap(ft::map<Key, T, Compare, Alloc> &x, ft::map<Key, T, Compare, Alloc> &y
 template <class Key, class T, class Compare, class Alloc>
 bool operator==(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 {
-    return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template <class Key, class T, class Compare, class Alloc>
@@ -558,7 +568,7 @@ bool operator!=(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T
 template <class Key, class T, class Compare, class Alloc>
 bool operator<(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 {
-    return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template <class Key, class T, class Compare, class Alloc>
@@ -570,7 +580,7 @@ bool operator<=(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T
 template <class Key, class T, class Compare, class Alloc>
 bool operator>(const ft::map<Key, T, Compare, Alloc> &lhs, const ft::map<Key, T, Compare, Alloc> &rhs)
 {
-    return ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end());
+    return lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end());
 }
 
 template <class Key, class T, class Compare, class Alloc>
