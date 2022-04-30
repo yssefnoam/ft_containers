@@ -11,6 +11,16 @@
 #include "../Vector/is_integral.hpp"
 #include "../Vector/equal.hpp"
 #include "../Vector/lexicographical_compare.hpp"
+#include <sys/time.h>
+int print_time(timeval start, timeval end)
+{
+    long ms_start, ms_end;
+    ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)) / 1000);
+    ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
+    std::cout << "time is = " << ms_end - ms_start << std::endl;
+    return ms_end - ms_start;
+}
+
 namespace ft
 {
 #include "node.hpp"
@@ -63,6 +73,7 @@ namespace ft
         {
             node_pointer node = _node_allocator.allocate(1);
             _node_allocator.construct(node, _Node(p, parent));
+            node->height = 0;
             return node;
         }
         pointer _newPair(key_type k, mapped_type m)
@@ -78,6 +89,12 @@ namespace ft
         key_type _key(node_pointer node) const { return node->content->first; }
         size_type _size() const { return _size_; }
         node_pointer _root() const { return _root_; }
+        int _height2(node_pointer node) const
+        {
+            if (!node)
+                return 0;
+            return node->height;
+        }
         size_type _height(node_pointer node) const
         {
             if (!node)
@@ -175,12 +192,17 @@ namespace ft
         {
             if (!_root())
             {
-                // std::cout << "1inserting..." << std::endl;
                 _root_ = _newNode(p, NULL);
                 ++_size_;
                 return pair<iterator, bool>(iterator(_root()), true);
             }
             node_pointer tmp = _root();
+            node_pointer big = _biggestNode(_root());
+            node_pointer small = _smallestNode(_root());
+            if (small && _key(small)> p->first)
+                tmp = small;
+            if (big && _key(big)< p->first)
+                tmp = big;
             while (1)
             {
                 if (_key(tmp) == p->first)
@@ -211,9 +233,19 @@ namespace ft
                 {
                     node_pointer parent_balance_me = _parent(balance_me);
                     if (_right(parent_balance_me) == balance_me)
+                    {
+                        // node_pointer ret = balance_me;
                         parent_balance_me->right = _balance(balance_me);
+                        // if (ret != balance_me)
+                            // break;
+                    }
                     else
+                    {
+                        // node_pointer ret = balance_me;
                         parent_balance_me->left = _balance(balance_me);
+                        // if (ret != balance_me)
+                            // break;
+                    }
                     balance_me = parent_balance_me;
                 }
                 else
@@ -229,10 +261,16 @@ namespace ft
         {
             // node_pointer s = _search(first);
             // return pair<iterator, bool>(iterator(s), false);
+            // timeval start, end;
+            // gettimeofday(&start, NULL);
             pointer p = _newPair(first, second);
             pair<iterator, bool> ret = _insert(p);
-            if (!ret.second)
-                _destroyPair(p);
+            // if (!ret.second)
+            //     _destroyPair(p);
+
+            // gettimeofday(&end, NULL);
+            // if (print_time(start, end) > 2)
+                // std::cout << first << std::endl;
 
             return ret;
         }
