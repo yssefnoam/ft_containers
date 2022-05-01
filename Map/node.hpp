@@ -10,8 +10,15 @@ struct Node
     Node *left;
     Node *right;
     Node *parent;
+    int height;
 
-    Node(Pair *cnt, Node *parent) : content(cnt), left(NULL), right(NULL), parent(parent) {}
+    Node(Pair *cnt, Node *parent)
+    : content(cnt)
+    , left(NULL)
+    , right(NULL)
+    , parent(parent)
+    , height()
+    {}
 };
 
 #endif

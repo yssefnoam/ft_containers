@@ -234,17 +234,17 @@ namespace ft
                     node_pointer parent_balance_me = _parent(balance_me);
                     if (_right(parent_balance_me) == balance_me)
                     {
-                        // node_pointer ret = balance_me;
+                        node_pointer ret = balance_me;
                         parent_balance_me->right = _balance(balance_me);
-                        // if (ret != balance_me)
-                            // break;
+                        if (ret != balance_me)
+                            break;
                     }
                     else
                     {
-                        // node_pointer ret = balance_me;
+                        node_pointer ret = balance_me;
                         parent_balance_me->left = _balance(balance_me);
-                        // if (ret != balance_me)
-                            // break;
+                        if (ret != balance_me)
+                            break;
                     }
                     balance_me = parent_balance_me;
                 }

@@ -10,13 +10,13 @@
 
 #define NS std
 
-void	print_time(timeval start, timeval end)
-{
-	long ms_start, ms_end;
-	ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)) / 1000);
-	ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
-	std::cout << "time is = " << ms_end - ms_start << std::endl;
-}
+int	print_time(timeval start, timeval end);
+// {
+// 	long ms_start, ms_end;
+// 	ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)) / 1000);
+// 	ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
+// 	std::cout << "time is = " << ms_end - ms_start << std::endl;
+// }
 
 void vector_tests()
 {
@@ -943,18 +943,19 @@ void	map_tests()
 	}
 
     {
-		int max = 30000;
+		int max = 1000000;
 		{
 			timeval start, end;
 			std::cout << "((((((((((std map time))))))" << std::endl;
 			gettimeofday(&start, NULL);
 			std::map<int, int> second;
 			for (int i = 0; i != max; i++)
-				second.insert(std::make_pair(i, i));
+				// second.insert(std::make_pair(i, i));
+				second[i] = 1;
 			// for (std::map<int, int>::iterator it = second.begin(); it != second.end(); it++)
 			// 	std::cout << it->first << " " << it->second << std::endl;
 			gettimeofday(&end, NULL);
-			second.erase(second.begin(), second.end());
+			// second.erase(second.begin(), second.end());
 			print_time(start, end);
 		}
 
@@ -964,11 +965,12 @@ void	map_tests()
 			gettimeofday(&start, NULL);
 			ft::map<int, int> first;
 			for (int i = 0; i != max; i++)
-				first.insert(ft::make_pair(i, i));
+				// first.insert(ft::make_pair(i, i));
+				first[i] = 1;
 			// for (ft::map<int, int>::iterator it = first.begin(); it != first.end(); it++)
 			// 	std::cout << it->first << " " << it->second << std::endl;
 			gettimeofday(&end, NULL);
-			first.erase(first.begin(), first.end());
+			// first.erase(first.begin(), first.end());
 			print_time(start, end);
 		}
 	}
