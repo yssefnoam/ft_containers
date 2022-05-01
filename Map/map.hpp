@@ -76,7 +76,7 @@ namespace ft
             node->height = 0;
             return node;
         }
-        pointer _newPair(key_type k, mapped_type m)
+        pointer _newPair(key_type &k, mapped_type &m)
         {
             pointer p = _allocator.allocate(1);
             _allocator.construct(p, value_type(k, m));
@@ -86,7 +86,7 @@ namespace ft
         // node_pointer _left(node_pointer node) const { return node->left; }
         node_pointer _left(node_pointer node) const { return node->left ? node->left : NULL; }
         node_pointer _right(node_pointer node) const { return node->right; }
-        key_type _key(node_pointer node) const { return node->content->first; }
+        key_type _key(node_pointer &node) const { return node->content->first; }
         size_type _size() const { return _size_; }
         node_pointer _root() const { return _root_; }
         int _height2(node_pointer node) const
@@ -103,7 +103,7 @@ namespace ft
             size_type l = _height(_left(node));
             return std::max(r, l) + 1;
         }
-        node_pointer _search(key_type k) const
+        node_pointer _search(key_type &k) const
         {
             node_pointer tmp = _root();
             while (tmp)

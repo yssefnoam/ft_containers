@@ -24,8 +24,10 @@ private:
 
     node_pointer _right(node_pointer node) const { return node->right; }
     node_pointer _left(node_pointer node) const { return node->left; }
-    node_pointer _biggestNode(node_pointer node) const { return !_right(node) ? node : _biggestNode(node->right); }
-    node_pointer _smallestNode(node_pointer node) const { return !_left(node) ? node : _smallestNode(node->left); }
+    node_pointer _biggestNode(node_pointer node) const
+    { return !_right(node) ? node : _biggestNode(node->right); }
+    node_pointer _smallestNode(node_pointer node) const
+    { return !_left(node) ? node : _smallestNode(node->left); }
     node_pointer _parent(node_pointer node)
     {
         if (!node)
@@ -42,13 +44,12 @@ private:
             return ;
         }
         node_pointer left = _left(_current);
-        node_pointer parent = NULL;
         if (left)
             _current = _biggestNode(left);
         else
             while (1)
             {
-                parent = _parent(_current);
+                node_pointer parent = _parent(_current);
                 if (_right(parent) == _current)
                 {
                     _current = parent;
@@ -61,13 +62,12 @@ private:
     {
         _previous = _current;
         node_pointer right = _right(_current);
-        node_pointer parent = NULL;
         if (right)
             _current = _smallestNode(right);
         else
             while (1)
             {
-                parent = _parent(_current);
+                node_pointer parent = _parent(_current);
                 if (!parent || _left(parent) == _current)
                 {
                     _current = parent;
