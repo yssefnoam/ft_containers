@@ -12,14 +12,7 @@
 #include "../Vector/equal.hpp"
 #include "../Vector/lexicographical_compare.hpp"
 #include <sys/time.h>
-int print_time(timeval start, timeval end)
-{
-    long ms_start, ms_end;
-    ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)) / 1000);
-    ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
-    std::cout << "time is = " << ms_end - ms_start << std::endl;
-    return ms_end - ms_start;
-}
+
 
 namespace ft
 {
@@ -50,13 +43,8 @@ namespace ft
 
     private:
         typedef typename Alloc::template rebind<Node<value_type> >::other node_allocator;
-        // typedef typename node_allocator::reference node_reference;
-        // typedef typename node_allocator::const_reference node_const_reference;
         typedef Node<value_type> *node_pointer;
         typedef Node<const value_type> *const_node_pointer;
-        // typedef typename node_allocator::pointer node_pointer;
-        // typedef typename node_allocator::pointer node_pointer;
-        // typedef typename node_allocator::const_pointer node_const_pointer;
 
     private:
         key_compare _ft_cmp;
@@ -66,68 +54,57 @@ namespace ft
         node_allocator _node_allocator;
 
         value_type *_content(node_pointer node) { return node->content; }
-        node_pointer _biggestNode(node_pointer node) const { return !_right(node) ? node : _biggestNode(node->right); }
-        node_pointer _smallestNode(node_pointer node) const { return !_left(node) ? node : _smallestNode(node->left); }
+        node_pointer _biggestNode(node_pointer node) const
+        {
+            while(_right(node))
+                node = _right(node);
+            return node;
+        }
+        node_pointer _smallestNode(node_pointer node) const
+        {
+            while(_left(node))
+                node = _left(node);
+            return node;
+        }
         allocator_type _get_allocator() const { return _node_allocator; }
         node_pointer _newNode(pointer p, node_pointer parent)
         {
             node_pointer node = _node_allocator.allocate(1);
             _node_allocator.construct(node, _Node(p, parent));
-            node->height = 0;
             return node;
         }
-        pointer _newPair(key_type &k, mapped_type &m)
+        pointer _newPair(const key_type &k,const  mapped_type &m)
         {
             pointer p = _allocator.allocate(1);
             _allocator.construct(p, value_type(k, m));
             return p;
         }
         bool _empty() const { return _root() ? false : true; }
-        // node_pointer _left(node_pointer node) const { return node->left; }
-        node_pointer _left(node_pointer node) const { return node->left ? node->left : NULL; }
-        node_pointer _right(node_pointer node) const { return node->right; }
+        node_pointer _left(const node_pointer &node) const { return node->left; }
+        node_pointer _right(const node_pointer &node) const { return node->right; }
         key_type _key(node_pointer &node) const { return node->content->first; }
         size_type _size() const { return _size_; }
         node_pointer _root() const { return _root_; }
-        int _height2(node_pointer node) const
+        int _height(node_pointer node) const
         {
-            if (!node)
-                return 0;
-            return node->height;
+            return node ? node->height : 0;
         }
-        size_type _height(node_pointer node) const
-        {
-            if (!node)
-                return 0;
-            size_type r = _height(_right(node));
-            size_type l = _height(_left(node));
-            return std::max(r, l) + 1;
-        }
-        node_pointer _search(key_type &k) const
+        node_pointer _search(const key_type &k) const
         {
             node_pointer tmp = _root();
             while (tmp)
             {
                 if (_key(tmp) == k)
-                {
                     return tmp;
-                }
                 if (_ft_cmp(_key(tmp), k))
-                {
                     tmp = _right(tmp);
-                }
                 else
                     tmp = _left(tmp);
             }
             return NULL;
         }
-        node_pointer _parent(node_pointer node)
-        {
-            if (!node)
-                return NULL;
-            return node->parent;
-        }
-        node_pointer _rightRotation(node_pointer node)
+        node_pointer _parent(const node_pointer &node) { return node ? node->parent : NULL; }
+        node_pointer _rightRotation(node_pointer &node)
         {
             node_pointer newParent = _left(node);
             node->left = _right(newParent);
@@ -137,9 +114,12 @@ namespace ft
             node->parent = newParent;
             if (_left(node))
                 node->left->parent = node;
+
+            node->height = 1 + std::max(_height(_right(node)), _height(_left(node)));
+            newParent->height = 1 + std::max(_height(_right(newParent)), _height(_left(newParent)));
             return newParent;
         }
-        node_pointer _leftRotation(node_pointer node)
+        node_pointer _leftRotation(node_pointer &node)
         {
             node_pointer newParent = _right(node);
             node->right = _left(newParent);
@@ -149,16 +129,18 @@ namespace ft
             node->parent = newParent;
             if (_right(node))
                 node->right->parent = node;
+            node->height = 1 + std::max(_height(_right(node)), _height(_left(node)));
+            newParent->height = 1 + std::max(_height(_right(newParent)), _height(_left(newParent)));
             return newParent;
         }
-        node_pointer _rightRightCase(node_pointer node) { return _leftRotation(node); }
-        node_pointer _leftLeftCase(node_pointer node) { return _rightRotation(node); }
-        node_pointer _rightLeftCase(node_pointer node)
+        node_pointer _rightRightCase(node_pointer &node) { return _leftRotation(node); }
+        node_pointer _leftLeftCase(node_pointer &node) { return _rightRotation(node); }
+        node_pointer _rightLeftCase(node_pointer &node)
         {
             node->right = _rightRotation(node->right);
             return _rightRightCase(node);
         }
-        node_pointer _leftRightCase(node_pointer node)
+        node_pointer _leftRightCase(node_pointer &node)
         {
             node->left = _leftRotation(node->left);
             return _leftLeftCase(node);
@@ -167,20 +149,17 @@ namespace ft
         {
             int rh = _height(node->right);
             int lh = _height(node->left);
+            node->height = 1 + std::max(rh, lh);
 
-            if (rh - lh > 1) // left rotation
+            if (rh - lh > 1) // left case
             {
-                rh = _height(node->right->right);
-                lh = _height(node->right->left);
                 if (rh - lh >= 0)
                     return _rightRightCase(node);
                 else
                     return _rightLeftCase(node);
             }
-            else if (rh - lh < -1) // right rotation
+            else if (rh - lh < -1) // right case
             {
-                rh = _height(node->left->right);
-                lh = _height(node->left->left);
                 if (rh - lh <= 0)
                     return _leftLeftCase(node);
                 else
@@ -197,12 +176,6 @@ namespace ft
                 return pair<iterator, bool>(iterator(_root()), true);
             }
             node_pointer tmp = _root();
-            node_pointer big = _biggestNode(_root());
-            node_pointer small = _smallestNode(_root());
-            if (small && _key(small)> p->first)
-                tmp = small;
-            if (big && _key(big)< p->first)
-                tmp = big;
             while (1)
             {
                 if (_key(tmp) == p->first)
@@ -212,6 +185,7 @@ namespace ft
                     if (!tmp->right)
                     {
                         tmp->right = _newNode(p, tmp);
+                        tmp = _right(tmp);
                         break;
                     }
                     tmp = tmp->right;
@@ -221,12 +195,13 @@ namespace ft
                     if (!tmp->left)
                     {
                         tmp->left = _newNode(p, tmp);
+                        tmp = _left(tmp);
                         break;
                     }
                     tmp = tmp->left;
                 }
             }
-            node_pointer balance_me = tmp;
+            node_pointer balance_me = _parent(tmp);
             while (balance_me)
             {
                 if (balance_me != _root())
@@ -236,15 +211,11 @@ namespace ft
                     {
                         node_pointer ret = balance_me;
                         parent_balance_me->right = _balance(balance_me);
-                        if (ret != balance_me)
-                            break;
                     }
                     else
                     {
                         node_pointer ret = balance_me;
                         parent_balance_me->left = _balance(balance_me);
-                        if (ret != balance_me)
-                            break;
                     }
                     balance_me = parent_balance_me;
                 }
@@ -257,21 +228,12 @@ namespace ft
             ++_size_;
             return pair<iterator, bool>(iterator(tmp), true);
         }
-        pair<iterator, bool> _add(key_type first, mapped_type second)
+        pair<iterator, bool> _add(const key_type first,const  mapped_type second)
         {
-            // node_pointer s = _search(first);
-            // return pair<iterator, bool>(iterator(s), false);
-            // timeval start, end;
-            // gettimeofday(&start, NULL);
-            pointer p = _newPair(first, second);
+            const pointer &p = _newPair(first, second);
             pair<iterator, bool> ret = _insert(p);
-            // if (!ret.second)
-            //     _destroyPair(p);
-
-            // gettimeofday(&end, NULL);
-            // if (print_time(start, end) > 2)
-                // std::cout << first << std::endl;
-
+            if (!ret.second)
+                _destroyPair(p);
             return ret;
         }
         void _destroyPair(pointer p)
@@ -415,10 +377,7 @@ namespace ft
 
         size_type max_size() const { return _max_size(); }
 
-        mapped_type &operator[](const key_type &k)
-        {
-            return _add(k, mapped_type()).first->second;
-        }
+        mapped_type &operator[](const key_type &k) { return _add(k, mapped_type()).first->second; }
 
         pair<iterator, bool> insert(const value_type &val)
         {
@@ -443,18 +402,8 @@ namespace ft
 
         void erase(iterator first, iterator last)
         {
-            stack<key_type> s;
             while (first != last)
-            {
-                // std::cout << "size " << s.size() << std::endl;
-                s.push(first->first);
-                first++;
-            }
-            while (!s.empty())
-            {
-                remove(s.top());
-                s.pop();
-            }
+                remove((first++)->first);
         }
 
         void swap(map &x)

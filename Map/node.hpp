@@ -10,14 +10,14 @@ struct Node
     Node *left;
     Node *right;
     Node *parent;
-    int height;
+    size_t height;
 
     Node(Pair *cnt, Node *parent)
     : content(cnt)
     , left(NULL)
     , right(NULL)
     , parent(parent)
-    , height()
+    , height(1)
     {}
 };
 
