@@ -14,7 +14,6 @@ namespace ft
         typedef typename ft::iterator_traits<Iter>::value_type value_type;
         typedef typename ft::iterator_traits<Iter>::difference_type difference_type;
         typedef typename ft::iterator_traits<Iter>::iterator_category iterator_category;
-        typedef Iter iterator_type;
 
     private:
         Iter _iter;
@@ -27,7 +26,7 @@ namespace ft
         template <class T>
         reverse_iterator(const reverse_iterator<T> &copy) { _iter = copy.base(); }
 
-        reverse_iterator &operator=(const reverse_iterator &copy)
+        reverse_iterator &operator=(reverse_iterator &copy)
         {
             _iter = copy.base();
             return *this;
@@ -61,7 +60,7 @@ namespace ft
 
         bool operator==(const reverse_iterator &other) { return (_iter == other.base()); }
 
-        bool operator!=(const reverse_iterator &other) { return !operator==(other); }
+        bool operator!=(const reverse_iterator &other) { return !(operator==(other)); }
 
         reference operator*() const
         {
@@ -71,14 +70,6 @@ namespace ft
         }
 
         pointer operator->()const { return &(operator*()); }
-
-        bool operator<(const reverse_iterator &other) { return !(_iter < other.base()); }
-
-        bool operator>(const reverse_iterator &other) { return !(_iter > other.base()); }
-
-        bool operator<=(const reverse_iterator &other) { return other.base() <= _iter; }
-
-        bool operator>=(const reverse_iterator &other) { return other.base() >= _iter; }
 
         Iter base() const { return _iter; }
     };

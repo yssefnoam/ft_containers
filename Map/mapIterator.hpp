@@ -50,7 +50,7 @@ private:
             while (1)
             {
                 node_pointer parent = _parent(_current);
-                if (_right(parent) == _current)
+                if (!parent || _right(parent) == _current)
                 {
                     _current = parent;
                     break;
@@ -79,11 +79,9 @@ private:
 
 public:
     node_pointer current() const { return _current; }
+    node_pointer previous() const { return _current; }
 
-    mapIter(node_pointer curr)
-    {
-        _current  = curr;
-    }
+    mapIter(node_pointer curr) { _current = curr; }
 
     template<class K>
     operator mapIter<const K>()
@@ -97,12 +95,14 @@ public:
     template <class T1>
     mapIter(const mapIter<T1> &copy)
         : _current((Node<value_type> *)copy.current())
+        , _previous((Node<value_type> *)copy.previous())
     {}
 
     template <class T1>
     mapIter &operator=(mapIter<T1> &copy)
     {
         _current = (Node<value_type> *)copy.current();
+        _previous = (Node<value_type> *)copy.previous();
         return *this;
     }
 
@@ -135,17 +135,10 @@ public:
     pointer operator->() const { return _current->content; }
 
     reference operator*() const { return *(operator->()); }
-    // template <class T1, class T2>
-    bool operator==(const mapIter lhs)
-    {
-        return _current == lhs._current;
-    }
 
-    // template <class T1>
-    bool operator!=(const mapIter lhs)
-    {
-        return _current != lhs._current;
-    }
+    bool operator==(const mapIter lhs) { return _current == lhs._current; }
+
+    bool operator!=(const mapIter lhs) { return _current != lhs._current; }
 };
 
 #endif
