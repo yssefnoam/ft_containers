@@ -21,7 +21,8 @@ namespace ft
 		typedef typename allocator_type::const_reference 	const_reference;
 		typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer		const_pointer;
-		typedef size_t										size_type;
+        typedef ptrdiff_t                                   difference_type;
+        typedef size_t										size_type;
 		typedef myIter<pointer>								iterator;
 		typedef myIter<const_pointer>						const_iterator;
 		typedef reverse_iterator<const_iterator>			const_reverse_iterator;
@@ -287,14 +288,12 @@ namespace ft
                 for (; mid != position - 1; mid--)
 				{
 					_allocator.destroy(&(*last));
-					// *last = *mid;
                     _allocator.construct(&(*last), *mid);
 					last--;
 				}
 				for (; last != position - 1; last--)
 				{
 					_allocator.destroy(&(*last));
-					// *last = val;
                     _allocator.construct(&(*last), val);
                 }
 			}
@@ -303,6 +302,25 @@ namespace ft
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value, bool>::type = false)
 		{
+			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
+            {
+                difference_type diff = (last - first) + size();
+                size_type index = 0;
+
+                for (iterator it = begin(); it != position; it++)
+                    index++;
+                (diff < _capacity * 2) ? reserve(_capacity * 2) : reserve(diff);
+
+                for (InputIterator it = first; it != last; it++)
+                {
+                    position = begin() + index;
+                    _allocator.destroy(&(*position));
+                    _allocator.construct(&(*position), *it);
+                    // insert(position, *it);
+                    index++;
+                }
+                return;
+            }
 			bool doubleCap = true;
 			size_type index = 0;
 			for (iterator it = begin(); it != position; it++)
@@ -321,6 +339,8 @@ namespace ft
 						reserve(size() + 1);
 				}
 				position = begin() + index;
+                // _allocator.destroy(&(*position));
+                // _allocator.construct(&(*position), *it);
 				insert(position, *it);
 				index++;
 			}
@@ -383,7 +403,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin());
+			return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 		}
 
 		template <class T, class Alloc>
@@ -395,7 +415,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 
 		template <class T, class Alloc>
@@ -407,7 +427,7 @@ namespace ft
 		template <class T, class Alloc>
 		bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 		{
-			return (lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+			return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
 		}
 
 		template <class T, class Alloc>

@@ -1,9 +1,9 @@
 #ifndef _FT_STACK_HPP
 #define _FT_STACK_HPP
+    #include "../Vector/vector.hpp"
+
 namespace ft
 {
-
-    #include "../Vector/vector.hpp"
 
     template <class T, class Container = ft::vector<T> >
     class stack
