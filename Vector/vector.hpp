@@ -304,12 +304,17 @@ namespace ft
 		{
 			if (typeid(typename ft::iterator_traits<InputIterator>::iterator_category) == typeid(std::random_access_iterator_tag))
             {
+                // std::cout << "here" << std::endl;
                 difference_type diff = (last - first) + size();
                 size_type index = 0;
 
                 for (iterator it = begin(); it != position; it++)
                     index++;
-                (diff < _capacity * 2) ? reserve(_capacity * 2) : reserve(diff);
+                // std::cout << last - first << "diff = " << diff << ";" << _capacity * 2 << std::endl;
+                if (diff > (difference_type)capacity())
+                    (diff < (difference_type)_capacity * 2) ? reserve(_capacity * 2) : reserve(diff);
+
+                insert(begin() + index, last - first, value_type());
 
                 for (InputIterator it = first; it != last; it++)
                 {

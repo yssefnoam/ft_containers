@@ -6,10 +6,7 @@
 
 #include "map.hpp"       // your map path.
 #include "pair.hpp"       // your map path.
-#include "reverse_iterator.hpp"
-// #include "../Vector/vector.hpp" // your Vector path.
-// #include "../utility/pair.hpp"  // path to ft::pair.
-// #include "map-test-helper.hpp"
+// #include "reverse_iterator.hpp"
 #include <map>
 
 #include <vector>
